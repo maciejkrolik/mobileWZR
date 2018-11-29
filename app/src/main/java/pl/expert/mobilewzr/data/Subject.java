@@ -1,20 +1,25 @@
 package pl.expert.mobilewzr.data;
 
+import com.univocity.parsers.annotations.Format;
 import com.univocity.parsers.annotations.Parsed;
+
+import java.util.Date;
 
 public class Subject {
 
     @Parsed(index = 0)
     private String Title;
 
+    @Format(formats = "dd/MM/yyyy")
     @Parsed(index = 1)
-    private String StartDate;
+    private Date StartDate;
 
     @Parsed(index = 2)
     private String StartTime;
 
+    @Format(formats = "dd/MM/yyyy")
     @Parsed(index = 3)
-    private String EndDate;
+    private Date EndDate;
 
     @Parsed(index = 4)
     private String EndTime;
@@ -33,11 +38,11 @@ public class Subject {
         Title = title;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return StartDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         StartDate = startDate;
     }
 
@@ -49,11 +54,11 @@ public class Subject {
         StartTime = startTime;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return EndDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         EndDate = endDate;
     }
 

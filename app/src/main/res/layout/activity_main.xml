@@ -6,10 +6,16 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <TextView
-            android:id="@+id/text_view"
-            android:text="Test"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/text_view"
+                android:text="Test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </ScrollView>
 
 </LinearLayout>

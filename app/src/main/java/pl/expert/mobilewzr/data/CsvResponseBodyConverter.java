@@ -1,6 +1,7 @@
 package pl.expert.mobilewzr.data;
 
 import android.support.annotation.NonNull;
+import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.CsvRoutines;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -15,7 +16,10 @@ public class CsvResponseBodyConverter implements Converter<ResponseBody, List<Su
     public List<Subject> convert(@NonNull ResponseBody value) throws IOException {
         List<Subject> subjectList = new ArrayList<>();
 
-        CsvRoutines routines = new CsvRoutines();
+        CsvParserSettings parserSettings = new CsvParserSettings();
+        parserSettings.setNumberOfRowsToSkip(1);
+
+        CsvRoutines routines = new CsvRoutines(parserSettings);
         for (Subject subject : routines.iterate(Subject.class, value.byteStream())) {
             subjectList.add(subject);
         }

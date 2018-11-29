@@ -2,9 +2,8 @@ package pl.expert.mobilewzr
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.TextView
-import okhttp3.ResponseBody
+import android.widget.Toast
 import pl.expert.mobilewzr.data.CsvConverterFactory
 import pl.expert.mobilewzr.data.Subject
 import pl.expert.mobilewzr.data.WzrService
@@ -31,10 +30,18 @@ class MainActivity : AppCompatActivity() {
         wzrService.listSubjects("S22-31").enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 val test = response.body()
-                Log.d("TEST", test?.get(0)?.title)
+
+                var content = ""
+                test?.forEach {
+                    content += it.startDate
+                }
+
+                textView.text = content
             }
 
             override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
+                Toast.makeText(applicationContext, "Błąd!", Toast.LENGTH_SHORT).show()
+                t.printStackTrace()
             }
 
         })
