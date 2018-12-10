@@ -1,13 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".TimetableFragment">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginStart="@dimen/class_time_width"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/DayOfTheWeekTextView"
+            android:text="@string/monday" />
+
+        <TextView
+            style="@style/DayOfTheWeekTextView"
+            android:text="@string/tuesday" />
+
+        <TextView
+            style="@style/DayOfTheWeekTextView"
+            android:text="@string/wednesday" />
+
+        <TextView
+            style="@style/DayOfTheWeekTextView"
+            android:text="@string/thursday" />
+
+        <TextView
+            style="@style/DayOfTheWeekTextView"
+            android:text="@string/friday" />
+
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbars="none">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/class_time_width"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="08.00 08.45"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="08.45 09.30"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="09.45 10.30"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="10.30 11.15"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="11.30 12.15"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="12.15 13.00"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="13.30 14.15"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="14.15 15.00"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="15.15 16.00"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="16.00 16.45"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="17.00 17.45"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="17.45 18.30"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="18.45 19.30"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="19.30 20.15"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    style="@style/ClassTimeTextView"
+                    android:text="20.15 21.00"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/monday_subjects_layout"
+                    style="@style/SubjectsLinearLayout">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tuesday_subjects_layout"
+                    style="@style/SubjectsLinearLayout">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/class_time_height"
+                        android:layout_marginTop="@dimen/class_time_height"
+                        android:text="Testowy tekst" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wednesday_subjects_layout"
+                    style="@style/SubjectsLinearLayout">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/thursday_subjects_layout"
+                    style="@style/SubjectsLinearLayout">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/friday_subjects_layout"
+                    style="@style/SubjectsLinearLayout">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

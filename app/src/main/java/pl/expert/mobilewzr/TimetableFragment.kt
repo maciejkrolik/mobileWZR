@@ -12,6 +12,7 @@ class TimetableFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_timetable, container, false)
+        val rootElement = inflater.inflate(R.layout.fragment_timetable, container, false)
+        return rootElement
     }
 }

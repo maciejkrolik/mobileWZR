@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="monday">Pon.</string>
+    <string name="tuesday">Wt.</string>
+    <string name="wednesday">Śr.</string>
+    <string name="thursday">Czw.</string>
+    <string name="friday">Pt.</string>
+</resources>

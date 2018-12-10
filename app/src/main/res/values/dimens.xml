@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="class_time_width">40dp</dimen>
+    <dimen name="class_time_height">50dp</dimen>
+</resources>
