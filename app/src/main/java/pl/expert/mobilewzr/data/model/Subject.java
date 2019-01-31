@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.data;
+package pl.expert.mobilewzr.data.model;
 
 import com.univocity.parsers.annotations.Format;
 import com.univocity.parsers.annotations.Parsed;
@@ -10,14 +10,14 @@ public class Subject {
     @Parsed(index = 0)
     private String Title;
 
-    @Format(formats = "dd/MM/yyyy")
+    @Format(formats = "MM/dd/yyyy")
     @Parsed(index = 1)
     private Date StartDate;
 
     @Parsed(index = 2)
     private String StartTime;
 
-    @Format(formats = "dd/MM/yyyy")
+    @Format(formats = "MM/dd/yyyy")
     @Parsed(index = 3)
     private Date EndDate;
 

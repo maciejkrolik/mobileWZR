@@ -5,4 +5,7 @@
     <string name="wednesday">Śr.</string>
     <string name="thursday">Czw.</string>
     <string name="friday">Pt.</string>
+    <string name="retrofit_error">Błąd połączenia!</string>
+    <string name="weekA">Tydzień A</string>
+    <string name="weekB">Tydzień B</string>
 </resources>

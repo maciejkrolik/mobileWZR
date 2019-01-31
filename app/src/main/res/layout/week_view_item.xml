@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/week_view_time_height"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/class_time_text"
+        android:layout_width="@dimen/week_view_time_width"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        tools:text="8.00 8.45" />
+
+    <TextView
+        android:id="@+id/monday_subject_text"
+        style="@style/WeekViewSubjectTextView"
+        tools:text="Example title" />
+
+    <TextView
+        android:id="@+id/tuesday_subject_text"
+        style="@style/WeekViewSubjectTextView"
+        tools:text="Example title" />
+
+    <TextView
+        android:id="@+id/wednesday_subject_text"
+        style="@style/WeekViewSubjectTextView"
+        tools:text="Example title" />
+
+    <TextView
+        android:id="@+id/thursday_subject_text"
+        style="@style/WeekViewSubjectTextView"
+        tools:text="Example title" />
+
+    <TextView
+        android:id="@+id/friday_subject_text"
+        style="@style/WeekViewSubjectTextView"
+        tools:text="Example title" />
+
+</LinearLayout>

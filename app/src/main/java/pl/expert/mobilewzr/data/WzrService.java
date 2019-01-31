@@ -1,5 +1,6 @@
 package pl.expert.mobilewzr.data;
 
+import pl.expert.mobilewzr.data.model.Subject;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

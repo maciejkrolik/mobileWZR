@@ -6,24 +6,25 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DayOfTheWeekTextView">
+    <style name="WeekViewDayTitleTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="WeekViewTimeTextView">
+        <item name="android:layout_width">@dimen/week_view_time_width</item>
+        <item name="android:layout_height">@dimen/week_view_time_height</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="WeekViewSubjectTextView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
-    </style>
-
-    <style name="ClassTimeTextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/class_time_height</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="SubjectsLinearLayout">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:background">@drawable/week_view_subject_border</item>
     </style>
 
 </resources>

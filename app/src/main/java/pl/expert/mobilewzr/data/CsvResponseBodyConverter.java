@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.CsvRoutines;
 import okhttp3.ResponseBody;
+import pl.expert.mobilewzr.data.model.Subject;
 import retrofit2.Converter;
 
 import java.io.IOException;
