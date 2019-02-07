@@ -1,14 +1,7 @@
 *.iml
 .gradle
 local.properties
-/.idea/caches/build_file_checksums.ser
-/.idea/navEditor.xml
-/.idea/libraries
-/.idea/dictionaries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/vcs.xml
-/.idea/misc.xml
+/.idea
 .DS_Store
 /build
 /captures
