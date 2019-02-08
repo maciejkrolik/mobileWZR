@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.data;
+package pl.expert.mobilewzr.data.converter;
 
 import android.support.annotation.NonNull;
 import com.univocity.parsers.csv.CsvParserSettings;

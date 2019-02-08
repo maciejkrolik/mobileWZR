@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.data;
+package pl.expert.mobilewzr.data.converter;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;

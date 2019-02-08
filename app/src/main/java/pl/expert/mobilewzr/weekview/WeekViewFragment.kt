@@ -1,5 +1,6 @@
 package pl.expert.mobilewzr.weekview
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -8,9 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
-import pl.expert.mobilewzr.data.CsvConverterFactory
-import pl.expert.mobilewzr.data.WzrService
+import pl.expert.mobilewzr.data.WZRService
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.model.WeekViewItem
 import pl.expert.mobilewzr.databinding.FragmentWeekViewBinding
@@ -19,9 +20,12 @@ import pl.expert.mobilewzr.util.WeekViewUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
+import javax.inject.Inject
 
 class WeekViewFragment : Fragment() {
+
+    @Inject
+    lateinit var wzrService: WZRService
 
     private lateinit var binding: FragmentWeekViewBinding
 
@@ -31,6 +35,11 @@ class WeekViewFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: WeekViewAdapter
     private lateinit var viewManager: LinearLayoutManager
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewBinding.inflate(inflater, container, false)
@@ -50,50 +59,42 @@ class WeekViewFragment : Fragment() {
             activity?.title = getString(R.string.weekB)
         }
 
-        val wzrService = Retrofit.Builder()
-            .baseUrl("https://wzr.ug.edu.pl/")
-            .addConverterFactory(CsvConverterFactory.create())
-            .build()
-            .create(WzrService::class.java)
-
         wzrService.listSubjects("S22-31").enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 if (response.body() != null) {
                     listOfSubjects.addAll(response.body() as List<Subject>)
-                }
 
-                listOfWeekViewItems.addAll(WeekViewUtils.getEmptyListOfWeekViewItemsWithTimes())
+                    listOfWeekViewItems.addAll(WeekViewUtils.getEmptyListOfWeekViewItemsWithTimes())
 
-                viewAdapter.notifyDataSetChanged()
+                    Toast.makeText(context, "Pobrano dane", Toast.LENGTH_SHORT).show()
 
-                Toast.makeText(context, "Pobrano dane", Toast.LENGTH_SHORT).show()
-
-                for (subject in listOfSubjects) {
-                    if (CalendarUtils.getWeekNumber(subject.startDate) == 0) {
-                        when (subject.startTime) {
-                            "08.00" -> setSubjectTitle(0, subject)
-                            "08.45" -> setSubjectTitle(1, subject)
-                            "09.45" -> setSubjectTitle(2, subject)
-                            "10.30" -> setSubjectTitle(3, subject)
-                            "11.30" -> setSubjectTitle(4, subject)
-                            "12.15" -> setSubjectTitle(5, subject)
-                            "13.30" -> setSubjectTitle(6, subject)
-                            "14.15" -> setSubjectTitle(7, subject)
-                            "15.15" -> setSubjectTitle(8, subject)
-                            "16.00" -> setSubjectTitle(9, subject)
-                            "17.00" -> setSubjectTitle(10, subject)
-                            "17.45" -> setSubjectTitle(11, subject)
-                            "18.45" -> setSubjectTitle(12, subject)
-                            "19.30" -> setSubjectTitle(13, subject)
-                            "20.15" -> setSubjectTitle(14, subject)
+                    for (subject in listOfSubjects) {
+                        if (CalendarUtils.getWeekNumber(subject.startDate) == 0) {
+                            when (subject.startTime) {
+                                "08.00" -> setSubjectTitle(0, subject)
+                                "08.45" -> setSubjectTitle(1, subject)
+                                "09.45" -> setSubjectTitle(2, subject)
+                                "10.30" -> setSubjectTitle(3, subject)
+                                "11.30" -> setSubjectTitle(4, subject)
+                                "12.15" -> setSubjectTitle(5, subject)
+                                "13.30" -> setSubjectTitle(6, subject)
+                                "14.15" -> setSubjectTitle(7, subject)
+                                "15.15" -> setSubjectTitle(8, subject)
+                                "16.00" -> setSubjectTitle(9, subject)
+                                "17.00" -> setSubjectTitle(10, subject)
+                                "17.45" -> setSubjectTitle(11, subject)
+                                "18.45" -> setSubjectTitle(12, subject)
+                                "19.30" -> setSubjectTitle(13, subject)
+                                "20.15" -> setSubjectTitle(14, subject)
+                            }
+                        } else {
+                            break
                         }
-                    } else {
-                        break
                     }
-                }
 
-                binding.weekViewProgressBar.visibility = View.GONE
-                binding.weekViewRecyclerView.visibility = View.VISIBLE
+                    binding.weekViewProgressBar.visibility = View.GONE
+                    binding.weekViewRecyclerView.visibility = View.VISIBLE
+                }
             }
 
             override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
