@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/timetableFragment"
-        android:name="pl.expert.mobilewzr.weekview.WeekViewFragment"
+        android:name="pl.expert.mobilewzr.ui.weekview.WeekViewFragment"
         android:label="fragment_timetable"
         tools:layout="@layout/fragment_week_view" />
 </navigation>

@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.weekview
+package pl.expert.mobilewzr.ui.weekview
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

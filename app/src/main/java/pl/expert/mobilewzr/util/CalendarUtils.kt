@@ -3,12 +3,13 @@ package pl.expert.mobilewzr.util
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CalendarUtils {
+abstract class CalendarUtils {
 
     companion object {
 
         /**
-         *  Monday - 0, Sunday - 6
+         * Returns day of the week of the given date
+         * Monday - 0, Sunday - 6
          */
         fun getDayOfWeek(date: Date): Int {
             val calendar: Calendar = Calendar.getInstance()
@@ -16,6 +17,9 @@ class CalendarUtils {
             return calendar.get(Calendar.DAY_OF_WEEK) - 2
         }
 
+        /**
+         * Returns week number of the given date
+         */
         fun getWeekNumber(date: Date): Int {
             val calendar: Calendar = Calendar.getInstance()
             calendar.time = date
@@ -26,11 +30,18 @@ class CalendarUtils {
             }
         }
 
+        /**
+         * Returns current week number.
+         * Week A - 0, Week B - 1
+         */
         fun getWeekNumber(): Int {
             val calendar: Calendar = Calendar.getInstance()
             return getWeekNumber(calendar.time)
         }
 
+        /**
+         * Returns true when given date is in current week
+         */
         fun isInCurrentWeek(date: Date): Boolean {
             val currentDate: Calendar = Calendar.getInstance()
 

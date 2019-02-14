@@ -6,7 +6,10 @@ import pl.expert.mobilewzr.MobileWZRApplication
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [NetworkModule::class, ActivityModule::class, AndroidSupportInjectionModule::class])
+@Component(
+    modules = [NetworkModule::class, ViewModelModule::class, ActivityModule::class,
+        AndroidSupportInjectionModule::class]
+)
 interface MobileWZRComponent {
 
     fun inject(application: MobileWZRApplication)
