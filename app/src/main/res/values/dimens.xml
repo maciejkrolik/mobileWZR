@@ -3,5 +3,8 @@
     <dimen name="week_view_time_width">40dp</dimen>
     <dimen name="week_view_time_height">50dp</dimen>
     <dimen name="week_view_day_title_height">20dp</dimen>
+    <dimen name="week_view_subject_text_view_border">0.5dp</dimen>
+    <dimen name="week_view_subject_text_view_text_size">11sp</dimen>
+    <dimen name="week_view_tab_layout_height">25dp</dimen>
     <dimen name="progress_indicator_size">48dp</dimen>
 </resources>

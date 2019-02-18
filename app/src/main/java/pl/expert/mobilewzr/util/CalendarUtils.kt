@@ -1,6 +1,5 @@
 package pl.expert.mobilewzr.util
 
-import java.text.SimpleDateFormat
 import java.util.*
 
 abstract class CalendarUtils {
@@ -18,7 +17,8 @@ abstract class CalendarUtils {
         }
 
         /**
-         * Returns week number of the given date
+         * Returns week number/type of the given date
+         * Week A - 0, Week B - 1
          */
         fun getWeekNumber(date: Date): Int {
             val calendar: Calendar = Calendar.getInstance()
@@ -31,11 +31,11 @@ abstract class CalendarUtils {
         }
 
         /**
-         * Returns current week number.
+         * Returns current week number/type
          * Week A - 0, Week B - 1
          */
         fun getWeekNumber(): Int {
-            val calendar: Calendar = Calendar.getInstance()
+            val calendar: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"))
             return getWeekNumber(calendar.time)
         }
 
@@ -44,11 +44,6 @@ abstract class CalendarUtils {
          */
         fun isInCurrentWeek(date: Date): Boolean {
             val currentDate: Calendar = Calendar.getInstance()
-
-            // Setting date by a string TODO
-            val dateString = "15/01/2019"
-            val simpleDate = SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(dateString)
-            currentDate.time = simpleDate
 
             val inputDate: Calendar = Calendar.getInstance()
             inputDate.time = date

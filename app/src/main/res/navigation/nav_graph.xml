@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/timetableFragment">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/weekViewFragment">
 
     <fragment
-        android:id="@+id/timetableFragment"
-        android:name="pl.expert.mobilewzr.ui.weekview.WeekViewFragment"
-        android:label="fragment_timetable"
-        tools:layout="@layout/fragment_week_view" />
+        android:id="@+id/weekViewFragment"
+        android:name="pl.expert.mobilewzr.ui.weekview.WeekViewContainerFragment"
+        android:label="fragment_week_view"
+        tools:layout="@layout/fragment_week_view_content" />
 </navigation>

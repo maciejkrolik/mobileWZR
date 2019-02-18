@@ -8,4 +8,5 @@
     <string name="retrofit_error">Błąd połączenia!</string>
     <string name="weekA">Tydzień A</string>
     <string name="weekB">Tydzień B</string>
+    <string name="week">Tydzień</string>
 </resources>

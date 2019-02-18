@@ -22,9 +22,9 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">@dimen/week_view_subject_text_view_text_size</item>
         <item name="android:gravity">center</item>
-        <item name="android:padding">0.5dp</item>
+        <item name="android:padding">@dimen/week_view_subject_text_view_border</item>
         <item name="android:background">@drawable/week_view_subject_border</item>
     </style>
 

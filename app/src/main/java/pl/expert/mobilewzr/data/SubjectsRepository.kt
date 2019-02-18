@@ -24,7 +24,9 @@ class SubjectsRepository @Inject constructor(
         wzrService.listSubjects(groupId).enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 if (response.body() != null) {
-                    listOfWeekViewItems.value = WeekViewUtils.getListOfWeekViewItems(response.body() as List<Subject>)
+                    val parsedListOfWeekViewItems =
+                        WeekViewUtils.getListOfWeekViewItems(response.body() as List<Subject>)
+                    listOfWeekViewItems.value = parsedListOfWeekViewItems
                 }
 
                 Log.i(TAG, "Data successfully downloaded")

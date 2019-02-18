@@ -11,23 +11,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.AndroidSupportInjection
-import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.WeekViewItem
-import pl.expert.mobilewzr.databinding.FragmentWeekViewBinding
-import pl.expert.mobilewzr.util.CalendarUtils
+import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
 import javax.inject.Inject
 
-class WeekViewFragment : Fragment() {
+class WeekViewContentFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var weekViewViewModel: WeekViewViewModel
 
-    private lateinit var binding: FragmentWeekViewBinding
-    private lateinit var viewAdapter: WeekViewAdapter
+    private lateinit var binding: FragmentWeekViewContentBinding
+    private lateinit var recyclerAdapter: WeekViewRecyclerAdapter
 
     private val listOfWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
+    private var weekNumber: Int = 0
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -35,21 +34,17 @@ class WeekViewFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentWeekViewBinding.inflate(inflater, container, false)
+        binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
 
-        viewAdapter = WeekViewAdapter(listOfWeekViewItems)
+        recyclerAdapter = WeekViewRecyclerAdapter(listOfWeekViewItems)
 
         binding.weekViewRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = viewAdapter
+            adapter = recyclerAdapter
         }
 
-        if (CalendarUtils.getWeekNumber() == 0) {
-            activity?.title = getString(R.string.weekA)
-        } else {
-            activity?.title = getString(R.string.weekB)
-        }
+        weekNumber = arguments?.getInt("argWeekNumber") ?: 0
 
         return binding.root
     }
@@ -57,10 +52,10 @@ class WeekViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        weekViewViewModel = ViewModelProviders.of(this, viewModelFactory)
+        weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
 
-        weekViewViewModel.getSubjects("S22-31").observe(viewLifecycleOwner,
+        weekViewViewModel.getSubjects(weekNumber).observe(viewLifecycleOwner,
             Observer<List<WeekViewItem>> { listOfItems ->
                 if (listOfItems != null) {
                     listOfWeekViewItems.clear()

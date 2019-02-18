@@ -8,10 +8,10 @@ import android.widget.TextView
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.WeekViewItem
 
-class WeekViewAdapter(private val dataset: List<WeekViewItem>) :
-    RecyclerView.Adapter<WeekViewAdapter.SubjectsViewHolder>() {
+class WeekViewRecyclerAdapter(private val dataset: List<WeekViewItem>) :
+    RecyclerView.Adapter<WeekViewRecyclerAdapter.SubjectsViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewAdapter.SubjectsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewRecyclerAdapter.SubjectsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.week_view_item, parent, false)
         return SubjectsViewHolder(itemView)
     }
