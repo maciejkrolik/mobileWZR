@@ -7,4 +7,5 @@
     <dimen name="week_view_subject_text_view_text_size">11sp</dimen>
     <dimen name="week_view_tab_layout_height">25dp</dimen>
     <dimen name="progress_indicator_size">48dp</dimen>
+    <dimen name="bottom_navigation_height">56dp</dimen>
 </resources>

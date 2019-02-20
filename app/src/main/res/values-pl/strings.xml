@@ -9,4 +9,7 @@
     <string name="weekA">Tydzień A</string>
     <string name="weekB">Tydzień B</string>
     <string name="week">Tydzień</string>
+    <string name="my_timetable">Mój plan</string>
+    <string name="search">Wyszukaj</string>
+    <string name="news">Ogłoszenia</string>
 </resources>

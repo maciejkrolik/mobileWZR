@@ -10,4 +10,7 @@
     <string name="weekA">Week A</string>
     <string name="weekB">Week B</string>
     <string name="week">Week</string>
+    <string name="my_timetable">My timetable</string>
+    <string name="search">Search</string>
+    <string name="news">News</string>
 </resources>

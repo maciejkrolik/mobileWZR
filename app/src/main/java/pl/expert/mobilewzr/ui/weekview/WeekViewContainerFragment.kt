@@ -31,9 +31,9 @@ class WeekViewContainerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContainerBinding.inflate(inflater, container, false)
 
-        activity?.title = getString(R.string.week)
+        activity?.title = getString(R.string.search)
 
-        val pagerAdapter = WeekViewPagerAdapter(context, requireFragmentManager())
+        val pagerAdapter = WeekViewPagerAdapter(context, childFragmentManager)
         binding.weekViewViewPager.adapter = pagerAdapter
         binding.weekViewTabLayout.setupWithViewPager(binding.weekViewViewPager)
         binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()
