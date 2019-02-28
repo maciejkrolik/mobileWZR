@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.week_view_item.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.WeekViewItem
 
-class WeekViewRecyclerAdapter(private val dataset: List<WeekViewItem>) :
-    RecyclerView.Adapter<WeekViewRecyclerAdapter.SubjectsViewHolder>() {
+class WeekViewRecyclerAdapter(
+    private val dataset: List<WeekViewItem>
+) : RecyclerView.Adapter<WeekViewRecyclerAdapter.SubjectsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewRecyclerAdapter.SubjectsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.week_view_item, parent, false)
@@ -36,12 +38,12 @@ class WeekViewRecyclerAdapter(private val dataset: List<WeekViewItem>) :
         var fridayTextView: TextView? = null
 
         init {
-            timeTextView = itemView.findViewById(R.id.class_time_text)
-            mondayTextView = itemView.findViewById(R.id.monday_subject_text)
-            tuesdayTextView = itemView.findViewById(R.id.tuesday_subject_text)
-            wednesdayTextView = itemView.findViewById(R.id.wednesday_subject_text)
-            thursdayTextView = itemView.findViewById(R.id.thursday_subject_text)
-            fridayTextView = itemView.findViewById(R.id.friday_subject_text)
+            timeTextView = itemView.class_time_text
+            mondayTextView = itemView.monday_subject_text
+            tuesdayTextView = itemView.tuesday_subject_text
+            wednesdayTextView = itemView.wednesday_subject_text
+            thursdayTextView = itemView.thursday_subject_text
+            fridayTextView = itemView.friday_subject_text
         }
     }
 }

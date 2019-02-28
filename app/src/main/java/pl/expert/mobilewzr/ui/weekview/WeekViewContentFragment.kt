@@ -20,10 +20,7 @@ class WeekViewContentFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var weekViewViewModel: WeekViewViewModel
-
     private lateinit var binding: FragmentWeekViewContentBinding
-    private lateinit var recyclerAdapter: WeekViewRecyclerAdapter
 
     private val listOfWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
     private var weekNumber: Int = 0
@@ -36,7 +33,7 @@ class WeekViewContentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
 
-        recyclerAdapter = WeekViewRecyclerAdapter(listOfWeekViewItems)
+        val recyclerAdapter = WeekViewRecyclerAdapter(listOfWeekViewItems)
 
         binding.weekViewRecyclerView.apply {
             setHasFixedSize(true)
@@ -52,7 +49,7 @@ class WeekViewContentFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+        val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
 
         weekViewViewModel.getSubjects(weekNumber).observe(viewLifecycleOwner,

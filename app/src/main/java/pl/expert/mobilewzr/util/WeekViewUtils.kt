@@ -11,6 +11,8 @@ abstract class WeekViewUtils {
 
         /**
          * Returns thirty element list of week view items with times and subject titles of the first two weeks in semester.
+         * Positions 0-14 - first week
+         * Positions 14-29 - second week
          */
         fun getListOfWeekViewItems(listOfSubjects: List<Subject>): List<WeekViewItem> {
             listOfWeekViewItems.clear()

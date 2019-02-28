@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.ViewModelFactory
+import pl.expert.mobilewzr.data.NewsRepository
 import javax.inject.Singleton
 
 @Module
@@ -12,7 +13,10 @@ class ViewModelModule {
 
     @Provides
     @Singleton
-    fun provideViewModelFactory(repository: SubjectsRepository): ViewModelProvider.Factory {
-        return ViewModelFactory(repository)
+    fun provideViewModelFactory(
+        subjectsRepository: SubjectsRepository,
+        newsRepository: NewsRepository
+    ): ViewModelProvider.Factory {
+        return ViewModelFactory(subjectsRepository, newsRepository)
     }
 }

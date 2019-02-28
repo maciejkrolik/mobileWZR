@@ -8,4 +8,7 @@
     <dimen name="week_view_tab_layout_height">25dp</dimen>
     <dimen name="progress_indicator_size">48dp</dimen>
     <dimen name="bottom_navigation_height">56dp</dimen>
+    <dimen name="news_card_view_outer_margin">12dp</dimen>
+    <dimen name="news_card_view_inner_margin">5dp</dimen>
+    <dimen name="news_title_text_size">15sp</dimen>
 </resources>
