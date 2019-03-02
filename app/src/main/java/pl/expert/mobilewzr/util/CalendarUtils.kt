@@ -40,20 +40,22 @@ abstract class CalendarUtils {
         }
 
         /**
-         * Returns true when given date is in current week
+         * Converts time string for minutes
+         * Time string format example: 08.00
          */
-        fun isInCurrentWeek(date: Date): Boolean {
-            val currentDate: Calendar = Calendar.getInstance()
+        fun getMinutesFromTimeString(time: String): Int {
+            val timeSplit = time.split(".")
+            return 60 * timeSplit[0].toInt() + timeSplit[1].toInt()
+        }
 
-            val inputDate: Calendar = Calendar.getInstance()
-            inputDate.time = date
-
-            if (currentDate.get(Calendar.YEAR) == inputDate.get(Calendar.YEAR)) {
-                if (currentDate.get(Calendar.WEEK_OF_YEAR) == inputDate.get(Calendar.WEEK_OF_YEAR)) {
-                    return true
-                }
-            }
-            return false
+        /**
+         * Converts minutes to time string
+         * Output example time string format: 08:00
+         */
+        fun convertMinutesToTimeString(minutes: Int): String {
+            val h = minutes / 60
+            val m = minutes - h * 60
+            return "${h.toString().padStart(2, '0')}.${m.toString().padStart(2, '0')}"
         }
     }
 }
