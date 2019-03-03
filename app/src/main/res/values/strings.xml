@@ -13,4 +13,7 @@
     <string name="my_timetable">My timetable</string>
     <string name="search">Search</string>
     <string name="news">News</string>
+    <string name="group">Group</string>
+    <string name="show">Show</string>
+    <string name="choose_a_group">Choose a group</string>
 </resources>

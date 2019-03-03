@@ -12,10 +12,12 @@ class WeekViewViewModel constructor(
 ) : ViewModel() {
 
     private var listOfWeekViewItems = MutableLiveData<List<WeekViewItem>>()
+    private var previouslySelectedGroupId = ""
 
     fun loadSubjectsFromRepository(groupId: String) {
-        if (listOfWeekViewItems.value.isNullOrEmpty()) {
+        if (listOfWeekViewItems.value.isNullOrEmpty() || groupId != previouslySelectedGroupId) {
             listOfWeekViewItems = repository.getListOfWeekViewItems(groupId)
+            previouslySelectedGroupId = groupId
         }
     }
 

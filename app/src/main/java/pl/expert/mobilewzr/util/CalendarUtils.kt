@@ -11,7 +11,7 @@ abstract class CalendarUtils {
          * Monday - 0, Sunday - 6
          */
         fun getDayOfWeek(date: Date): Int {
-            val calendar: Calendar = Calendar.getInstance()
+            val calendar: Calendar = Calendar.getInstance(Locale.UK)
             calendar.time = date
             return calendar.get(Calendar.DAY_OF_WEEK) - 2
         }
@@ -21,7 +21,7 @@ abstract class CalendarUtils {
          * Week A - 0, Week B - 1
          */
         fun getWeekNumber(date: Date): Int {
-            val calendar: Calendar = Calendar.getInstance()
+            val calendar: Calendar = Calendar.getInstance(Locale.UK)
             calendar.time = date
             return if (calendar.get(Calendar.WEEK_OF_YEAR) % 2 == 0) {
                 0
@@ -35,7 +35,7 @@ abstract class CalendarUtils {
          * Week A - 0, Week B - 1
          */
         fun getWeekNumber(): Int {
-            val calendar: Calendar = Calendar.getInstance(TimeZone.getTimeZone("Poland"))
+            val calendar: Calendar = Calendar.getInstance(Locale.UK)
             return getWeekNumber(calendar.time)
         }
 
@@ -57,6 +57,12 @@ abstract class CalendarUtils {
             val m = minutes - h * 60
             return "${h.toString().padStart(2, '0')}.${m.toString().padStart(2, '0')}"
         }
+
+        /**
+         * Returns time string increased by a passed minutes parameter
+         */
+        fun addMinutesToTimeString(timeString: String, minutesToAdd: Int) =
+            convertMinutesToTimeString(getMinutesFromTimeString(timeString) + minutesToAdd)
     }
 }
 

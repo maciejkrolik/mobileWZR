@@ -19,9 +19,8 @@ class WeekViewContainerFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var weekViewViewModel: WeekViewViewModel
-
     private lateinit var binding: FragmentWeekViewContainerBinding
+    private lateinit var groupId: String
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -31,7 +30,13 @@ class WeekViewContainerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContainerBinding.inflate(inflater, container, false)
 
-        activity?.title = getString(R.string.search)
+        if (arguments?.getString("argGroupId") != null) {
+            groupId = arguments?.getString("argGroupId") as String
+        } else {
+            throw KotlinNullPointerException("Group ID argument was null.")
+        }
+
+        activity?.title = getString(R.string.group) + ": $groupId"
 
         val pagerAdapter = WeekViewPagerAdapter(context, childFragmentManager)
         binding.weekViewViewPager.adapter = pagerAdapter
@@ -44,9 +49,9 @@ class WeekViewContainerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+        val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
 
-        weekViewViewModel.loadSubjectsFromRepository("S22-31")
+        weekViewViewModel.loadSubjectsFromRepository(groupId)
     }
 }

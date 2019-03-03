@@ -2,6 +2,9 @@ package pl.expert.mobilewzr.data
 
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.model.WeekViewItem
 import pl.expert.mobilewzr.util.WeekViewUtils
@@ -29,16 +32,28 @@ class SubjectsRepository @Inject constructor(
                     listOfWeekViewItems.value = parsedListOfWeekViewItems
                 }
 
-                Log.i(TAG, "Data successfully downloaded")
+                Log.i(TAG, "Subjects successfully downloaded")
             }
 
             override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
                 t.printStackTrace()
 
-                Log.i(TAG, "Error downloading data")
+                Log.i(TAG, "Error downloading subjects")
             }
         })
 
         return listOfWeekViewItems
+    }
+
+    suspend fun getGroups(): List<String> {
+        val doc = withContext(Dispatchers.IO) {
+            Jsoup.connect("https://wzr.ug.edu.pl/studia/index.php?str=437").get()
+        }
+
+        Log.i(TAG, "Groups downloaded")
+
+        val groups = doc.select("select option:not(:first-child)")
+
+        return groups.eachText()
     }
 }

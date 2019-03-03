@@ -23,7 +23,6 @@ class WeekViewContentFragment : Fragment() {
     private lateinit var binding: FragmentWeekViewContentBinding
 
     private val listOfWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
-    private var weekNumber: Int = 0
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -41,8 +40,6 @@ class WeekViewContentFragment : Fragment() {
             adapter = recyclerAdapter
         }
 
-        weekNumber = arguments?.getInt("argWeekNumber") ?: 0
-
         return binding.root
     }
 
@@ -51,6 +48,13 @@ class WeekViewContentFragment : Fragment() {
 
         val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
+
+        val weekNumber: Int
+        if (arguments?.getInt("argWeekNumber") != null) {
+            weekNumber = arguments?.getInt("argWeekNumber") as Int
+        } else {
+            throw KotlinNullPointerException("Week number argument was null.")
+        }
 
         weekViewViewModel.getSubjects(weekNumber).observe(viewLifecycleOwner,
             Observer<List<WeekViewItem>> { listOfItems ->

@@ -7,7 +7,7 @@
         android:title="@string/my_timetable" />
 
     <item
-        android:id="@+id/week_view_fragment"
+        android:id="@+id/search_view_fragment"
         android:icon="@drawable/ic_search"
         android:title="@string/search" />
 

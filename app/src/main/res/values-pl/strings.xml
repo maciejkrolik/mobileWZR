@@ -12,4 +12,7 @@
     <string name="my_timetable">Mój plan</string>
     <string name="search">Wyszukaj</string>
     <string name="news">Ogłoszenia</string>
+    <string name="group">Grupa</string>
+    <string name="show">Wyświetl</string>
+    <string name="choose_a_group">Wybierz grupę</string>
 </resources>

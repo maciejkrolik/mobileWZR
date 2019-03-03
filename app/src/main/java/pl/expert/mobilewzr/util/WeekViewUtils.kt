@@ -1,6 +1,5 @@
 package pl.expert.mobilewzr.util
 
-import android.util.Log
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.model.WeekViewItem
 
@@ -18,6 +17,10 @@ abstract class WeekViewUtils {
         fun getListOfWeekViewItems(listOfSubjects: List<Subject>): List<WeekViewItem> {
             listOfWeekViewItems.clear()
             listOfWeekViewItems.addAll(getEmptyListOfWeekViewItems())
+
+            if (listOfSubjects.isEmpty()) {
+                return listOfWeekViewItems
+            }
 
             val fixedListOfSubjects = fixSubjects(listOfSubjects)
 
@@ -127,6 +130,8 @@ abstract class WeekViewUtils {
         private fun fixSubjects(listOfSubjects: List<Subject>): List<Subject> {
             val fixedListOfSubjects = listOfSubjects.toMutableList()
 
+            fixedListOfSubjects.removeAll { subject -> subject.title.isNullOrEmpty() }
+
             var wasSecondWeek = false
             var pastSubject = Subject()
             val iterator = fixedListOfSubjects.listIterator()
@@ -143,18 +148,10 @@ abstract class WeekViewUtils {
                     val previousSubject = fixedListOfSubjects[previousIteratorIndex]
 
                     val newSubject = previousSubject.copy(
-                        startTime = CalendarUtils.convertMinutesToTimeString(
-                            CalendarUtils.getMinutesFromTimeString(
-                                previousSubject.endTime
-                            ) - 45
-                        )
+                        startTime = CalendarUtils.addMinutesToTimeString(previousSubject.endTime, -45)
                     )
                     val modifiedPreviousSubject = previousSubject.copy(
-                        endTime = CalendarUtils.convertMinutesToTimeString(
-                            CalendarUtils.getMinutesFromTimeString(
-                                previousSubject.startTime + 45
-                            )
-                        )
+                        endTime = CalendarUtils.addMinutesToTimeString(previousSubject.startTime, 45)
                     )
 
                     iterator.set(modifiedPreviousSubject)

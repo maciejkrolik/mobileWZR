@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.ui.newsview.NewsViewViewModel
+import pl.expert.mobilewzr.ui.searchview.SearchViewViewModel
 import pl.expert.mobilewzr.ui.weekview.WeekViewViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,6 +24,8 @@ class ViewModelFactory @Inject constructor(
                     WeekViewViewModel(subjectsRepository)
                 isAssignableFrom(NewsViewViewModel::class.java) ->
                     NewsViewViewModel(newsRepository)
+                isAssignableFrom(SearchViewViewModel::class.java) ->
+                    SearchViewViewModel(subjectsRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
