@@ -5,27 +5,35 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.data.model.WeekViewItem
+import pl.expert.mobilewzr.data.model.Subject
+import pl.expert.mobilewzr.data.dto.SubjectsWithWeekViews
+import pl.expert.mobilewzr.data.dto.WeekViewItem
 
 class WeekViewViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
-    private var listOfWeekViewItems = MutableLiveData<List<WeekViewItem>>()
+    private var subjectsWithWeekViews = MutableLiveData<SubjectsWithWeekViews>()
     private var previouslySelectedGroupId = ""
 
     fun loadSubjectsFromRepository(groupId: String) {
-        if (listOfWeekViewItems.value.isNullOrEmpty() || groupId != previouslySelectedGroupId) {
-            listOfWeekViewItems = repository.getListOfWeekViewItems(groupId)
+        if (subjectsWithWeekViews.value?.listOfSubjects.isNullOrEmpty() || groupId != previouslySelectedGroupId) {
+            subjectsWithWeekViews = repository.getSubjectsWithWeekViews(groupId)
             previouslySelectedGroupId = groupId
         }
     }
 
-    fun getSubjects(weekNumber: Int): LiveData<List<WeekViewItem>> {
-        return Transformations.map(listOfWeekViewItems) { listOfWeekViewItems ->
+    fun getSubjects(): LiveData<List<Subject>> {
+        return Transformations.map(subjectsWithWeekViews) { subjectsWithWeekViews ->
+            subjectsWithWeekViews.listOfSubjects
+        } as LiveData<List<Subject>>
+    }
+
+    fun getWeekViewItems(weekNumber: Int): LiveData<List<WeekViewItem>> {
+        return Transformations.map(subjectsWithWeekViews) { subjectsWithWeekViews ->
             when (weekNumber) {
-                0 -> listOfWeekViewItems.take(15)
-                1 -> listOfWeekViewItems.takeLast(15)
+                0 -> subjectsWithWeekViews.listOfWeekViewItems.take(15)
+                1 -> subjectsWithWeekViews.listOfWeekViewItems.takeLast(15)
                 else -> {
                     throw IllegalArgumentException("Unknown week number: $weekNumber")
                 }

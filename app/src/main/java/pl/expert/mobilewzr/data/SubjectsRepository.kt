@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import pl.expert.mobilewzr.data.model.Subject
-import pl.expert.mobilewzr.data.model.WeekViewItem
+import pl.expert.mobilewzr.data.dto.SubjectsWithWeekViews
 import pl.expert.mobilewzr.util.WeekViewUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,15 +21,16 @@ class SubjectsRepository @Inject constructor(
     private val wzrService: WZRService
 ) {
 
-    fun getListOfWeekViewItems(groupId: String): MutableLiveData<List<WeekViewItem>> {
-        val listOfWeekViewItems: MutableLiveData<List<WeekViewItem>> = MutableLiveData()
+    fun getSubjectsWithWeekViews(groupId: String): MutableLiveData<SubjectsWithWeekViews> {
+        val subjectsWithWeekViews: MutableLiveData<SubjectsWithWeekViews> = MutableLiveData()
 
         wzrService.listSubjects(groupId).enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 if (response.body() != null) {
-                    val parsedListOfWeekViewItems =
-                        WeekViewUtils.getListOfWeekViewItems(response.body() as List<Subject>)
-                    listOfWeekViewItems.value = parsedListOfWeekViewItems
+                    val listOfSubjects = WeekViewUtils.fixSubjects(response.body() as List<Subject>)
+                    val listOfWeekViewItems = WeekViewUtils.getListOfWeekViewItems(listOfSubjects)
+
+                    subjectsWithWeekViews.value = SubjectsWithWeekViews(listOfSubjects, listOfWeekViewItems)
                 }
 
                 Log.i(TAG, "Subjects successfully downloaded")
@@ -42,7 +43,7 @@ class SubjectsRepository @Inject constructor(
             }
         })
 
-        return listOfWeekViewItems
+        return subjectsWithWeekViews
     }
 
     suspend fun getGroups(): List<String> {
