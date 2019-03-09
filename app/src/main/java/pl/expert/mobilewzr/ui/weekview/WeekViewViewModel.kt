@@ -13,11 +13,12 @@ class WeekViewViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
-    private var subjectsWithWeekViews = MutableLiveData<SubjectsWithWeekViews>()
+    private lateinit var subjectsWithWeekViews: MutableLiveData<SubjectsWithWeekViews>
+
     private var previouslySelectedGroupId = ""
 
     fun loadSubjectsFromRepository(groupId: String) {
-        if (subjectsWithWeekViews.value?.listOfSubjects.isNullOrEmpty() || groupId != previouslySelectedGroupId) {
+        if (!::subjectsWithWeekViews.isInitialized || groupId != previouslySelectedGroupId) {
             subjectsWithWeekViews = repository.getSubjectsWithWeekViews(groupId)
             previouslySelectedGroupId = groupId
         }
