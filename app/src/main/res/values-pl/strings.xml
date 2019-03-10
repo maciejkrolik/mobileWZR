@@ -15,4 +15,5 @@
     <string name="group">Grupa</string>
     <string name="show">Wyświetl</string>
     <string name="choose_a_group">Wybierz grupę</string>
+    <string name="no_group_selected">Brak wybranej grupy</string>
 </resources>

@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,18 +31,23 @@ class WeekViewContainerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContainerBinding.inflate(inflater, container, false)
 
-        if (arguments?.getString("argGroupId") != null) {
-            groupId = arguments?.getString("argGroupId") as String
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefSavedGroupId", "")!!
+
+        if (!groupId.isEmpty()) {
+            activity?.title = getString(R.string.group) + ": $groupId"
+
+            val pagerAdapter = WeekViewPagerAdapter(context, childFragmentManager)
+            binding.weekViewViewPager.adapter = pagerAdapter
+            binding.weekViewTabLayout.setupWithViewPager(binding.weekViewViewPager)
+            binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()
+
+            binding.weekViewViewPager.visibility = View.VISIBLE
+            binding.weekViewTabLayout.visibility = View.VISIBLE
         } else {
-            throw KotlinNullPointerException("Group ID argument was null.")
+            activity?.title = getString(R.string.my_timetable)
+            binding.weekViewContainerTextInfo.visibility = View.VISIBLE
         }
-
-        activity?.title = getString(R.string.group) + ": $groupId"
-
-        val pagerAdapter = WeekViewPagerAdapter(context, childFragmentManager)
-        binding.weekViewViewPager.adapter = pagerAdapter
-        binding.weekViewTabLayout.setupWithViewPager(binding.weekViewViewPager)
-        binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()
 
         return binding.root
     }
@@ -49,9 +55,11 @@ class WeekViewContainerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(WeekViewViewModel::class.java)
+        if (!groupId.isEmpty()) {
+            val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+                .get(WeekViewViewModel::class.java)
 
-        weekViewViewModel.loadSubjectsFromRepository(groupId)
+            weekViewViewModel.loadSubjectsFromRepository(groupId)
+        }
     }
 }

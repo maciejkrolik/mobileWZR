@@ -16,4 +16,5 @@
     <string name="group">Group</string>
     <string name="show">Show</string>
     <string name="choose_a_group">Choose a group</string>
+    <string name="no_group_selected">No group selected</string>
 </resources>

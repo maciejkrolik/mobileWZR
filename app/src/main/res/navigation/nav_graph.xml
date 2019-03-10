@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/search_view_fragment">
+    app:startDestination="@id/my_timetable_week_view_fragment">
 
     <fragment
         android:id="@+id/search_view_fragment"
@@ -11,8 +11,8 @@
         android:label="fragment_search_view"
         tools:layout="@layout/fragment_search_view">
         <action
-            android:id="@+id/action_search_view_fragment_to_week_view_fragment"
-            app:destination="@id/week_view_fragment"
+            android:id="@+id/action_search_view_fragment_to_search_week_view_fragment"
+            app:destination="@id/search_week_view_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -26,15 +26,15 @@
         tools:layout="@layout/fragment_news_view" />
 
     <fragment
-        android:id="@+id/test_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.testview.TestViewFragment"
-        android:label="fragment_test_view"
-        tools:layout="@layout/fragment_test_view" />
-
-    <fragment
-        android:id="@+id/week_view_fragment"
+        android:id="@+id/search_week_view_fragment"
         android:name="pl.expert.mobilewzr.ui.weekview.WeekViewContainerFragment"
         android:label="fragment_week_view"
+        tools:layout="@layout/fragment_week_view_content" />
+
+    <fragment
+        android:id="@+id/my_timetable_week_view_fragment"
+        android:name="pl.expert.mobilewzr.ui.weekview.WeekViewContainerFragment"
+        android:label="WeekViewContainerFragment"
         tools:layout="@layout/fragment_week_view_content" />
 
 </navigation>

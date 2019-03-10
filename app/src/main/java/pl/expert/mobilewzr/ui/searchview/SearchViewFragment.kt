@@ -46,7 +46,8 @@ class SearchViewFragment : Fragment() {
                 putString("argGroupId", binding.searchViewSpinner.selectedItem.toString())
             }
             searchViewViewModel.setGroupIdIndex(binding.searchViewSpinner.selectedItemId.toInt())
-            Navigation.findNavController(view).navigate(R.id.action_search_view_fragment_to_week_view_fragment, args)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_search_view_fragment_to_search_week_view_fragment, args)
         }
 
         return binding.root

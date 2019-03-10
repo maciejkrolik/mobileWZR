@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/test_view_fragment"
+        android:id="@+id/my_timetable_week_view_fragment"
         android:icon="@drawable/ic_my_timetable"
         android:title="@string/my_timetable" />
 

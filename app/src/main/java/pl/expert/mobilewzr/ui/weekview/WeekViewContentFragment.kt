@@ -53,11 +53,7 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
         val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
 
-        if (arguments?.getInt("argWeekNumber") != null) {
-            weekNumber = arguments?.getInt("argWeekNumber") as Int
-        } else {
-            throw KotlinNullPointerException("Week number argument was null.")
-        }
+        weekNumber = arguments?.getInt("argWeekNumber")!!
 
         weekViewViewModel.getWeekViewItems(weekNumber as Int).observe(viewLifecycleOwner,
             Observer<List<WeekViewItem>> { listOfWeekViewItems ->
