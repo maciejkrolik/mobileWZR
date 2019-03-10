@@ -6,14 +6,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import dagger.android.support.AndroidSupportInjection
-import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.dto.WeekViewItem
+import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentWeekViewContentBinding
-    var weekNumber: Int? = null
+    private var weekNumber: Int? = null
 
     private val listOfWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
     private val listOfSubjects: MutableList<Subject> = mutableListOf()
@@ -82,7 +82,16 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     override fun onSubjectClick(position: Int, dayOfWeek: Int) {
         val csvIndex = listOfWeekViewItems[position].listOfSubjects[dayOfWeek].csvIndex
         if (csvIndex != -1) {
-            Toast.makeText(context, listOfSubjects[csvIndex].description, Toast.LENGTH_SHORT).show()
+            val subject = listOfSubjects[csvIndex]
+            showSubjectDetailsDialog(subject)
         }
+    }
+
+    private fun showSubjectDetailsDialog(subject: Subject) {
+        val alertDialog = AlertDialog.Builder(context!!).apply {
+            setTitle(subject.title)
+            setMessage(subject.location)
+        }.create()
+        alertDialog.show()
     }
 }
