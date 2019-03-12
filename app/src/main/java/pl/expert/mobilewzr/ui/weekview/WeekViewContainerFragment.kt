@@ -6,9 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContainerBinding
@@ -22,6 +20,7 @@ class WeekViewContainerFragment : Fragment() {
 
     private lateinit var binding: FragmentWeekViewContainerBinding
     private lateinit var groupId: String
+    private lateinit var weekViewLocation: WeekViewLocation
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -32,12 +31,16 @@ class WeekViewContainerFragment : Fragment() {
         binding = FragmentWeekViewContainerBinding.inflate(inflater, container, false)
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        weekViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())
+            WeekViewLocation.MY_TIMETABLE else WeekViewLocation.SEARCH
+
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefSavedGroupId", "")!!
 
         if (!groupId.isEmpty()) {
             activity?.title = getString(R.string.group) + ": $groupId"
 
-            val pagerAdapter = WeekViewPagerAdapter(context, childFragmentManager)
+            val pagerAdapter = WeekViewPagerAdapter(context, weekViewLocation, childFragmentManager)
             binding.weekViewViewPager.adapter = pagerAdapter
             binding.weekViewTabLayout.setupWithViewPager(binding.weekViewViewPager)
             binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()

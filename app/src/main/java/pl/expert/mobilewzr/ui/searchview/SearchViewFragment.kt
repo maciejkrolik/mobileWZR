@@ -6,9 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import androidx.navigation.Navigation
 import dagger.android.support.AndroidSupportInjection
@@ -32,6 +30,11 @@ class SearchViewFragment : Fragment() {
         super.onAttach(context)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchViewBinding.inflate(inflater, container, false)
 
@@ -53,6 +56,10 @@ class SearchViewFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.clear()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -60,10 +67,10 @@ class SearchViewFragment : Fragment() {
             .get(SearchViewViewModel::class.java)
 
         searchViewViewModel.getGroups().observe(viewLifecycleOwner,
-            Observer { listOfGroups ->
-                if (listOfGroups != null) {
-                    groups.clear()
-                    groups.addAll(listOfGroups)
+            Observer { groups ->
+                if (groups != null) {
+                    this.groups.clear()
+                    this.groups.addAll(groups)
                 }
                 binding.searchProgressBar.visibility = View.GONE
                 binding.searchViewButton.visibility = View.VISIBLE

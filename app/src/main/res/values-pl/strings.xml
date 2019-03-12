@@ -16,4 +16,6 @@
     <string name="show">Wyświetl</string>
     <string name="choose_a_group">Wybierz grupę</string>
     <string name="no_group_selected">Brak wybranej grupy</string>
+    <string name="set_as_my_timetable">Ustaw jako mój plan</string>
+    <string name="was_saved">została zapisana</string>
 </resources>

@@ -15,12 +15,12 @@ class WeekViewViewModel constructor(
 
     private lateinit var subjectsWithWeekViews: MutableLiveData<SubjectsWithWeekViews>
 
-    private var previouslySelectedGroupId = ""
+    var groupId = ""
 
     fun loadSubjectsFromRepository(groupId: String) {
-        if (!::subjectsWithWeekViews.isInitialized || groupId != previouslySelectedGroupId) {
+        if (!::subjectsWithWeekViews.isInitialized || groupId != this.groupId) {
             subjectsWithWeekViews = repository.getSubjectsWithWeekViews(groupId)
-            previouslySelectedGroupId = groupId
+            this.groupId = groupId
         }
     }
 
@@ -40,5 +40,8 @@ class WeekViewViewModel constructor(
                 }
             }
         } as LiveData<List<WeekViewItem>>
+    }
+
+    fun replaceTimetableInLocalDb() {
     }
 }

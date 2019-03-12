@@ -17,4 +17,6 @@
     <string name="show">Show</string>
     <string name="choose_a_group">Choose a group</string>
     <string name="no_group_selected">No group selected</string>
+    <string name="set_as_my_timetable">Set as my timetable</string>
+    <string name="was_saved">was saved</string>
 </resources>

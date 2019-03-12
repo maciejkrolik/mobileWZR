@@ -9,6 +9,7 @@ import pl.expert.mobilewzr.R
 
 class WeekViewPagerAdapter(
     private val context: Context?,
+    private val weekViewLocation: WeekViewLocation,
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager) {
 
@@ -18,6 +19,7 @@ class WeekViewPagerAdapter(
             0 -> args.putInt("argWeekNumber", 0)
             1 -> args.putInt("argWeekNumber", 1)
         }
+        args.putInt("argWeekViewLocation", weekViewLocation.value)
 
         return WeekViewContentFragment().apply {
             arguments = args
