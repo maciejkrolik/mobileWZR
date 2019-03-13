@@ -1,6 +1,6 @@
 package pl.expert.mobilewzr.data.converter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.CsvRoutines;
 import okhttp3.ResponseBody;

@@ -1,7 +1,7 @@
 package pl.expert.mobilewzr
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.ui.newsview.NewsViewViewModel

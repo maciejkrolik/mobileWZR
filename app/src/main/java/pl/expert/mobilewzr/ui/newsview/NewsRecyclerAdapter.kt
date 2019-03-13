@@ -1,10 +1,10 @@
 package pl.expert.mobilewzr.ui.newsview
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.news_item.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.News

@@ -1,6 +1,6 @@
 package pl.expert.mobilewzr.di
 
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import pl.expert.mobilewzr.data.SubjectsRepository

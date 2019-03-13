@@ -1,12 +1,14 @@
 package pl.expert.mobilewzr.ui.weekview
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContainerBinding

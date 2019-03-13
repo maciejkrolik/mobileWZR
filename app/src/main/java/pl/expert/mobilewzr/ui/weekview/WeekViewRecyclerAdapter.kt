@@ -1,10 +1,10 @@
 package pl.expert.mobilewzr.ui.weekview
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.week_view_item.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.dto.WeekViewItem
