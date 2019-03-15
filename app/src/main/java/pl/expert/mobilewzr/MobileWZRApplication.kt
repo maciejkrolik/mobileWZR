@@ -6,6 +6,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import pl.expert.mobilewzr.di.DaggerMobileWZRComponent
+import pl.expert.mobilewzr.di.DatabaseModule
 import javax.inject.Inject
 
 class MobileWZRApplication : Application(), HasActivityInjector {
@@ -15,7 +16,10 @@ class MobileWZRApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerMobileWZRComponent.create()
+        DaggerMobileWZRComponent
+            .builder()
+            .databaseModule(DatabaseModule(this))
+            .build()
             .inject(this)
     }
 

@@ -1,47 +1,78 @@
 package pl.expert.mobilewzr.ui.weekview
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.model.Subject
-import pl.expert.mobilewzr.data.dto.SubjectsWithWeekViews
+import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
 import pl.expert.mobilewzr.data.dto.WeekViewItem
 
 class WeekViewViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
-    private lateinit var subjectsWithWeekViews: MutableLiveData<SubjectsWithWeekViews>
+    private lateinit var weekViewDataHolder: MutableLiveData<WeekViewDataHolder>
 
+    private var idOfAGroupSavedInDb = ""
     var groupId = ""
 
-    fun loadSubjectsFromRepository(groupId: String) {
-        if (!::subjectsWithWeekViews.isInitialized || groupId != this.groupId) {
-            subjectsWithWeekViews = repository.getSubjectsWithWeekViews(groupId)
+    private val viewModelJob = Job()
+    private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+
+    fun checkIfSubjectsLoaded(groupId: String) {
+        if (!::weekViewDataHolder.isInitialized || groupId != this.groupId) {
+            loadSubjects(groupId)
             this.groupId = groupId
         }
     }
 
+    private fun loadSubjects(groupId: String) {
+        if (!isTimetableSavedInDb(groupId)) weekViewDataHolder = repository.getWeekViewDataFromService(groupId)
+        else {
+            weekViewDataHolder = MutableLiveData()
+            viewModelScope.launch {
+                weekViewDataHolder = repository.getWeekViewDataFromDb(weekViewDataHolder)
+            }
+        }
+    }
+
+    private fun isTimetableSavedInDb(groupId: String): Boolean {
+        return groupId == idOfAGroupSavedInDb
+    }
+
     fun getSubjects(): LiveData<List<Subject>> {
-        return Transformations.map(subjectsWithWeekViews) { subjectsWithWeekViews ->
-            subjectsWithWeekViews.listOfSubjects
-        } as LiveData<List<Subject>>
+        return Transformations.map(weekViewDataHolder) { weekViewDataHolder ->
+            weekViewDataHolder.subjects
+        }
     }
 
     fun getWeekViewItems(weekNumber: Int): LiveData<List<WeekViewItem>> {
-        return Transformations.map(subjectsWithWeekViews) { subjectsWithWeekViews ->
+        return Transformations.map(weekViewDataHolder) { weekViewDataHolder ->
             when (weekNumber) {
-                0 -> subjectsWithWeekViews.listOfWeekViewItems.take(15)
-                1 -> subjectsWithWeekViews.listOfWeekViewItems.takeLast(15)
+                0 -> weekViewDataHolder.weekViewItems.take(15)
+                1 -> weekViewDataHolder.weekViewItems.takeLast(15)
                 else -> {
                     throw IllegalArgumentException("Unknown week number: $weekNumber")
                 }
             }
-        } as LiveData<List<WeekViewItem>>
+        }
     }
 
-    fun replaceTimetableInLocalDb() {
+    fun replaceSubjectsInDb() {
+        viewModelScope.launch {
+            repository.replaceSubjectsInDb(weekViewDataHolder.value?.subjects!!)
+        }
+    }
+
+    fun setIdOfAGroupSavedInDb(groupId: String) {
+        idOfAGroupSavedInDb = groupId
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

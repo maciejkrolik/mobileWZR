@@ -8,5 +8,5 @@ import retrofit2.http.Query
 interface WZRService {
 
     @GET("/.csv/plan_st.php?f2=4")
-    fun listSubjects(@Query("f1") groupId: String): Call<List<Subject>>
+    fun getSubjects(@Query("f1") groupId: String): Call<List<Subject>>
 }

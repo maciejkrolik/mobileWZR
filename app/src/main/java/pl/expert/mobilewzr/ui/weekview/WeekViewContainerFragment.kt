@@ -23,6 +23,7 @@ class WeekViewContainerFragment : Fragment() {
     private lateinit var binding: FragmentWeekViewContainerBinding
     private lateinit var groupId: String
     private lateinit var weekViewLocation: WeekViewLocation
+    private lateinit var idOfAGroupSavedInDb: String
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -37,7 +38,8 @@ class WeekViewContainerFragment : Fragment() {
         weekViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())
             WeekViewLocation.MY_TIMETABLE else WeekViewLocation.SEARCH
 
-        groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefSavedGroupId", "")!!
+        groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+        idOfAGroupSavedInDb = sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
 
         if (!groupId.isEmpty()) {
             activity?.title = getString(R.string.group) + ": $groupId"
@@ -64,7 +66,8 @@ class WeekViewContainerFragment : Fragment() {
             val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
                 .get(WeekViewViewModel::class.java)
 
-            weekViewViewModel.loadSubjectsFromRepository(groupId)
+            weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
+            weekViewViewModel.checkIfSubjectsLoaded(groupId)
         }
     }
 }

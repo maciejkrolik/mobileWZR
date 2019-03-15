@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import pl.expert.mobilewzr.data.model.Subject
-import pl.expert.mobilewzr.data.dto.SubjectsWithWeekViews
+import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
 import pl.expert.mobilewzr.util.WeekViewUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,19 +18,38 @@ private const val TAG = "SubjectsRepository"
 
 @Singleton
 class SubjectsRepository @Inject constructor(
-    private val wzrService: WZRService
+    private val wzrService: WZRService,
+    private val subjectsDao: SubjectsDao
 ) {
 
-    fun getSubjectsWithWeekViews(groupId: String): MutableLiveData<SubjectsWithWeekViews> {
-        val subjectsWithWeekViews: MutableLiveData<SubjectsWithWeekViews> = MutableLiveData()
+    suspend fun replaceSubjectsInDb(subjects: List<Subject>) {
+        subjectsDao.deleteSubjects()
+        subjectsDao.addSubjects(subjects)
 
-        wzrService.listSubjects(groupId).enqueue(object : Callback<List<Subject>> {
+        Log.i(TAG, "Subjects saved to a database")
+    }
+
+    suspend fun getWeekViewDataFromDb(weekViewDataHolder: MutableLiveData<WeekViewDataHolder>): MutableLiveData<WeekViewDataHolder> {
+        val subjects = subjectsDao.getSubjects()
+        val weekViewItems = WeekViewUtils.getWeekViewItems(subjects)
+
+        weekViewDataHolder.postValue(WeekViewDataHolder(subjects, weekViewItems))
+
+        Log.i(TAG, "Subjects successfully retrieved from database")
+
+        return weekViewDataHolder
+    }
+
+    fun getWeekViewDataFromService(groupId: String): MutableLiveData<WeekViewDataHolder> {
+        val weekViewDataHolder: MutableLiveData<WeekViewDataHolder> = MutableLiveData()
+
+        wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 if (response.body() != null) {
-                    val listOfSubjects = WeekViewUtils.fixSubjects(response.body() as List<Subject>)
-                    val listOfWeekViewItems = WeekViewUtils.getListOfWeekViewItems(listOfSubjects)
+                    val subjects = WeekViewUtils.fixSubjects(response.body() as List<Subject>)
+                    val weekViewItems = WeekViewUtils.getWeekViewItems(subjects)
 
-                    subjectsWithWeekViews.value = SubjectsWithWeekViews(listOfSubjects, listOfWeekViewItems)
+                    weekViewDataHolder.value = WeekViewDataHolder(subjects, weekViewItems)
                 }
 
                 Log.i(TAG, "Subjects successfully downloaded")
@@ -43,7 +62,7 @@ class SubjectsRepository @Inject constructor(
             }
         })
 
-        return subjectsWithWeekViews
+        return weekViewDataHolder
     }
 
     suspend fun getGroups(): List<String> {
@@ -54,7 +73,6 @@ class SubjectsRepository @Inject constructor(
         Log.i(TAG, "Groups downloaded")
 
         val groups = doc.select("select option:not(:first-child)")
-
         return groups.eachText()
     }
 }

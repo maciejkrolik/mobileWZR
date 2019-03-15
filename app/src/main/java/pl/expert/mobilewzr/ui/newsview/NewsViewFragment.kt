@@ -60,9 +60,9 @@ class NewsViewFragment : Fragment() {
             .get(NewsViewViewModel::class.java)
 
         newsViewViewModel.getNews().observe(viewLifecycleOwner,
-            Observer<List<News>> { listOfNews ->
-                if (listOfNews != null) {
-                    news.addAll(listOfNews)
+            Observer<List<News>> { news ->
+                if (news != null) {
+                    this.news.addAll(news)
                 }
                 binding.newsProgressBar.visibility = View.GONE
                 binding.newsRecyclerView.visibility = View.VISIBLE

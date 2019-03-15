@@ -21,11 +21,11 @@ class WeekViewRecyclerAdapter(
 
     override fun onBindViewHolder(holder: SubjectsViewHolder, position: Int) {
         holder.timeTextView?.text = dataset[position].time
-        holder.mondayTextView?.text = dataset[position].listOfSubjects[0].title
-        holder.tuesdayTextView?.text = dataset[position].listOfSubjects[1].title
-        holder.wednesdayTextView?.text = dataset[position].listOfSubjects[2].title
-        holder.thursdayTextView?.text = dataset[position].listOfSubjects[3].title
-        holder.fridayTextView?.text = dataset[position].listOfSubjects[4].title
+        holder.mondayTextView?.text = dataset[position].weekViewSubjectItems[0].title
+        holder.tuesdayTextView?.text = dataset[position].weekViewSubjectItems[1].title
+        holder.wednesdayTextView?.text = dataset[position].weekViewSubjectItems[2].title
+        holder.thursdayTextView?.text = dataset[position].weekViewSubjectItems[3].title
+        holder.fridayTextView?.text = dataset[position].weekViewSubjectItems[4].title
     }
 
     override fun getItemCount() = dataset.size

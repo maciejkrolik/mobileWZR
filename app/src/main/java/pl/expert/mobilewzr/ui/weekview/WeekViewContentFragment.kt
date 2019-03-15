@@ -28,8 +28,8 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     private lateinit var weekViewLocation: WeekViewLocation
     private var weekNumber: Int? = null
 
-    private val listOfWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
-    private val listOfSubjects: MutableList<Subject> = mutableListOf()
+    private val weekViewItems: MutableList<WeekViewItem> = mutableListOf()
+    private val subjects: MutableList<Subject> = mutableListOf()
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -44,7 +44,7 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
 
-        val recyclerAdapter = WeekViewRecyclerAdapter(listOfWeekViewItems, this)
+        val recyclerAdapter = WeekViewRecyclerAdapter(weekViewItems, this)
 
         binding.weekViewRecyclerView.apply {
             setHasFixedSize(true)
@@ -72,10 +72,10 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
         weekViewLocation = WeekViewLocation.getByValue(arguments?.getInt("argWeekViewLocation")!!)
 
         weekViewViewModel.getWeekViewItems(weekNumber as Int).observe(viewLifecycleOwner,
-            Observer<List<WeekViewItem>> { listOfWeekViewItems ->
-                if (listOfWeekViewItems != null) {
-                    this.listOfWeekViewItems.clear()
-                    this.listOfWeekViewItems.addAll(listOfWeekViewItems)
+            Observer<List<WeekViewItem>> { weekViewItems ->
+                if (weekViewItems != null) {
+                    this.weekViewItems.clear()
+                    this.weekViewItems.addAll(weekViewItems)
                 }
 
                 binding.weekViewProgressBar.visibility = View.GONE
@@ -83,10 +83,10 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
             })
 
         weekViewViewModel.getSubjects().observe(viewLifecycleOwner,
-            Observer<List<Subject>> { listOfSubjects ->
-                if (listOfSubjects != null) {
-                    this.listOfSubjects.clear()
-                    this.listOfSubjects.addAll(listOfSubjects)
+            Observer<List<Subject>> { subjects ->
+                if (subjects != null) {
+                    this.subjects.clear()
+                    this.subjects.addAll(subjects)
                 }
             })
     }
@@ -94,26 +94,32 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.set_as_my_timetable -> {
-                weekViewViewModel.replaceTimetableInLocalDb()
-
-                val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-                sharedPref.edit().putString("prefSavedGroupId", weekViewViewModel.groupId).apply()
-
-                Toast.makeText(
-                    context,
-                    "${getString(R.string.group)} ${weekViewViewModel.groupId} ${getString(R.string.was_saved)}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                weekViewViewModel.replaceSubjectsInDb()
+                putIdOfAGroupSavedInDbIntoSharedPref()
+                showToast()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    private fun putIdOfAGroupSavedInDbIntoSharedPref() {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        sharedPref.edit().putString("prefIdOfAGroupSavedInDb", weekViewViewModel.groupId).apply()
+    }
+
+    private fun showToast() {
+        Toast.makeText(
+            context,
+            "${getString(R.string.group)} ${weekViewViewModel.groupId} ${getString(R.string.was_saved)}",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     override fun onSubjectClick(position: Int, dayOfWeek: Int) {
-        val csvIndex = listOfWeekViewItems[position].listOfSubjects[dayOfWeek].csvIndex
+        val csvIndex = weekViewItems[position].weekViewSubjectItems[dayOfWeek].csvIndex
         if (csvIndex != -1) {
-            val subject = listOfSubjects[csvIndex]
+            val subject = subjects[csvIndex]
             showSubjectDetailsDialog(subject)
         }
     }

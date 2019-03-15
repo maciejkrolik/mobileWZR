@@ -1,95 +1,95 @@
 package pl.expert.mobilewzr.util
 
-import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.dto.WeekViewItem
 import pl.expert.mobilewzr.data.dto.WeekViewSubjectItem
+import pl.expert.mobilewzr.data.model.Subject
 
 abstract class WeekViewUtils {
 
     companion object {
 
-        private val listOfWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
+        private val weekViewItems: MutableList<WeekViewItem> = mutableListOf()
 
         /**
          * Returns thirty element list of week view items with times and subject titles of the first two weeks in semester.
          * Positions 0-14 - first week
          * Positions 14-29 - second week
          */
-        fun getListOfWeekViewItems(listOfSubjects: List<Subject>): List<WeekViewItem> {
-            listOfWeekViewItems.clear()
-            listOfWeekViewItems.addAll(getEmptyListOfWeekViewItems())
+        fun getWeekViewItems(subjects: List<Subject>): List<WeekViewItem> {
+            weekViewItems.clear()
+            weekViewItems.addAll(getListOfEmptyWeekViewItems())
 
-            if (listOfSubjects.isEmpty()) {
-                return listOfWeekViewItems
+            if (subjects.isEmpty()) {
+                return weekViewItems
             }
 
             var indexOfLastSubjectInFirstWeek = 0
-            var subjectCsvPosition = 0
+            var subjectCsvIndex = 0
 
-            for (i in 0..listOfSubjects.size) {
-                if (CalendarUtils.getWeekNumber(listOfSubjects[i].startDate) == 0) {
-                    when (listOfSubjects[i].startTime) {
-                        "08.00" -> setSubject(0, subjectCsvPosition, listOfSubjects[i])
-                        "08.45" -> setSubject(1, subjectCsvPosition, listOfSubjects[i])
-                        "09.45" -> setSubject(2, subjectCsvPosition, listOfSubjects[i])
-                        "10.30" -> setSubject(3, subjectCsvPosition, listOfSubjects[i])
-                        "11.30" -> setSubject(4, subjectCsvPosition, listOfSubjects[i])
-                        "12.15" -> setSubject(5, subjectCsvPosition, listOfSubjects[i])
-                        "13.30" -> setSubject(6, subjectCsvPosition, listOfSubjects[i])
-                        "14.15" -> setSubject(7, subjectCsvPosition, listOfSubjects[i])
-                        "15.15" -> setSubject(8, subjectCsvPosition, listOfSubjects[i])
-                        "16.00" -> setSubject(9, subjectCsvPosition, listOfSubjects[i])
-                        "17.00" -> setSubject(10, subjectCsvPosition, listOfSubjects[i])
-                        "17.45" -> setSubject(11, subjectCsvPosition, listOfSubjects[i])
-                        "18.45" -> setSubject(12, subjectCsvPosition, listOfSubjects[i])
-                        "19.30" -> setSubject(13, subjectCsvPosition, listOfSubjects[i])
-                        "20.15" -> setSubject(14, subjectCsvPosition, listOfSubjects[i])
+            for (i in 0..subjects.size) {
+                if (CalendarUtils.getWeekNumber(subjects[i].startDate) == 0) {
+                    when (subjects[i].startTime) {
+                        "08.00" -> setSubject(0, subjects[i])
+                        "08.45" -> setSubject(1, subjects[i])
+                        "09.45" -> setSubject(2, subjects[i])
+                        "10.30" -> setSubject(3, subjects[i])
+                        "11.30" -> setSubject(4, subjects[i])
+                        "12.15" -> setSubject(5, subjects[i])
+                        "13.30" -> setSubject(6, subjects[i])
+                        "14.15" -> setSubject(7, subjects[i])
+                        "15.15" -> setSubject(8, subjects[i])
+                        "16.00" -> setSubject(9, subjects[i])
+                        "17.00" -> setSubject(10, subjects[i])
+                        "17.45" -> setSubject(11, subjects[i])
+                        "18.45" -> setSubject(12, subjects[i])
+                        "19.30" -> setSubject(13, subjects[i])
+                        "20.15" -> setSubject(14, subjects[i])
                     }
                     indexOfLastSubjectInFirstWeek = i
-                    subjectCsvPosition++
+                    subjectCsvIndex++
                 } else {
                     break
                 }
             }
 
-            listOfWeekViewItems.addAll(getEmptyListOfWeekViewItems())
+            weekViewItems.addAll(getListOfEmptyWeekViewItems())
 
             val secondWeekNumber =
-                CalendarUtils.getWeekNumber(listOfSubjects[indexOfLastSubjectInFirstWeek + 1].startDate)
+                CalendarUtils.getWeekNumber(subjects[indexOfLastSubjectInFirstWeek + 1].startDate)
 
-            for (i in indexOfLastSubjectInFirstWeek + 1..listOfSubjects.size) {
-                if (CalendarUtils.getWeekNumber(listOfSubjects[i].startDate) == secondWeekNumber) {
-                    when (listOfSubjects[i].startTime) {
-                        "08.00" -> setSubject(15, subjectCsvPosition, listOfSubjects[i])
-                        "08.45" -> setSubject(16, subjectCsvPosition, listOfSubjects[i])
-                        "09.45" -> setSubject(17, subjectCsvPosition, listOfSubjects[i])
-                        "10.30" -> setSubject(18, subjectCsvPosition, listOfSubjects[i])
-                        "11.30" -> setSubject(19, subjectCsvPosition, listOfSubjects[i])
-                        "12.15" -> setSubject(20, subjectCsvPosition, listOfSubjects[i])
-                        "13.30" -> setSubject(21, subjectCsvPosition, listOfSubjects[i])
-                        "14.15" -> setSubject(22, subjectCsvPosition, listOfSubjects[i])
-                        "15.15" -> setSubject(23, subjectCsvPosition, listOfSubjects[i])
-                        "16.00" -> setSubject(24, subjectCsvPosition, listOfSubjects[i])
-                        "17.00" -> setSubject(25, subjectCsvPosition, listOfSubjects[i])
-                        "17.45" -> setSubject(26, subjectCsvPosition, listOfSubjects[i])
-                        "18.45" -> setSubject(27, subjectCsvPosition, listOfSubjects[i])
-                        "19.30" -> setSubject(28, subjectCsvPosition, listOfSubjects[i])
-                        "20.15" -> setSubject(29, subjectCsvPosition, listOfSubjects[i])
+            for (i in indexOfLastSubjectInFirstWeek + 1 until subjects.size) {
+                if (CalendarUtils.getWeekNumber(subjects[i].startDate) == secondWeekNumber) {
+                    when (subjects[i].startTime) {
+                        "08.00" -> setSubject(15, subjects[i])
+                        "08.45" -> setSubject(16, subjects[i])
+                        "09.45" -> setSubject(17, subjects[i])
+                        "10.30" -> setSubject(18, subjects[i])
+                        "11.30" -> setSubject(19, subjects[i])
+                        "12.15" -> setSubject(20, subjects[i])
+                        "13.30" -> setSubject(21, subjects[i])
+                        "14.15" -> setSubject(22, subjects[i])
+                        "15.15" -> setSubject(23, subjects[i])
+                        "16.00" -> setSubject(24, subjects[i])
+                        "17.00" -> setSubject(25, subjects[i])
+                        "17.45" -> setSubject(26, subjects[i])
+                        "18.45" -> setSubject(27, subjects[i])
+                        "19.30" -> setSubject(28, subjects[i])
+                        "20.15" -> setSubject(29, subjects[i])
                     }
-                    subjectCsvPosition++
+                    subjectCsvIndex++
                 } else {
                     break
                 }
             }
 
-            return listOfWeekViewItems
+            return weekViewItems
         }
 
         /**
          * Returns fifteen element list of week view items containing only times with subject title's text views empty.
          */
-        private fun getEmptyListOfWeekViewItems(): List<WeekViewItem> {
-            val list: MutableList<WeekViewItem> = mutableListOf()
+        private fun getListOfEmptyWeekViewItems(): List<WeekViewItem> {
+            val emptyWeekViewItems: MutableList<WeekViewItem> = mutableListOf()
             val timeStrings: List<String> =
                 listOf(
                     "08.00 08.45",
@@ -120,46 +120,51 @@ abstract class WeekViewUtils {
                         WeekViewSubjectItem(-1, "")
                     )
                 )
-                list.add(weekViewItem)
+                emptyWeekViewItems.add(weekViewItem)
             }
 
-            return list
+            return emptyWeekViewItems
         }
 
         /**
          * RecyclerView table contains six columns. One for each day and one for time.
-         * This method assign title and CSV position of a subject to specific week view item.
+         * This method assign title and CSV index of a subject to specific week view item.
          */
-        private fun setSubject(position: Int, csvPosition: Int, subject: Subject) {
-            listOfWeekViewItems[position].listOfSubjects[CalendarUtils.getDayOfWeek(subject.startDate)] =
-                WeekViewSubjectItem(csvPosition, subject.title)
+        private fun setSubject(position: Int, subject: Subject) {
+            weekViewItems[position].weekViewSubjectItems[CalendarUtils.getDayOfWeek(subject.startDate)] =
+                WeekViewSubjectItem(subject.csvIndex, subject.title)
         }
 
         /**
          * Some two hour subjects take two lines in CSV file but others take only one line.
-         * This function fixes this problem by adding additional subject when needed.
+         * This function fixes this problem by adding additional subject when needed and adds csv index to subjects
          */
-        fun fixSubjects(listOfSubjects: List<Subject>): List<Subject> {
-            val fixedListOfSubjects = listOfSubjects.toMutableList()
+        fun fixSubjects(subjects: List<Subject>): List<Subject> {
+            val fixedSubjects = subjects.toMutableList()
 
-            fixedListOfSubjects.removeAll { subject -> subject.title.isNullOrEmpty() }
+            fixedSubjects.removeAll { subject -> subject.title.isNullOrEmpty() }
 
             var wasSecondWeek = false
             var pastSubject = Subject()
-            val iterator = fixedListOfSubjects.listIterator()
+            var csvIndex = 0
+            val iterator = fixedSubjects.listIterator()
             while (iterator.hasNext()) {
                 val subject = iterator.next()
-
                 if (CalendarUtils.getWeekNumber(subject.startDate) == 1) wasSecondWeek = true
                 if (CalendarUtils.getWeekNumber(subject.startDate) == 0 && wasSecondWeek) break
 
+                subject.csvIndex = csvIndex
+
                 if (subject.title != pastSubject.title &&
-                    subject.title != fixedListOfSubjects[iterator.nextIndex()].title
+                    subject.title != fixedSubjects[iterator.nextIndex()].title
                 ) {
                     val previousIteratorIndex = iterator.previousIndex()
-                    val previousSubject = fixedListOfSubjects[previousIteratorIndex]
+                    val previousSubject = fixedSubjects[previousIteratorIndex]
+
+                    csvIndex++
 
                     val newSubject = previousSubject.copy(
+                        csvIndex = csvIndex,
                         startTime = CalendarUtils.addMinutesToTimeString(previousSubject.endTime, -45)
                     )
                     val modifiedPreviousSubject = previousSubject.copy(
@@ -171,9 +176,11 @@ abstract class WeekViewUtils {
                 }
 
                 pastSubject = subject
+
+                csvIndex++
             }
 
-            return fixedListOfSubjects
+            return fixedSubjects.take(csvIndex)
         }
     }
 }
