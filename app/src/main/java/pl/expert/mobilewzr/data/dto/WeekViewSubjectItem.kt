@@ -1,6 +1,6 @@
 package pl.expert.mobilewzr.data.dto
 
 data class WeekViewSubjectItem(
-    val csvIndex: Int,
+    val index: Int,
     val title: String
 )

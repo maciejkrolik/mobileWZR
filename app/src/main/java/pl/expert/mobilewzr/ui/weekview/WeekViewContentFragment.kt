@@ -117,9 +117,9 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     }
 
     override fun onSubjectClick(position: Int, dayOfWeek: Int) {
-        val csvIndex = weekViewItems[position].weekViewSubjectItems[dayOfWeek].csvIndex
-        if (csvIndex != -1) {
-            val subject = subjects[csvIndex]
+        val subjectIndex = weekViewItems[position].weekViewSubjectItems[dayOfWeek].index
+        if (subjectIndex != -1) {
+            val subject = subjects[subjectIndex]
             showSubjectDetailsDialog(subject)
         }
     }

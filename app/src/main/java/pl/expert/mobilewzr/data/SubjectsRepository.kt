@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
+import pl.expert.mobilewzr.util.SubjectsUtils
 import pl.expert.mobilewzr.util.WeekViewUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +32,7 @@ class SubjectsRepository @Inject constructor(
 
     suspend fun getWeekViewDataFromDb(weekViewDataHolder: MutableLiveData<WeekViewDataHolder>): MutableLiveData<WeekViewDataHolder> {
         val subjects = subjectsDao.getSubjects()
-        val weekViewItems = WeekViewUtils.getWeekViewItems(subjects)
+        val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(subjects)
 
         weekViewDataHolder.postValue(WeekViewDataHolder(subjects, weekViewItems))
 
@@ -45,12 +46,11 @@ class SubjectsRepository @Inject constructor(
 
         wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
-                if (response.body() != null) {
-                    val subjects = WeekViewUtils.fixSubjects(response.body() as List<Subject>)
-                    val weekViewItems = WeekViewUtils.getWeekViewItems(subjects)
+                val downloadedSubjects = response.body()!!
+                val fixedSubjects = SubjectsUtils.fix(downloadedSubjects)
+                val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(fixedSubjects)
 
-                    weekViewDataHolder.value = WeekViewDataHolder(subjects, weekViewItems)
-                }
+                weekViewDataHolder.value = WeekViewDataHolder(fixedSubjects, weekViewItems)
 
                 Log.i(TAG, "Subjects successfully downloaded")
             }

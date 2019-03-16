@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity
 data class Subject(
-    @PrimaryKey var csvIndex: Int = 0,
+    @PrimaryKey var index: Int = 0,
 
     @Parsed(index = 0) var title: String = "",
 
