@@ -10,17 +10,17 @@ import java.util.*
 data class Subject(
     @PrimaryKey var index: Int = 0,
 
-    @Parsed(index = 0) var title: String = "",
+    @Parsed(index = 0, defaultNullRead = "") var title: String = "",
 
     @Parsed(index = 1) @Format(formats = ["MM/dd/yyyy"]) var startDate: Date = Date(),
 
-    @Parsed(index = 2) var startTime: String = "",
+    @Parsed(index = 2, defaultNullRead = "") var startTime: String = "",
 
     @Parsed(index = 3) @Format(formats = ["MM/dd/yyyy"]) var endDate: Date = Date(),
 
-    @Parsed(index = 4) var endTime: String = "",
+    @Parsed(index = 4, defaultNullRead = "") var endTime: String = "",
 
-    @Parsed(index = 5) var description: String = "",
+    @Parsed(index = 5, defaultNullRead = "") var description: String = "",
 
-    @Parsed(index = 6) var location: String = ""
+    @Parsed(index = 6, defaultNullRead = "") var location: String = ""
 )

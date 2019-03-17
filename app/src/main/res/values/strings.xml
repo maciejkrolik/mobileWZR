@@ -19,4 +19,6 @@
     <string name="no_group_selected">No group selected</string>
     <string name="set_as_my_timetable">Set as my timetable</string>
     <string name="was_saved">was saved</string>
+    <string name="internet_connection_error">Check your connection and try again</string>
+    <string name="try_again">Try again</string>
 </resources>
