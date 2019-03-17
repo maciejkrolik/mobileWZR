@@ -38,4 +38,6 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="NewsViewErrorTextView" parent="SearchViewTitleTextView" />
+
 </resources>

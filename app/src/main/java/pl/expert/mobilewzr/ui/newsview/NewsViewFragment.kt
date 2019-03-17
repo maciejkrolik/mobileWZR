@@ -12,6 +12,7 @@ import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.News
 import pl.expert.mobilewzr.databinding.FragmentNewsViewBinding
+import pl.expert.mobilewzr.util.NetworkUtils
 import javax.inject.Inject
 
 class NewsViewFragment : Fragment() {
@@ -20,6 +21,10 @@ class NewsViewFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentNewsViewBinding
+    private lateinit var newsViewViewModel: NewsViewViewModel
+    private lateinit var recyclerAdapter: NewsRecyclerAdapter
+
+    private var isNetworkAvailable = false
 
     private val news: MutableList<News> = mutableListOf()
 
@@ -38,12 +43,24 @@ class NewsViewFragment : Fragment() {
 
         activity?.title = getString(R.string.news)
 
-        val recyclerAdapter = NewsRecyclerAdapter(news)
+        isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+
+        recyclerAdapter = NewsRecyclerAdapter(news)
 
         binding.newsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = recyclerAdapter
+        }
+
+        binding.internetErrorNewsViewButton.setOnClickListener {
+            isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+            if (isNetworkAvailable) {
+                hideInternetErrorNewsViewItems()
+                showMainNewsViewItems()
+                getViewModel()
+                getNewsAndObserve()
+            }
         }
 
         return binding.root
@@ -56,9 +73,21 @@ class NewsViewFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val newsViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(NewsViewViewModel::class.java)
+        if (isNetworkAvailable) {
+            getViewModel()
+            getNewsAndObserve()
+        } else {
+            hideMainNewsViewItems()
+            showInternetErrorNewsViewItems()
+        }
+    }
 
+    private fun getViewModel() {
+        newsViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(NewsViewViewModel::class.java)
+    }
+
+    private fun getNewsAndObserve() {
         newsViewViewModel.getNews().observe(viewLifecycleOwner,
             Observer<List<News>> { news ->
                 if (news != null) {
@@ -66,6 +95,27 @@ class NewsViewFragment : Fragment() {
                 }
                 binding.newsProgressBar.visibility = View.GONE
                 binding.newsRecyclerView.visibility = View.VISIBLE
+                recyclerAdapter.notifyDataSetChanged()
             })
+    }
+
+    private fun showMainNewsViewItems() {
+        binding.newsRecyclerView.visibility = View.VISIBLE
+        binding.newsProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideMainNewsViewItems() {
+        binding.newsRecyclerView.visibility = View.GONE
+        binding.newsProgressBar.visibility = View.GONE
+    }
+
+    private fun showInternetErrorNewsViewItems() {
+        binding.internetErrorNewsViewText.visibility = View.VISIBLE
+        binding.internetErrorNewsViewButton.visibility = View.VISIBLE
+    }
+
+    private fun hideInternetErrorNewsViewItems() {
+        binding.internetErrorNewsViewText.visibility = View.GONE
+        binding.internetErrorNewsViewButton.visibility = View.GONE
     }
 }
