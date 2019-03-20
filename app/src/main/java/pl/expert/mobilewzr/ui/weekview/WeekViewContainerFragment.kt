@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContainerBinding
-import pl.expert.mobilewzr.util.CalendarUtils
+import pl.expert.mobilewzr.ui.dayview.DayViewPagerAdapter
+import pl.expert.mobilewzr.ui.dayview.DayViewViewModel
 import javax.inject.Inject
 
 class WeekViewContainerFragment : Fragment() {
@@ -44,10 +45,11 @@ class WeekViewContainerFragment : Fragment() {
         if (!groupId.isEmpty()) {
             activity?.title = getString(R.string.group) + ": $groupId"
 
-            val pagerAdapter = WeekViewPagerAdapter(context, weekViewLocation, childFragmentManager)
+            val pagerAdapter = DayViewPagerAdapter(context, 0, childFragmentManager)
+//            val pagerAdapter = WeekViewPagerAdapter(context, weekViewLocation, childFragmentManager)
             binding.weekViewViewPager.adapter = pagerAdapter
             binding.weekViewTabLayout.setupWithViewPager(binding.weekViewViewPager)
-            binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()
+//            binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()
 
             binding.weekViewViewPager.visibility = View.VISIBLE
             binding.weekViewTabLayout.visibility = View.VISIBLE
@@ -63,11 +65,17 @@ class WeekViewContainerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         if (!groupId.isEmpty()) {
-            val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-                .get(WeekViewViewModel::class.java)
+//            val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+//                .get(WeekViewViewModel::class.java)
+//
+//            weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
+//            weekViewViewModel.checkIfSubjectsLoaded(groupId)
 
-            weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-            weekViewViewModel.checkIfSubjectsLoaded(groupId)
+            val dayViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+                .get(DayViewViewModel::class.java)
+
+            dayViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
+            dayViewViewModel.checkIfSubjectsLoaded(groupId)
         }
     }
 }

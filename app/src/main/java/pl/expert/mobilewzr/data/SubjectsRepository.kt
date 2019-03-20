@@ -5,8 +5,10 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import pl.expert.mobilewzr.data.dto.DayViewDataHolder
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
+import pl.expert.mobilewzr.util.DayViewUtils
 import pl.expert.mobilewzr.util.SubjectsUtils
 import pl.expert.mobilewzr.util.WeekViewUtils
 import retrofit2.Call
@@ -30,6 +32,16 @@ class SubjectsRepository @Inject constructor(
         Log.i(TAG, "Subjects saved to a database")
     }
 
+    suspend fun getDayViewDataFromDb(dayViewDataHolder: MutableLiveData<DayViewDataHolder>): MutableLiveData<DayViewDataHolder> {
+        val subjects = subjectsDao.getSubjects()
+
+        dayViewDataHolder.postValue(DayViewUtils.getDayViewDataHolderFrom(subjects))
+
+        Log.i(TAG, "Subjects successfully retrieved from database")
+
+        return dayViewDataHolder
+    }
+
     suspend fun getWeekViewDataFromDb(weekViewDataHolder: MutableLiveData<WeekViewDataHolder>): MutableLiveData<WeekViewDataHolder> {
         val subjects = subjectsDao.getSubjects()
         val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(subjects)
@@ -39,6 +51,29 @@ class SubjectsRepository @Inject constructor(
         Log.i(TAG, "Subjects successfully retrieved from database")
 
         return weekViewDataHolder
+    }
+
+    fun getDayViewDataFromService(groupId: String): MutableLiveData<DayViewDataHolder> {
+        val dayViewDataHolder: MutableLiveData<DayViewDataHolder> = MutableLiveData()
+
+        wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
+            override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
+                val downloadedSubjects = response.body()!!
+                val fixedSubjects = SubjectsUtils.fix(downloadedSubjects)
+
+                dayViewDataHolder.value = DayViewUtils.getDayViewDataHolderFrom(fixedSubjects)
+
+                Log.i(TAG, "Subjects successfully downloaded")
+            }
+
+            override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
+                t.printStackTrace()
+
+                Log.i(TAG, "Error downloading subjects")
+            }
+        })
+
+        return dayViewDataHolder
     }
 
     fun getWeekViewDataFromService(groupId: String): MutableLiveData<WeekViewDataHolder> {

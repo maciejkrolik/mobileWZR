@@ -21,4 +21,5 @@
     <string name="was_saved">was saved</string>
     <string name="internet_connection_error">Check your connection and try again</string>
     <string name="try_again">Try again</string>
+    <string name="no_classes">No classes</string>
 </resources>

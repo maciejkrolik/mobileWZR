@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.ViewModelFactory
 import pl.expert.mobilewzr.data.NewsRepository
 import javax.inject.Singleton
 
