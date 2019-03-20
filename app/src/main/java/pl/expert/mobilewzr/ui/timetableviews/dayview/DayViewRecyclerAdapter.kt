@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.dayview
+package pl.expert.mobilewzr.ui.timetableviews.dayview
 
 import android.view.LayoutInflater
 import android.view.View

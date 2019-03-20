@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.weekview
+package pl.expert.mobilewzr.ui.timetableviews.weekview
 
 import android.view.LayoutInflater
 import android.view.View

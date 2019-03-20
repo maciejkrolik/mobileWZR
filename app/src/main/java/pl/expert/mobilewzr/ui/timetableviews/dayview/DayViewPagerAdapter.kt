@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.dayview
+package pl.expert.mobilewzr.ui.timetableviews.dayview
 
 import android.content.Context
 import android.os.Bundle

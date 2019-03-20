@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.weekview
+package pl.expert.mobilewzr.ui.timetableviews.weekview
 
 enum class WeekViewLocation(val value: Int) {
     MY_TIMETABLE(0), SEARCH(1);

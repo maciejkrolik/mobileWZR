@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.dayview
+package pl.expert.mobilewzr.ui.timetableviews.dayview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.ui.dayview.DayViewViewModel
+import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewViewModel
 import pl.expert.mobilewzr.ui.newsview.NewsViewViewModel
 import pl.expert.mobilewzr.ui.searchview.SearchViewViewModel
-import pl.expert.mobilewzr.ui.weekview.WeekViewViewModel
+import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
 

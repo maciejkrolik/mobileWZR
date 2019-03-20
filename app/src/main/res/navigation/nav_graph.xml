@@ -27,13 +27,13 @@
 
     <fragment
         android:id="@+id/search_week_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.weekview.WeekViewContainerFragment"
+        android:name="pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment"
         android:label="fragment_week_view"
         tools:layout="@layout/fragment_week_view_content" />
 
     <fragment
         android:id="@+id/my_timetable_week_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.weekview.WeekViewContainerFragment"
+        android:name="pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment"
         android:label="WeekViewContainerFragment"
         tools:layout="@layout/fragment_week_view_content" />
 

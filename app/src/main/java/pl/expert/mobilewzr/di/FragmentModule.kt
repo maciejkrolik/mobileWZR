@@ -2,11 +2,11 @@ package pl.expert.mobilewzr.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import pl.expert.mobilewzr.ui.dayview.DayViewContentFragment
+import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewContentFragment
 import pl.expert.mobilewzr.ui.newsview.NewsViewFragment
 import pl.expert.mobilewzr.ui.searchview.SearchViewFragment
-import pl.expert.mobilewzr.ui.weekview.WeekViewContainerFragment
-import pl.expert.mobilewzr.ui.weekview.WeekViewContentFragment
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment
+import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewContentFragment
 
 @Module
 abstract class FragmentModule {
@@ -15,7 +15,7 @@ abstract class FragmentModule {
     abstract fun contributeWeekViewContentFragmentInjector(): WeekViewContentFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeWeekViewContainerFragmentInjector(): WeekViewContainerFragment
+    abstract fun contributeTimetableViewsContainerFragmentInjector(): TimetableViewsContainerFragment
 
     @ContributesAndroidInjector
     abstract fun contributeNewsViewFragmentInjector(): NewsViewFragment

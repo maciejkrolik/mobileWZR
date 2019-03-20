@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.weekview
+package pl.expert.mobilewzr.ui.timetableviews
 
 import android.content.Context
 import android.os.Bundle
@@ -12,11 +12,12 @@ import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContainerBinding
-import pl.expert.mobilewzr.ui.dayview.DayViewPagerAdapter
-import pl.expert.mobilewzr.ui.dayview.DayViewViewModel
+import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewPagerAdapter
+import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewViewModel
+import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewLocation
 import javax.inject.Inject
 
-class WeekViewContainerFragment : Fragment() {
+class TimetableViewsContainerFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
