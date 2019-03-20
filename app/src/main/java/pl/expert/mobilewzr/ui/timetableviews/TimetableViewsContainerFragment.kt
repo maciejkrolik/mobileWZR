@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager.widget.PagerAdapter
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
-import pl.expert.mobilewzr.databinding.FragmentWeekViewContainerBinding
+import pl.expert.mobilewzr.databinding.FragmentTimetableViewsContainerBinding
 import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewPagerAdapter
 import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewViewModel
-import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewLocation
+import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewPagerAdapter
+import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewViewModel
+import pl.expert.mobilewzr.util.CalendarUtils
 import javax.inject.Inject
 
 class TimetableViewsContainerFragment : Fragment() {
@@ -22,10 +25,13 @@ class TimetableViewsContainerFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var binding: FragmentWeekViewContainerBinding
+    private lateinit var binding: FragmentTimetableViewsContainerBinding
     private lateinit var groupId: String
-    private lateinit var weekViewLocation: WeekViewLocation
     private lateinit var idOfAGroupSavedInDb: String
+    private lateinit var timetableViewLocation: TimetableViewLocation
+    private lateinit var timetableViewType: TimetableViewType
+    private lateinit var pagerAdapter: PagerAdapter
+    private var weekNumber: Int = 0
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -33,30 +39,44 @@ class TimetableViewsContainerFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentWeekViewContainerBinding.inflate(inflater, container, false)
+        binding = FragmentTimetableViewsContainerBinding.inflate(inflater, container, false)
+
+        weekNumber = CalendarUtils.getWeekNumber()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        weekViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())
-            WeekViewLocation.MY_TIMETABLE else WeekViewLocation.SEARCH
+        timetableViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())
+            TimetableViewLocation.MY_TIMETABLE else TimetableViewLocation.SEARCH
+
+        timetableViewType = TimetableViewType.DAY_VIEW
 
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
         idOfAGroupSavedInDb = sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
 
         if (!groupId.isEmpty()) {
-            activity?.title = getString(R.string.group) + ": $groupId"
+            activity?.title =
+                "${getString(R.string.group)}: $groupId (${CalendarUtils.getWeekType()})"
 
-            val pagerAdapter = DayViewPagerAdapter(context, 0, childFragmentManager)
-//            val pagerAdapter = WeekViewPagerAdapter(context, weekViewLocation, childFragmentManager)
-            binding.weekViewViewPager.adapter = pagerAdapter
-            binding.weekViewTabLayout.setupWithViewPager(binding.weekViewViewPager)
-//            binding.weekViewViewPager.currentItem = CalendarUtils.getWeekNumber()
+            when (timetableViewType) {
+                TimetableViewType.WEEK_VIEW -> {
+                    pagerAdapter = WeekViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
+                    binding.timetableViewViewPager.adapter = pagerAdapter
+                    binding.timetableViewViewPager.currentItem = weekNumber
+                }
+                TimetableViewType.DAY_VIEW -> {
+                    pagerAdapter = DayViewPagerAdapter(context, weekNumber, childFragmentManager)
+                    binding.timetableViewViewPager.adapter = pagerAdapter
+                    binding.timetableViewViewPager.currentItem = CalendarUtils.getDayOfWeek()
+                }
+            }
 
-            binding.weekViewViewPager.visibility = View.VISIBLE
-            binding.weekViewTabLayout.visibility = View.VISIBLE
+            binding.timetableViewContainerTabLayout.setupWithViewPager(binding.timetableViewViewPager)
+
+            binding.timetableViewViewPager.visibility = View.VISIBLE
+            binding.timetableViewContainerTabLayout.visibility = View.VISIBLE
         } else {
             activity?.title = getString(R.string.my_timetable)
-            binding.weekViewContainerTextInfo.visibility = View.VISIBLE
+            binding.timetableViewContainerTextInfo.visibility = View.VISIBLE
         }
 
         return binding.root
@@ -66,17 +86,30 @@ class TimetableViewsContainerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         if (!groupId.isEmpty()) {
-//            val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-//                .get(WeekViewViewModel::class.java)
-//
-//            weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-//            weekViewViewModel.checkIfSubjectsLoaded(groupId)
-
-            val dayViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-                .get(DayViewViewModel::class.java)
-
-            dayViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-            dayViewViewModel.checkIfSubjectsLoaded(groupId)
+            when (timetableViewType) {
+                TimetableViewType.WEEK_VIEW -> {
+                    assignWeekViewViewModel()
+                }
+                TimetableViewType.DAY_VIEW -> {
+                    assignDayViewViewModel()
+                }
+            }
         }
+    }
+
+    private fun assignWeekViewViewModel() {
+        val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(WeekViewViewModel::class.java)
+
+        weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
+        weekViewViewModel.checkIfSubjectsLoaded(groupId)
+    }
+
+    private fun assignDayViewViewModel() {
+        val dayViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+            .get(DayViewViewModel::class.java)
+
+        dayViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
+        dayViewViewModel.checkIfSubjectsLoaded(groupId)
     }
 }

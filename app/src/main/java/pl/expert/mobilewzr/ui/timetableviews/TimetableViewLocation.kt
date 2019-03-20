@@ -1,11 +1,10 @@
-package pl.expert.mobilewzr.ui.timetableviews.weekview
+package pl.expert.mobilewzr.ui.timetableviews
 
-enum class WeekViewLocation(val value: Int) {
+enum class TimetableViewLocation(val value: Int) {
     MY_TIMETABLE(0), SEARCH(1);
 
     companion object {
         private val values = values()
         fun getByValue(value: Int) = values.first { it.value == value }
     }
-
 }

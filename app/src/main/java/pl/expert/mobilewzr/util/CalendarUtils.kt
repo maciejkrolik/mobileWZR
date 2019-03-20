@@ -17,6 +17,15 @@ abstract class CalendarUtils {
         }
 
         /**
+         * Returns current day of the week
+         * Monday - 0, Sunday - 6
+         */
+        fun getDayOfWeek(): Int {
+            val calendar: Calendar = Calendar.getInstance(Locale.UK)
+            return getDayOfWeek(calendar.time)
+        }
+
+        /**
          * Returns week number/type of the given date
          * Week A - 0, Week B - 1
          */
@@ -37,6 +46,13 @@ abstract class CalendarUtils {
         fun getWeekNumber(): Int {
             val calendar: Calendar = Calendar.getInstance(Locale.UK)
             return getWeekNumber(calendar.time)
+        }
+
+        /**
+         * Returns current week number/type as a string (A/B)
+         */
+        fun getWeekType(): String {
+            return if (getWeekNumber() == 0) "A" else "B"
         }
 
         /**

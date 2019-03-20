@@ -16,6 +16,7 @@ import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.dto.WeekViewItem
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 import javax.inject.Inject
 
 class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectListener {
@@ -25,7 +26,7 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
 
     private lateinit var binding: FragmentWeekViewContentBinding
     private lateinit var weekViewViewModel: WeekViewViewModel
-    private lateinit var weekViewLocation: WeekViewLocation
+    private lateinit var timetableViewLocation: TimetableViewLocation
     private var weekNumber: Int? = null
 
     private val weekViewItems: MutableList<WeekViewItem> = mutableListOf()
@@ -56,9 +57,9 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        when (weekViewLocation) {
-            WeekViewLocation.MY_TIMETABLE -> menu?.clear()
-            WeekViewLocation.SEARCH -> inflater?.inflate(R.menu.week_view_content_menu, menu)
+        when (timetableViewLocation) {
+            TimetableViewLocation.MY_TIMETABLE -> menu?.clear()
+            TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.week_view_content_menu, menu)
         }
     }
 
@@ -69,7 +70,7 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
             .get(WeekViewViewModel::class.java)
 
         weekNumber = arguments?.getInt("argWeekNumber")!!
-        weekViewLocation = WeekViewLocation.getByValue(arguments?.getInt("argWeekViewLocation")!!)
+        timetableViewLocation = TimetableViewLocation.getByValue(arguments?.getInt("argWeekViewLocation")!!)
 
         weekViewViewModel.getWeekViewItems(weekNumber as Int).observe(viewLifecycleOwner,
             Observer<List<WeekViewItem>> { weekViewItems ->

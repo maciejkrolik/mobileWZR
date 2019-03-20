@@ -6,10 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import pl.expert.mobilewzr.R
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 
 class WeekViewPagerAdapter(
     private val context: Context?,
-    private val weekViewLocation: WeekViewLocation,
+    private val timetableViewLocation: TimetableViewLocation,
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager) {
 
@@ -19,7 +20,7 @@ class WeekViewPagerAdapter(
             0 -> args.putInt("argWeekNumber", 0)
             1 -> args.putInt("argWeekNumber", 1)
         }
-        args.putInt("argWeekViewLocation", weekViewLocation.value)
+        args.putInt("argWeekViewLocation", timetableViewLocation.value)
 
         return WeekViewContentFragment().apply {
             arguments = args
