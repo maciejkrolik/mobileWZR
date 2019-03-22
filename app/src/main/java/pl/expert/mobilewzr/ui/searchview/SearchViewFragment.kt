@@ -55,7 +55,7 @@ class SearchViewFragment : Fragment() {
             }
             searchViewViewModel.setGroupIdIndex(binding.searchViewSpinner.selectedItemId.toInt())
             Navigation.findNavController(view)
-                .navigate(R.id.action_search_view_fragment_to_search_week_view_fragment, args)
+                .navigate(R.id.action_search_view_fragment_to_search_timetable_view_fragment, args)
         }
 
         binding.internetErrorSearchViewButton.setOnClickListener {

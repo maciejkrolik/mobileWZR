@@ -22,4 +22,8 @@
     <string name="internet_connection_error">Check your connection and try again</string>
     <string name="try_again">Try again</string>
     <string name="no_classes">No classes</string>
+    <string name="settings">Settings</string>
+    <string name="week_view">Week view</string>
+    <string name="day_view">Day view</string>
+    <string name="type_of_view">Type of view</string>
 </resources>

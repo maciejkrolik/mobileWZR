@@ -44,32 +44,24 @@ class TimetableViewsContainerFragment : Fragment() {
         weekNumber = CalendarUtils.getWeekNumber()
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        idOfAGroupSavedInDb = sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+        @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+        timetableViewType =
+            TimetableViewType.getByValue(
+                sharedPref.getString(
+                    "prefTimetableViewType",
+                    TimetableViewType.DAY_VIEW.value.toString()
+                ).toInt()
+            )
 
         timetableViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())
             TimetableViewLocation.MY_TIMETABLE else TimetableViewLocation.SEARCH
-
-        timetableViewType = TimetableViewType.DAY_VIEW
-
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
-        idOfAGroupSavedInDb = sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
 
         if (!groupId.isEmpty()) {
-            activity?.title =
-                "${getString(R.string.group)}: $groupId (${CalendarUtils.getWeekType()})"
+            activity?.title = "${getString(R.string.group)}: $groupId (${CalendarUtils.getWeekType()})"
 
-            when (timetableViewType) {
-                TimetableViewType.WEEK_VIEW -> {
-                    pagerAdapter = WeekViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
-                    binding.timetableViewViewPager.adapter = pagerAdapter
-                    binding.timetableViewViewPager.currentItem = weekNumber
-                }
-                TimetableViewType.DAY_VIEW -> {
-                    pagerAdapter = DayViewPagerAdapter(context, weekNumber, childFragmentManager)
-                    binding.timetableViewViewPager.adapter = pagerAdapter
-                    binding.timetableViewViewPager.currentItem = CalendarUtils.getDayOfWeek()
-                }
-            }
-
+            prepareTimetableViewPagerAdapter()
             binding.timetableViewContainerTabLayout.setupWithViewPager(binding.timetableViewViewPager)
 
             binding.timetableViewViewPager.visibility = View.VISIBLE
@@ -86,13 +78,40 @@ class TimetableViewsContainerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         if (!groupId.isEmpty()) {
-            when (timetableViewType) {
-                TimetableViewType.WEEK_VIEW -> {
-                    assignWeekViewViewModel()
-                }
-                TimetableViewType.DAY_VIEW -> {
-                    assignDayViewViewModel()
-                }
+            assignTimetableViewViewModel()
+        }
+    }
+
+    private fun prepareTimetableViewPagerAdapter() {
+        when (timetableViewType) {
+            TimetableViewType.WEEK_VIEW -> {
+                prepareWeekViewPagerAdapter()
+            }
+            TimetableViewType.DAY_VIEW -> {
+                prepareDayViewPagerAdapter()
+            }
+        }
+    }
+
+    private fun prepareWeekViewPagerAdapter() {
+        pagerAdapter = WeekViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
+        binding.timetableViewViewPager.adapter = pagerAdapter
+        binding.timetableViewViewPager.currentItem = weekNumber
+    }
+
+    private fun prepareDayViewPagerAdapter() {
+        pagerAdapter = DayViewPagerAdapter(context, weekNumber, timetableViewLocation, childFragmentManager)
+        binding.timetableViewViewPager.adapter = pagerAdapter
+        binding.timetableViewViewPager.currentItem = CalendarUtils.getDayOfWeek()
+    }
+
+    private fun assignTimetableViewViewModel() {
+        when (timetableViewType) {
+            TimetableViewType.WEEK_VIEW -> {
+                assignWeekViewViewModel()
+            }
+            TimetableViewType.DAY_VIEW -> {
+                assignDayViewViewModel()
             }
         }
     }

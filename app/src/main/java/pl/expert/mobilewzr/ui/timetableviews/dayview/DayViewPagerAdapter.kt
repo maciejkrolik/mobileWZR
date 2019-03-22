@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import pl.expert.mobilewzr.R
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 
 class DayViewPagerAdapter(
     private val context: Context?,
     private val weekNumber: Int,
+    private val timetableViewLocation: TimetableViewLocation,
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager) {
 
@@ -23,6 +25,7 @@ class DayViewPagerAdapter(
             4 -> args.putInt("argWeekDayNumber", 4)
         }
         args.putInt("argWeekNumber", weekNumber)
+        args.putInt("argTimetableViewLocation", timetableViewLocation.value)
 
         return DayViewContentFragment().apply {
             arguments = args

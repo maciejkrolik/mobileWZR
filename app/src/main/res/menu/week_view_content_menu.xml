@@ -7,4 +7,9 @@
         android:title="@string/set_as_my_timetable"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+
 </menu>

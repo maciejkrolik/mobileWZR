@@ -6,10 +6,13 @@ import android.preference.PreferenceManager
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
@@ -45,8 +48,10 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
 
-        val recyclerAdapter = WeekViewRecyclerAdapter(weekViewItems, this)
+        weekNumber = arguments?.getInt("argWeekNumber")!!
+        timetableViewLocation = TimetableViewLocation.getByValue(arguments?.getInt("argTimetableViewLocation")!!)
 
+        val recyclerAdapter = WeekViewRecyclerAdapter(weekViewItems, this)
         binding.weekViewRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -56,21 +61,11 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        when (timetableViewLocation) {
-            TimetableViewLocation.MY_TIMETABLE -> menu?.clear()
-            TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.week_view_content_menu, menu)
-        }
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
-
-        weekNumber = arguments?.getInt("argWeekNumber")!!
-        timetableViewLocation = TimetableViewLocation.getByValue(arguments?.getInt("argWeekViewLocation")!!)
 
         weekViewViewModel.getWeekViewItems(weekNumber as Int).observe(viewLifecycleOwner,
             Observer<List<WeekViewItem>> { weekViewItems ->
@@ -92,12 +87,24 @@ class WeekViewContentFragment : Fragment(), WeekViewRecyclerAdapter.OnSubjectLis
             })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        when (timetableViewLocation) {
+            TimetableViewLocation.MY_TIMETABLE -> menu?.clear()
+            TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.week_view_content_menu, menu)
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.set_as_my_timetable -> {
                 weekViewViewModel.replaceSubjectsInDb()
                 putIdOfAGroupSavedInDbIntoSharedPref()
                 showToast()
+                return true
+            }
+            R.id.settings -> {
+                Navigation.findNavController(view!!)
+                    .navigate(R.id.action_search_timetable_view_fragment_to_settings_view_fragment)
                 return true
             }
         }

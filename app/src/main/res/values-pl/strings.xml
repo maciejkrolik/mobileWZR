@@ -21,4 +21,8 @@
     <string name="internet_connection_error">Sprawdź swoje połączenie i spróbuj ponownie</string>
     <string name="try_again">Spróbuj ponownie</string>
     <string name="no_classes">Brak zajęć</string>
+    <string name="settings">Ustawienia</string>
+    <string name="week_view">Widok tygodnia</string>
+    <string name="day_view">Widok dnia</string>
+    <string name="type_of_view">Typ widoku</string>
 </resources>
