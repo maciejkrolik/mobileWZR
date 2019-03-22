@@ -29,11 +29,7 @@
         android:id="@+id/search_timetable_view_fragment"
         android:name="pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment"
         android:label="fragment_timetable_view"
-        tools:layout="@layout/fragment_week_view_content">
-        <action
-            android:id="@+id/action_search_timetable_view_fragment_to_settings_view_fragment"
-            app:destination="@id/settings_view_fragment" />
-    </fragment>
+        tools:layout="@layout/fragment_week_view_content" />
 
     <fragment
         android:id="@+id/my_timetable_view_fragment"

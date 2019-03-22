@@ -22,7 +22,7 @@ abstract class DayViewUtils {
             fillAWeekDataHolder()
             fillBWeekDataHolder()
 
-            return DayViewDataHolder(AWeekDataHolder, BWeekDataHolder)
+            return DayViewDataHolder(AWeekDataHolder, BWeekDataHolder, this.subjects)
         }
 
         private fun fillAWeekDataHolder() {

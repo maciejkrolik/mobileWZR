@@ -73,6 +73,12 @@ class DayViewViewModel constructor(
         }
     }
 
+    fun replaceSubjectsInDb() {
+        viewModelScope.launch {
+            repository.replaceSubjectsInDb(dayViewDataHolder.value?.subjects!!)
+        }
+    }
+
     fun setIdOfAGroupSavedInDb(groupId: String) {
         idOfAGroupSavedInDb = groupId
     }
