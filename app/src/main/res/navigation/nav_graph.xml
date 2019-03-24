@@ -42,4 +42,14 @@
         android:name="pl.expert.mobilewzr.ui.settingsview.SettingsViewFragment"
         android:label="fragment_settings_view" />
 
+    <fragment
+        android:id="@+id/others_view_fragment"
+        android:name="pl.expert.mobilewzr.ui.othersview.OthersViewFragment"
+        android:label="fragment_others_view"
+        tools:layout="@layout/fragment_others_view">
+        <action
+            android:id="@+id/action_others_view_fragment_to_settings_view_fragment"
+            app:destination="@id/settings_view_fragment" />
+    </fragment>
+
 </navigation>
