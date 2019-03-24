@@ -24,6 +24,6 @@
     <string name="settings">Ustawienia</string>
     <string name="week_view">Widok tygodnia</string>
     <string name="day_view">Widok dnia</string>
-    <string name="type_of_view">Typ widoku</string>
+    <string name="view_mode">Tryb widoku</string>
     <string name="others">Inne</string>
 </resources>

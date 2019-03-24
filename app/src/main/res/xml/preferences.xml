@@ -7,6 +7,6 @@
         app:entries="@array/pref_timetable_view_type_entries"
         app:entryValues="@array/pref_timetable_view_type_entry_values"
         app:key="prefTimetableViewType"
-        app:title="@string/type_of_view" />
+        app:title="@string/view_mode" />
 
 </androidx.preference.PreferenceScreen>

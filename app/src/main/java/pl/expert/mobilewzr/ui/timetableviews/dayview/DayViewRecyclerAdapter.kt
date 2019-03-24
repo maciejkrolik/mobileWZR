@@ -20,7 +20,9 @@ class DayViewRecyclerAdapter(
 
     override fun onBindViewHolder(holder: SubjectsViewHolder, position: Int) {
         holder.startTimeTextView?.text = dataset[position].startTime
+        holder.endTimeTextView?.text = dataset[position].endTime
         holder.titleTextView?.text = dataset[position].title
+        holder.locationWithDescriptionTextView?.text = dataset[position].locationWithDescription
     }
 
     override fun getItemCount() = dataset.size
@@ -28,11 +30,15 @@ class DayViewRecyclerAdapter(
     class SubjectsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var startTimeTextView: TextView? = null
+        var endTimeTextView: TextView? = null
         var titleTextView: TextView? = null
+        var locationWithDescriptionTextView: TextView? = null
 
         init {
             startTimeTextView = itemView.start_time_day_view_text
+            endTimeTextView = itemView.end_time_day_view_text
             titleTextView = itemView.title_day_view_text
+            locationWithDescriptionTextView = itemView.location_description_day_view_text
         }
     }
 }
