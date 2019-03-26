@@ -100,9 +100,14 @@ class TimetableViewsContainerFragment : Fragment() {
     }
 
     private fun prepareDayViewPagerAdapter() {
-        pagerAdapter = DayViewPagerAdapter(context, weekNumber, timetableViewLocation, childFragmentManager)
+        pagerAdapter = DayViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
         binding.timetableViewViewPager.adapter = pagerAdapter
-        binding.timetableViewViewPager.currentItem = CalendarUtils.getDayOfWeek()
+        setDayViewViewPagerCurrentItem()
+    }
+
+    private fun setDayViewViewPagerCurrentItem() {
+        binding.timetableViewViewPager.currentItem =
+            if (weekNumber == 0) CalendarUtils.getDayOfWeek() else CalendarUtils.getDayOfWeek() + 5
     }
 
     private fun assignTimetableViewViewModel() {

@@ -10,7 +10,6 @@ import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 
 class DayViewPagerAdapter(
     private val context: Context?,
-    private val weekNumber: Int,
     private val timetableViewLocation: TimetableViewLocation,
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager) {
@@ -18,13 +17,17 @@ class DayViewPagerAdapter(
     override fun getItem(position: Int): Fragment {
         val args = Bundle()
         when (position) {
-            0 -> args.putInt("argWeekDayNumber", 0)
-            1 -> args.putInt("argWeekDayNumber", 1)
-            2 -> args.putInt("argWeekDayNumber", 2)
-            3 -> args.putInt("argWeekDayNumber", 3)
-            4 -> args.putInt("argWeekDayNumber", 4)
+            0 -> addDaySpecificBundleArgs(args, 0, 0)
+            1 -> addDaySpecificBundleArgs(args, 1, 0)
+            2 -> addDaySpecificBundleArgs(args, 2, 0)
+            3 -> addDaySpecificBundleArgs(args, 3, 0)
+            4 -> addDaySpecificBundleArgs(args, 4, 0)
+            5 -> addDaySpecificBundleArgs(args, 0, 1)
+            6 -> addDaySpecificBundleArgs(args, 1, 1)
+            7 -> addDaySpecificBundleArgs(args, 2, 1)
+            8 -> addDaySpecificBundleArgs(args, 3, 1)
+            9 -> addDaySpecificBundleArgs(args, 4, 1)
         }
-        args.putInt("argWeekNumber", weekNumber)
         args.putInt("argTimetableViewLocation", timetableViewLocation.value)
 
         return DayViewContentFragment().apply {
@@ -32,17 +35,27 @@ class DayViewPagerAdapter(
         }
     }
 
+    private fun addDaySpecificBundleArgs(args: Bundle, dayNumber: Int, weekNumber: Int) {
+        args.putInt("argWeekDayNumber", dayNumber)
+        args.putInt("argWeekNumber", weekNumber)
+    }
+
     override fun getCount(): Int {
-        return 5
+        return 10
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 -> context?.getString(R.string.monday)
-            1 -> context?.getString(R.string.tuesday)
-            2 -> context?.getString(R.string.wednesday)
-            3 -> context?.getString(R.string.thursday)
-            4 -> context?.getString(R.string.friday)
+            0 -> context?.getString(R.string.monday) + " (A)"
+            1 -> context?.getString(R.string.tuesday) + " (A)"
+            2 -> context?.getString(R.string.wednesday) + " (A)"
+            3 -> context?.getString(R.string.thursday) + " (A)"
+            4 -> context?.getString(R.string.friday) + " (A)"
+            5 -> context?.getString(R.string.monday) + " (B)"
+            6 -> context?.getString(R.string.tuesday) + " (B)"
+            7 -> context?.getString(R.string.wednesday) + " (B)"
+            8 -> context?.getString(R.string.thursday) + " (B)"
+            9 -> context?.getString(R.string.friday) + " (B)"
             else -> null
         }
     }
