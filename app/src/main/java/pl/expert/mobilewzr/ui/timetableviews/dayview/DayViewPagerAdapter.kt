@@ -46,16 +46,16 @@ class DayViewPagerAdapter(
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            0 -> context?.getString(R.string.monday) + " (A)"
-            1 -> context?.getString(R.string.tuesday) + " (A)"
-            2 -> context?.getString(R.string.wednesday) + " (A)"
-            3 -> context?.getString(R.string.thursday) + " (A)"
-            4 -> context?.getString(R.string.friday) + " (A)"
-            5 -> context?.getString(R.string.monday) + " (B)"
-            6 -> context?.getString(R.string.tuesday) + " (B)"
-            7 -> context?.getString(R.string.wednesday) + " (B)"
-            8 -> context?.getString(R.string.thursday) + " (B)"
-            9 -> context?.getString(R.string.friday) + " (B)"
+            0 -> context?.getString(R.string.monday)
+            1 -> context?.getString(R.string.tuesday)
+            2 -> context?.getString(R.string.wednesday)
+            3 -> context?.getString(R.string.thursday)
+            4 -> context?.getString(R.string.friday)
+            5 -> context?.getString(R.string.monday)
+            6 -> context?.getString(R.string.tuesday)
+            7 -> context?.getString(R.string.wednesday)
+            8 -> context?.getString(R.string.thursday)
+            9 -> context?.getString(R.string.friday)
             else -> null
         }
     }

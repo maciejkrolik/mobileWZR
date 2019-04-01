@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentTimetableViewsContainerBinding
@@ -59,9 +61,8 @@ class TimetableViewsContainerFragment : Fragment() {
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
 
         if (!groupId.isEmpty()) {
-            activity?.title = "${getString(R.string.group)}: $groupId (${CalendarUtils.getWeekType()})"
-
-            prepareTimetableViewPagerAdapter()
+            prepareTimetableView()
+            prepareTimetableViewTabLayout()
             binding.timetableViewContainerTabLayout.setupWithViewPager(binding.timetableViewViewPager)
 
             binding.timetableViewViewPager.visibility = View.VISIBLE
@@ -82,12 +83,14 @@ class TimetableViewsContainerFragment : Fragment() {
         }
     }
 
-    private fun prepareTimetableViewPagerAdapter() {
+    private fun prepareTimetableView() {
         when (timetableViewType) {
             TimetableViewType.WEEK_VIEW -> {
+                activity?.title = "${getString(R.string.group)}: $groupId"
                 prepareWeekViewPagerAdapter()
             }
             TimetableViewType.DAY_VIEW -> {
+                activity?.title = "${getString(R.string.group)}: $groupId (${getString(R.string.week)} ${CalendarUtils.getWeekType(weekNumber)})"
                 prepareDayViewPagerAdapter()
             }
         }
@@ -103,11 +106,33 @@ class TimetableViewsContainerFragment : Fragment() {
         pagerAdapter = DayViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
         binding.timetableViewViewPager.adapter = pagerAdapter
         setDayViewViewPagerCurrentItem()
+        assignOnPageChangeListener()
     }
 
     private fun setDayViewViewPagerCurrentItem() {
         binding.timetableViewViewPager.currentItem =
             if (weekNumber == 0) CalendarUtils.getDayOfWeek() else CalendarUtils.getDayOfWeek() + 5
+    }
+
+    private fun assignOnPageChangeListener() {
+        binding.timetableViewViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(dayNumber: Int) {
+                when (dayNumber) {
+                    0, 1, 2, 3, 4 -> activity?.title =
+                        "${getString(R.string.group)}: $groupId (${getString(R.string.week)} A)"
+                    5, 6, 7, 8, 9 -> activity?.title =
+                        "${getString(R.string.group)}: $groupId (${getString(R.string.week)} B)"
+                }
+            }
+        })
+    }
+
+    private fun prepareTimetableViewTabLayout() {
+        if (timetableViewType == TimetableViewType.DAY_VIEW) {
+            binding.timetableViewContainerTabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+        }
     }
 
     private fun assignTimetableViewViewModel() {

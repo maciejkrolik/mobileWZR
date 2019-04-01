@@ -49,10 +49,10 @@ abstract class CalendarUtils {
         }
 
         /**
-         * Returns current week number/type as a string (A/B)
+         * Returns week type as a string (A/B) of the given week number
          */
-        fun getWeekType(): String {
-            return if (getWeekNumber() == 0) "A" else "B"
+        fun getWeekType(weekNumber: Int): String {
+            return if (weekNumber == 0) "A" else "B"
         }
 
         /**

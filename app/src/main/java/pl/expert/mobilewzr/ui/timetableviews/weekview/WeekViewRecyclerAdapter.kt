@@ -31,7 +31,7 @@ class WeekViewRecyclerAdapter(
     override fun getItemCount() = dataset.size
 
     class SubjectsViewHolder(itemView: View, onSubjectListener: OnSubjectListener) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+        View.OnClickListener, View.OnLongClickListener {
 
         var timeTextView: TextView? = null
         var mondayTextView: TextView? = null
@@ -56,6 +56,12 @@ class WeekViewRecyclerAdapter(
             wednesdayTextView!!.setOnClickListener(this)
             thursdayTextView!!.setOnClickListener(this)
             fridayTextView!!.setOnClickListener(this)
+
+            mondayTextView!!.setOnLongClickListener(this)
+            tuesdayTextView!!.setOnLongClickListener(this)
+            wednesdayTextView!!.setOnLongClickListener(this)
+            thursdayTextView!!.setOnLongClickListener(this)
+            fridayTextView!!.setOnLongClickListener(this)
         }
 
         override fun onClick(view: View?) {
@@ -67,9 +73,21 @@ class WeekViewRecyclerAdapter(
                 fridayTextView -> onSubjectListener?.onSubjectClick(adapterPosition, 4)
             }
         }
+
+        override fun onLongClick(view: View?): Boolean {
+            when (view) {
+                mondayTextView -> onSubjectListener?.onSubjectLongClick()
+                tuesdayTextView -> onSubjectListener?.onSubjectLongClick()
+                wednesdayTextView -> onSubjectListener?.onSubjectLongClick()
+                thursdayTextView -> onSubjectListener?.onSubjectLongClick()
+                fridayTextView -> onSubjectListener?.onSubjectLongClick()
+            }
+            return true
+        }
     }
 
     interface OnSubjectListener {
         fun onSubjectClick(position: Int, dayOfWeek: Int)
+        fun onSubjectLongClick()
     }
 }

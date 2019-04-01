@@ -13,5 +13,5 @@
     <dimen name="news_title_text_size">15sp</dimen>
     <dimen name="search_title_text_size">20sp</dimen>
     <dimen name="day_view_info_text_size">20sp</dimen>
-    <dimen name="day_view_recycler_height">60dp</dimen>
+    <dimen name="day_view_recycler_height">65dp</dimen>
 </resources>

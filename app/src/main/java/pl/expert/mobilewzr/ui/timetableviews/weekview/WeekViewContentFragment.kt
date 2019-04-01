@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -88,6 +89,10 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
             val subject = subjects[subjectIndex]
             showSubjectDetailsDialog(subject)
         }
+    }
+
+    override fun onSubjectLongClick() {
+        Toast.makeText(context, "long click", Toast.LENGTH_SHORT).show()
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {
