@@ -12,7 +12,7 @@ import pl.expert.mobilewzr.R
 
 abstract class TimetableViewContentBaseFragment : Fragment() {
 
-    private lateinit var timetableViewLocation: TimetableViewLocation
+    protected lateinit var timetableViewLocation: TimetableViewLocation
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)

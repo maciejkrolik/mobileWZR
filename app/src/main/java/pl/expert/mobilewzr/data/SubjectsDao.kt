@@ -1,9 +1,6 @@
 package pl.expert.mobilewzr.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import pl.expert.mobilewzr.data.model.Subject
 
 @Dao
@@ -14,6 +11,9 @@ interface SubjectsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addSubjects(subjects: List<Subject>)
+
+    @Update
+    suspend fun updateSubjects(vararg subjects: Subject)
 
     @Query("DELETE FROM Subject")
     suspend fun deleteSubjects()

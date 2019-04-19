@@ -1,14 +1,17 @@
 package pl.expert.mobilewzr.ui.timetableviews.weekview
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
 import pl.expert.mobilewzr.data.dto.WeekViewItem
+import pl.expert.mobilewzr.data.model.Subject
 
 class WeekViewViewModel constructor(
     private val repository: SubjectsRepository
@@ -41,6 +44,10 @@ class WeekViewViewModel constructor(
 
     private fun isTimetableSavedInDb(groupId: String): Boolean {
         return groupId == idOfAGroupSavedInDb
+    }
+
+    fun reloadSubjects() {
+        loadSubjects(groupId)
     }
 
     fun getSubjects(): LiveData<List<Subject>> {

@@ -7,6 +7,7 @@ import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewViewModel
 import pl.expert.mobilewzr.ui.newsview.NewsViewViewModel
 import pl.expert.mobilewzr.ui.searchview.SearchViewViewModel
+import pl.expert.mobilewzr.ui.timetableviews.editview.EditViewViewModel
 import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,6 +30,8 @@ class ViewModelFactory @Inject constructor(
                     SearchViewViewModel(subjectsRepository)
                 isAssignableFrom(DayViewViewModel::class.java) ->
                     DayViewViewModel(subjectsRepository)
+                isAssignableFrom(EditViewViewModel::class.java) ->
+                    EditViewViewModel(subjectsRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -6,6 +6,7 @@ import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewContentFragment
 import pl.expert.mobilewzr.ui.newsview.NewsViewFragment
 import pl.expert.mobilewzr.ui.searchview.SearchViewFragment
 import pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment
+import pl.expert.mobilewzr.ui.timetableviews.editview.EditViewFragment
 import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewContentFragment
 
 @Module
@@ -25,4 +26,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDayViewContentFragmentInjector(): DayViewContentFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditViewFragmentInjector(): EditViewFragment
 }

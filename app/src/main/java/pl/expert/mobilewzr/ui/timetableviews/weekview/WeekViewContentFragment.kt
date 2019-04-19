@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.dto.WeekViewItem
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
 import pl.expert.mobilewzr.ui.timetableviews.TimetableViewContentBaseFragment
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 import javax.inject.Inject
 
 class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecyclerAdapter.OnSubjectListener {
@@ -91,8 +92,23 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
         }
     }
 
-    override fun onSubjectLongClick() {
-        Toast.makeText(context, "long click", Toast.LENGTH_SHORT).show()
+    override fun onSubjectLongClick(position: Int, dayOfWeek: Int) {
+        val subjectIndex = weekViewItems[position].weekViewSubjectItems[dayOfWeek].index
+        if (subjectIndex != -1 && timetableViewLocation == TimetableViewLocation.MY_TIMETABLE) {
+            navigateToEditFragment(subjectIndex)
+        }
+    }
+
+    private fun navigateToEditFragment(subjectIndex: Int) {
+        val args = Bundle()
+        args.putInt("argSubjectIndex", subjectIndex)
+        val navController = Navigation.findNavController(view!!)
+        when (timetableViewLocation) {
+            TimetableViewLocation.MY_TIMETABLE ->
+                navController.navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
+            TimetableViewLocation.SEARCH ->
+                navController.navigate(R.id.action_search_timetable_view_fragment_to_editViewFragment, args)
+        }
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {

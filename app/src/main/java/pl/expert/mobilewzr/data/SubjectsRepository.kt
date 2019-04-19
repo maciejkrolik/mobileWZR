@@ -25,19 +25,23 @@ class SubjectsRepository @Inject constructor(
     private val subjectsDao: SubjectsDao
 ) {
 
+    suspend fun getSubjectsFromDb(): List<Subject> {
+        return subjectsDao.getSubjects()
+    }
+
+    suspend fun updateSubject(subject: Subject) {
+        subjectsDao.updateSubjects(subject)
+    }
+
     suspend fun replaceSubjectsInDb(subjects: List<Subject>) {
         subjectsDao.deleteSubjects()
         subjectsDao.addSubjects(subjects)
-
-        Log.i(TAG, "Subjects saved to a database")
     }
 
     suspend fun getDayViewDataFromDb(dayViewDataHolder: MutableLiveData<DayViewDataHolder>): MutableLiveData<DayViewDataHolder> {
         val subjects = subjectsDao.getSubjects()
 
         dayViewDataHolder.postValue(DayViewUtils.getDayViewDataHolderFrom(subjects))
-
-        Log.i(TAG, "Subjects successfully retrieved from database")
 
         return dayViewDataHolder
     }
@@ -47,8 +51,6 @@ class SubjectsRepository @Inject constructor(
         val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(subjects)
 
         weekViewDataHolder.postValue(WeekViewDataHolder(subjects, weekViewItems))
-
-        Log.i(TAG, "Subjects successfully retrieved from database")
 
         return weekViewDataHolder
     }

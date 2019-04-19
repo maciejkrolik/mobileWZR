@@ -76,11 +76,11 @@ class WeekViewRecyclerAdapter(
 
         override fun onLongClick(view: View?): Boolean {
             when (view) {
-                mondayTextView -> onSubjectListener?.onSubjectLongClick()
-                tuesdayTextView -> onSubjectListener?.onSubjectLongClick()
-                wednesdayTextView -> onSubjectListener?.onSubjectLongClick()
-                thursdayTextView -> onSubjectListener?.onSubjectLongClick()
-                fridayTextView -> onSubjectListener?.onSubjectLongClick()
+                mondayTextView -> onSubjectListener?.onSubjectLongClick(adapterPosition, 0)
+                tuesdayTextView -> onSubjectListener?.onSubjectLongClick(adapterPosition, 1)
+                wednesdayTextView -> onSubjectListener?.onSubjectLongClick(adapterPosition, 2)
+                thursdayTextView -> onSubjectListener?.onSubjectLongClick(adapterPosition, 3)
+                fridayTextView -> onSubjectListener?.onSubjectLongClick(adapterPosition, 4)
             }
             return true
         }
@@ -88,6 +88,6 @@ class WeekViewRecyclerAdapter(
 
     interface OnSubjectListener {
         fun onSubjectClick(position: Int, dayOfWeek: Int)
-        fun onSubjectLongClick()
+        fun onSubjectLongClick(position: Int, dayOfWeek: Int)
     }
 }

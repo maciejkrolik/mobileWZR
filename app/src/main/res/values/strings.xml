@@ -27,4 +27,8 @@
     <string name="day_view">Day view</string>
     <string name="view_mode">View mode</string>
     <string name="others">Others</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>
