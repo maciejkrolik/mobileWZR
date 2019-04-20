@@ -43,6 +43,15 @@ class EditViewViewModel constructor(
         }
     }
 
+    fun deleteSubject(subjectIndex: Int) {
+        _isUpdatingDb.value = true
+        viewModelScope.launch {
+            val subject = subjects.value?.get(subjectIndex)!!
+            repository.deleteSubject(subject)
+            _isUpdatingDb.postValue(false)
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

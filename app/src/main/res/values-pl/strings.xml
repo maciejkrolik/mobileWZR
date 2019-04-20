@@ -30,4 +30,7 @@
     <string name="edit">Edytuj</string>
     <string name="title">Tytuł</string>
     <string name="description">Opis</string>
+    <string name="add_new_subject">Dodaj nowe zajęcia</string>
+    <string name="delete">Usuń</string>
+    <string name="time">Czas</string>
 </resources>

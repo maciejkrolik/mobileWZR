@@ -80,6 +80,11 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
                 showToast(weekViewViewModel.groupId)
                 return true
             }
+            R.id.add_new_subject -> {
+                Navigation.findNavController(view!!)
+                    .navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment)
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }

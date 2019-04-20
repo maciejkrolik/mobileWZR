@@ -33,6 +33,14 @@ class SubjectsRepository @Inject constructor(
         subjectsDao.updateSubjects(subject)
     }
 
+    suspend fun addSubject(subject: Subject) {
+        subjectsDao.addSubject(subject)
+    }
+
+    suspend fun deleteSubject(subject: Subject) {
+        subjectsDao.deleteSubjects(subject)
+    }
+
     suspend fun replaceSubjectsInDb(subjects: List<Subject>) {
         subjectsDao.deleteSubjects()
         subjectsDao.addSubjects(subjects)

@@ -31,8 +31,8 @@ abstract class TimetableViewContentBaseFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         when (timetableViewLocation) {
-            TimetableViewLocation.MY_TIMETABLE -> menu?.clear()
-            TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.timetable_view_content_menu, menu)
+            TimetableViewLocation.MY_TIMETABLE -> inflater?.inflate(R.menu.saved_timetable_view_content_menu, menu)
+            TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.downloaded_timetable_view_content_menu, menu)
         }
     }
 

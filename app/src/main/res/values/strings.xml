@@ -31,4 +31,7 @@
     <string name="edit">Edit</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="add_new_subject">Add new subject</string>
+    <string name="delete">Delete</string>
+    <string name="time">Time</string>
 </resources>

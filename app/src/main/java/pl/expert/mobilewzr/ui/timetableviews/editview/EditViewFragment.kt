@@ -44,7 +44,7 @@ class EditViewFragment : Fragment() {
 
         activity?.title = getString(R.string.edit)
 
-        subjectIndex = arguments?.getInt("argSubjectIndex")!!
+        subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
 
         return binding.root
     }
@@ -62,6 +62,13 @@ class EditViewFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
+            R.id.delete -> {
+                if (subjectIndex != -1)
+                    editViewViewModel.deleteSubject(subjectIndex!!)
+                else
+                    Navigation.findNavController(view!!).popBackStack()
+                return true
+            }
             R.id.save -> {
                 val title = binding.titleEditText.text.toString()
                 val description = binding.descriptionEditText.text.toString()
@@ -102,5 +109,7 @@ class EditViewFragment : Fragment() {
         binding.titleEditText.visibility = View.VISIBLE
         binding.editDescriptionLabel.visibility = View.VISIBLE
         binding.descriptionEditText.visibility = View.VISIBLE
+        binding.chooseTimeLabel.visibility = View.VISIBLE
+        binding.chooseTimeSpinner.visibility = View.VISIBLE
     }
 }
