@@ -69,7 +69,8 @@ class SubjectsRepository @Inject constructor(
         wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 val downloadedSubjects = response.body()!!
-                val fixedSubjects = SubjectsUtils.fix(downloadedSubjects)
+                val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(downloadedSubjects)
+                val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
 
                 dayViewDataHolder.value = DayViewUtils.getDayViewDataHolderFrom(fixedSubjects)
 
@@ -92,7 +93,8 @@ class SubjectsRepository @Inject constructor(
         wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
             override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
                 val downloadedSubjects = response.body()!!
-                val fixedSubjects = SubjectsUtils.fix(downloadedSubjects)
+                val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(downloadedSubjects)
+                val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
                 val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(fixedSubjects)
 
                 weekViewDataHolder.value = WeekViewDataHolder(fixedSubjects, weekViewItems)

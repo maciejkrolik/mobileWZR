@@ -9,56 +9,47 @@ abstract class DayViewUtils {
 
     companion object {
 
-        private var AWeekDataHolder = DayViewWeekDataHolder()
-        private var BWeekDataHolder = DayViewWeekDataHolder()
-
+        private lateinit var AWeekDataHolder: DayViewWeekDataHolder
+        private lateinit var BWeekDataHolder: DayViewWeekDataHolder
         private lateinit var subjects: List<Subject>
-
-        private var indexOfLastSubjectInFirstWeek = 0
 
         fun getDayViewDataHolderFrom(subjects: List<Subject>): DayViewDataHolder {
             this.subjects = subjects
 
-            fillAWeekDataHolder()
-            fillBWeekDataHolder()
+            assignSubjects()
 
             return DayViewDataHolder(AWeekDataHolder, BWeekDataHolder, this.subjects)
         }
 
-        private fun fillAWeekDataHolder() {
+        private fun assignSubjects() {
             AWeekDataHolder = DayViewWeekDataHolder()
+            BWeekDataHolder = DayViewWeekDataHolder()
 
-            for (subjectIndex in 0 until subjects.size) {
-                if (CalendarUtils.getWeekNumber(subjects[subjectIndex].startDate) == 0) {
-                    when (CalendarUtils.getDayOfWeek(subjects[subjectIndex].startDate)) {
-                        0 -> AWeekDataHolder.mondaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        1 -> AWeekDataHolder.tuesdaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        2 -> AWeekDataHolder.wednesdaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        3 -> AWeekDataHolder.thursdaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        4 -> AWeekDataHolder.fridaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                    }
-                    indexOfLastSubjectInFirstWeek = subjectIndex
-                } else {
-                    break
-                }
+            for (subject in subjects) {
+                if (CalendarUtils.getWeekNumber(subject.startDate) == 0)
+                    assignWeekASubject(subject)
+                else
+                    assignWeekBSubject(subject)
             }
         }
 
-        private fun fillBWeekDataHolder() {
-            BWeekDataHolder = DayViewWeekDataHolder()
+        private fun assignWeekASubject(subject: Subject) {
+            when (CalendarUtils.getDayOfWeek(subject.startDate)) {
+                0 -> AWeekDataHolder.mondaySubjects.add(DayViewItem(subject))
+                1 -> AWeekDataHolder.tuesdaySubjects.add(DayViewItem(subject))
+                2 -> AWeekDataHolder.wednesdaySubjects.add(DayViewItem(subject))
+                3 -> AWeekDataHolder.thursdaySubjects.add(DayViewItem(subject))
+                4 -> AWeekDataHolder.fridaySubjects.add(DayViewItem(subject))
+            }
+        }
 
-            for (subjectIndex in indexOfLastSubjectInFirstWeek + 1 until subjects.size) {
-                if (CalendarUtils.getWeekNumber(subjects[subjectIndex].startDate) == 1) {
-                    when (CalendarUtils.getDayOfWeek(subjects[subjectIndex].startDate)) {
-                        0 -> BWeekDataHolder.mondaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        1 -> BWeekDataHolder.tuesdaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        2 -> BWeekDataHolder.wednesdaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        3 -> BWeekDataHolder.thursdaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                        4 -> BWeekDataHolder.fridaySubjects.add(DayViewItem(subjects[subjectIndex]))
-                    }
-                } else {
-                    break
-                }
+        private fun assignWeekBSubject(subject: Subject) {
+            when (CalendarUtils.getDayOfWeek(subject.startDate)) {
+                0 -> BWeekDataHolder.mondaySubjects.add(DayViewItem(subject))
+                1 -> BWeekDataHolder.tuesdaySubjects.add(DayViewItem(subject))
+                2 -> BWeekDataHolder.wednesdaySubjects.add(DayViewItem(subject))
+                3 -> BWeekDataHolder.thursdaySubjects.add(DayViewItem(subject))
+                4 -> BWeekDataHolder.fridaySubjects.add(DayViewItem(subject))
             }
         }
     }

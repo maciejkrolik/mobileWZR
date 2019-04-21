@@ -42,7 +42,7 @@ class EditViewFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentEditViewBinding.inflate(inflater, container, false)
 
-        activity?.title = getString(R.string.edit)
+        activity?.title = ""
 
         subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
 
@@ -83,8 +83,9 @@ class EditViewFragment : Fragment() {
         editViewViewModel.getSubjects().observe(viewLifecycleOwner,
             Observer { subjects ->
                 if (subjects != null && subjectIndex != -1) {
-                    binding.titleEditText.setText(subjects[subjectIndex!!].title)
-                    binding.descriptionEditText.setText(subjects[subjectIndex!!].description)
+                    val subject = subjects.single { subject -> subject.index == subjectIndex }
+                    binding.titleEditText.setText(subject.title)
+                    binding.descriptionEditText.setText(subject.description)
                 }
                 hideProgressBar()
             })

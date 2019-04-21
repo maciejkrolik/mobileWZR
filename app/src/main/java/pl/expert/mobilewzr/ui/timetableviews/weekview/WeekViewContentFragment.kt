@@ -92,7 +92,7 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
     override fun onSubjectClick(position: Int, dayOfWeek: Int) {
         val subjectIndex = weekViewItems[position].weekViewSubjectItems[dayOfWeek].index
         if (subjectIndex != -1) {
-            val subject = subjects[subjectIndex]
+            val subject = subjects.single { subject -> subject.index == subjectIndex }
             showSubjectDetailsDialog(subject)
         }
     }

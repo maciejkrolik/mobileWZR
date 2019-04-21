@@ -8,10 +8,8 @@ abstract class WeekViewUtils {
 
     companion object {
 
-        private val weekViewItems: MutableList<WeekViewItem> = mutableListOf()
-
+        private lateinit var weekViewItems: MutableList<WeekViewItem>
         private lateinit var subjects: List<Subject>
-        private var indexOfLastSubjectInFirstWeek = 0
 
         private val timeStrings = listOf(
             "08.00 08.45",
@@ -40,67 +38,13 @@ abstract class WeekViewUtils {
             this.subjects = subjects
 
             fillWeekViewItemsListWithEmptyWeekViewItems()
-            assignWeekASubjects()
-            assignWeekBSubjects()
+            assignSubjects()
 
             return weekViewItems
         }
 
-        private fun assignWeekASubjects() {
-            for (subjectIndex in 0 until subjects.size) {
-                if (CalendarUtils.getWeekNumber(subjects[subjectIndex].startDate) == 0) {
-                    when (subjects[subjectIndex].startTime) {
-                        "08.00" -> assignSubject(0, subjectIndex)
-                        "08.45" -> assignSubject(1, subjectIndex)
-                        "09.45" -> assignSubject(2, subjectIndex)
-                        "10.30" -> assignSubject(3, subjectIndex)
-                        "11.30" -> assignSubject(4, subjectIndex)
-                        "12.15" -> assignSubject(5, subjectIndex)
-                        "13.30" -> assignSubject(6, subjectIndex)
-                        "14.15" -> assignSubject(7, subjectIndex)
-                        "15.15" -> assignSubject(8, subjectIndex)
-                        "16.00" -> assignSubject(9, subjectIndex)
-                        "17.00" -> assignSubject(10, subjectIndex)
-                        "17.45" -> assignSubject(11, subjectIndex)
-                        "18.45" -> assignSubject(12, subjectIndex)
-                        "19.30" -> assignSubject(13, subjectIndex)
-                        "20.15" -> assignSubject(14, subjectIndex)
-                    }
-                    indexOfLastSubjectInFirstWeek = subjectIndex
-                } else {
-                    break
-                }
-            }
-        }
-
-        private fun assignWeekBSubjects() {
-            for (subjectIndex in indexOfLastSubjectInFirstWeek + 1 until subjects.size) {
-                if (CalendarUtils.getWeekNumber(subjects[subjectIndex].startDate) == 1) {
-                    when (subjects[subjectIndex].startTime) {
-                        "08.00" -> assignSubject(15, subjectIndex)
-                        "08.45" -> assignSubject(16, subjectIndex)
-                        "09.45" -> assignSubject(17, subjectIndex)
-                        "10.30" -> assignSubject(18, subjectIndex)
-                        "11.30" -> assignSubject(19, subjectIndex)
-                        "12.15" -> assignSubject(20, subjectIndex)
-                        "13.30" -> assignSubject(21, subjectIndex)
-                        "14.15" -> assignSubject(22, subjectIndex)
-                        "15.15" -> assignSubject(23, subjectIndex)
-                        "16.00" -> assignSubject(24, subjectIndex)
-                        "17.00" -> assignSubject(25, subjectIndex)
-                        "17.45" -> assignSubject(26, subjectIndex)
-                        "18.45" -> assignSubject(27, subjectIndex)
-                        "19.30" -> assignSubject(28, subjectIndex)
-                        "20.15" -> assignSubject(29, subjectIndex)
-                    }
-                } else {
-                    break
-                }
-            }
-        }
-
         private fun fillWeekViewItemsListWithEmptyWeekViewItems() {
-            weekViewItems.clear()
+            weekViewItems = mutableListOf()
 
             repeat(2) {
                 timeStrings.forEach { timeString ->
@@ -117,9 +61,39 @@ abstract class WeekViewUtils {
          * RecyclerView table contains six columns. One for each day and one for time.
          * This method assigns title and index of a subject to a specific WeekViewSubjectItem.
          */
-        private fun assignSubject(weekViewItemPosition: Int, subjectIndex: Int) {
-            weekViewItems[weekViewItemPosition].weekViewSubjectItems[CalendarUtils.getDayOfWeek(subjects[subjectIndex].startDate)] =
-                WeekViewSubjectItem(subjects[subjectIndex].index, subjects[subjectIndex].title)
+        private fun assignSubjects() {
+            for (subject in subjects) {
+                if (CalendarUtils.getWeekNumber(subject.startDate) == 0)
+                    assignSubject(subject, 0)
+                else
+                    assignSubject(subject, 15)
+            }
+        }
+
+        private fun assignSubject(subject: Subject, shiftValue: Int) {
+            when (subject.startTime) {
+                "08.00" -> assignAt(0 + shiftValue, subject.index)
+                "08.45" -> assignAt(1 + shiftValue, subject.index)
+                "09.45" -> assignAt(2 + shiftValue, subject.index)
+                "10.30" -> assignAt(3 + shiftValue, subject.index)
+                "11.30" -> assignAt(4 + shiftValue, subject.index)
+                "12.15" -> assignAt(5 + shiftValue, subject.index)
+                "13.30" -> assignAt(6 + shiftValue, subject.index)
+                "14.15" -> assignAt(7 + shiftValue, subject.index)
+                "15.15" -> assignAt(8 + shiftValue, subject.index)
+                "16.00" -> assignAt(9 + shiftValue, subject.index)
+                "17.00" -> assignAt(10 + shiftValue, subject.index)
+                "17.45" -> assignAt(11 + shiftValue, subject.index)
+                "18.45" -> assignAt(12 + shiftValue, subject.index)
+                "19.30" -> assignAt(13 + shiftValue, subject.index)
+                "20.15" -> assignAt(14 + shiftValue, subject.index)
+            }
+        }
+
+        private fun assignAt(weekViewItemPosition: Int, subjectIndex: Int) {
+            val subject = subjects.single { subject -> subject.index == subjectIndex }
+            weekViewItems[weekViewItemPosition].weekViewSubjectItems[CalendarUtils.getDayOfWeek(subject.startDate)] =
+                WeekViewSubjectItem(subject.index, subject.title)
         }
     }
 }
