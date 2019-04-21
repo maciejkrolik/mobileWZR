@@ -14,6 +14,8 @@ class EditViewViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
+    var groupId = ""
+
     private val _isUpdatingDb = MutableLiveData<Boolean>()
     val isUpdatingDb: LiveData<Boolean>
         get() = _isUpdatingDb
@@ -23,11 +25,12 @@ class EditViewViewModel constructor(
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    fun getSubjects(): LiveData<List<Subject>> {
-        if (subjects.value.isNullOrEmpty()) {
+    fun getSubjects(groupId: String): LiveData<List<Subject>> {
+        if (subjects.value.isNullOrEmpty() || groupId != this.groupId) {
             viewModelScope.launch {
                 subjects.value = repository.getSubjectsFromDb()
             }
+            this.groupId = groupId
         }
         return subjects
     }

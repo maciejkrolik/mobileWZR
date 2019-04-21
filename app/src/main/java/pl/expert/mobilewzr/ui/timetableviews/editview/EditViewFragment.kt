@@ -80,7 +80,7 @@ class EditViewFragment : Fragment() {
     }
 
     private fun getSubjectsAndObserveThem() {
-        editViewViewModel.getSubjects().observe(viewLifecycleOwner,
+        editViewViewModel.getSubjects(weekViewViewModel.groupId).observe(viewLifecycleOwner,
             Observer { subjects ->
                 if (subjects != null && subjectIndex != -1) {
                     val subject = subjects.single { subject -> subject.index == subjectIndex }
