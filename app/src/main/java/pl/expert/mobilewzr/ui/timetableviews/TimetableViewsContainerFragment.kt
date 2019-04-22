@@ -151,7 +151,7 @@ class TimetableViewsContainerFragment : Fragment() {
             .get(WeekViewViewModel::class.java)
 
         weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-        weekViewViewModel.checkIfSubjectsLoaded(groupId)
+        weekViewViewModel.checkIfSubjectsLoaded(groupId, timetableViewLocation)
     }
 
     private fun assignDayViewViewModel() {
@@ -159,6 +159,6 @@ class TimetableViewsContainerFragment : Fragment() {
             .get(DayViewViewModel::class.java)
 
         dayViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-        dayViewViewModel.checkIfSubjectsLoaded(groupId)
+        dayViewViewModel.checkIfSubjectsLoaded(groupId, timetableViewLocation)
     }
 }

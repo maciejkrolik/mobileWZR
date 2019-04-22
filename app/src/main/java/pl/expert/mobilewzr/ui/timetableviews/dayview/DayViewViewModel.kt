@@ -11,12 +11,14 @@ import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.dto.DayViewDataHolder
 import pl.expert.mobilewzr.data.dto.DayViewItem
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 
 class DayViewViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
     private lateinit var dayViewDataHolder: MutableLiveData<DayViewDataHolder>
+    private lateinit var timetableViewLocation: TimetableViewLocation
 
     private var idOfAGroupSavedInDb = ""
     var groupId = ""
@@ -24,15 +26,17 @@ class DayViewViewModel constructor(
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
-    fun checkIfSubjectsLoaded(groupId: String) {
-        if (!::dayViewDataHolder.isInitialized || groupId != this.groupId) {
+    fun checkIfSubjectsLoaded(groupId: String, timetableViewLocation: TimetableViewLocation) {
+        if (!::dayViewDataHolder.isInitialized || groupId != this.groupId || timetableViewLocation != this.timetableViewLocation) {
+            this.timetableViewLocation = timetableViewLocation
             loadSubjects(groupId)
             this.groupId = groupId
         }
     }
 
     private fun loadSubjects(groupId: String) {
-        if (!isTimetableSavedInDb(groupId)) dayViewDataHolder = repository.getDayViewDataFromService(groupId)
+        if (!isTimetableSavedInDb(groupId) || timetableViewLocation == TimetableViewLocation.SEARCH) dayViewDataHolder =
+            repository.getDayViewDataFromService(groupId)
         else {
             dayViewDataHolder = MutableLiveData()
             viewModelScope.launch {

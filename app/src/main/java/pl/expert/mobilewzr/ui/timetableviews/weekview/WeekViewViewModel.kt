@@ -12,12 +12,14 @@ import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
 import pl.expert.mobilewzr.data.dto.WeekViewItem
 import pl.expert.mobilewzr.data.model.Subject
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 
 class WeekViewViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
     private lateinit var weekViewDataHolder: MutableLiveData<WeekViewDataHolder>
+    private lateinit var timetableViewLocation: TimetableViewLocation
 
     private var idOfAGroupSavedInDb = ""
     var groupId = ""
@@ -25,15 +27,17 @@ class WeekViewViewModel constructor(
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
-    fun checkIfSubjectsLoaded(groupId: String) {
-        if (!::weekViewDataHolder.isInitialized || groupId != this.groupId) {
+    fun checkIfSubjectsLoaded(groupId: String, timetableViewLocation: TimetableViewLocation) {
+        if (!::weekViewDataHolder.isInitialized || groupId != this.groupId || timetableViewLocation != this.timetableViewLocation) {
+            this.timetableViewLocation = timetableViewLocation
             loadSubjects(groupId)
             this.groupId = groupId
         }
     }
 
     private fun loadSubjects(groupId: String) {
-        if (!isTimetableSavedInDb(groupId)) weekViewDataHolder = repository.getWeekViewDataFromService(groupId)
+        if (!isTimetableSavedInDb(groupId) || timetableViewLocation == TimetableViewLocation.SEARCH) weekViewDataHolder =
+            repository.getWeekViewDataFromService(groupId)
         else {
             weekViewDataHolder = MutableLiveData()
             viewModelScope.launch {
