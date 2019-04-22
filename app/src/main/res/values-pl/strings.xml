@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="monday">Pon.</string>
-    <string name="tuesday">Wt.</string>
-    <string name="wednesday">Śr.</string>
-    <string name="thursday">Czw.</string>
-    <string name="friday">Pt.</string>
+    <string name="monday_short">Pon.</string>
+    <string name="tuesday_short">Wt.</string>
+    <string name="wednesday_short">Śr.</string>
+    <string name="thursday_short">Czw.</string>
+    <string name="friday_short">Pt.</string>
     <string name="retrofit_error">Błąd połączenia!</string>
     <string name="weekA">Tydzień A</string>
     <string name="weekB">Tydzień B</string>
@@ -32,4 +32,10 @@
     <string name="add_new_subject">Dodaj nowe zajęcia</string>
     <string name="delete">Usuń</string>
     <string name="time">Czas</string>
+    <string name="day">Dzień</string>
+    <string name="monday">Poniedziałek</string>
+    <string name="tuesday">Wtorek</string>
+    <string name="wednesday">Środa</string>
+    <string name="thursday">Czwartek</string>
+    <string name="friday">Piątek</string>
 </resources>

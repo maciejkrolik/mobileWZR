@@ -10,6 +10,9 @@ abstract class SubjectsUtils {
 
         private lateinit var subjects: MutableList<Subject>
 
+        /**
+         * Returns subjects only from the first two weeks of the semester. Useful in full-time studies layouts.
+         */
         fun getOnlyFirstTwoWeeksSubjectsFrom(subjects: List<Subject>): List<Subject> {
             val firstTwoWeeksSubjects: MutableList<Subject> = mutableListOf()
             val firstWeekNumber = SimpleDateFormat("w", Locale.UK).format(subjects.first().startDate).toInt()

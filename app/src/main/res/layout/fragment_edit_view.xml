@@ -59,7 +59,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:entries="@array/subjects_times"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/choose_day_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/day"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/choose_day_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:entries="@array/weekdays"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/choose_week_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/week"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/choose_week_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:entries="@array/week_types"
             android:visibility="gone"
             tools:visibility="visible" />
 

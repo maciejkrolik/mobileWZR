@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">mobileWZR</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="monday">Mon.</string>
-    <string name="tuesday">Tue.</string>
-    <string name="wednesday">Wed.</string>
-    <string name="thursday">Thu.</string>
-    <string name="friday">Fri.</string>
+    <string name="monday_short">Mon.</string>
+    <string name="tuesday_short">Tue.</string>
+    <string name="wednesday_short">Wed.</string>
+    <string name="thursday_short">Thu.</string>
+    <string name="friday_short">Fri.</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
     <string name="retrofit_error">Connection error!</string>
     <string name="weekA">Week A</string>
     <string name="weekB">Week B</string>
@@ -33,4 +38,5 @@
     <string name="add_new_subject">Add new subject</string>
     <string name="delete">Delete</string>
     <string name="time">Time</string>
+    <string name="day">Day</string>
 </resources>

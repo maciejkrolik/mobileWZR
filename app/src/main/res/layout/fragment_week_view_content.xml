@@ -12,7 +12,7 @@
             android:id="@+id/monday_title_text"
             style="@style/WeekViewDayTitleTextView"
             android:layout_marginStart="@dimen/week_view_time_width"
-            android:text="@string/monday"
+            android:text="@string/monday_short"
             app:layout_constraintEnd_toStartOf="@+id/tuesday_title_text"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/tuesday_title_text"
             style="@style/WeekViewDayTitleTextView"
-            android:text="@string/tuesday"
+            android:text="@string/tuesday_short"
             app:layout_constraintEnd_toStartOf="@+id/wednesday_title_text"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/monday_title_text"
@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/wednesday_title_text"
             style="@style/WeekViewDayTitleTextView"
-            android:text="@string/wednesday"
+            android:text="@string/wednesday_short"
             app:layout_constraintEnd_toStartOf="@+id/thursday_title_text"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tuesday_title_text"
@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/thursday_title_text"
             style="@style/WeekViewDayTitleTextView"
-            android:text="@string/thursday"
+            android:text="@string/thursday_short"
             app:layout_constraintEnd_toStartOf="@+id/friday_title_text"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/wednesday_title_text"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/friday_title_text"
             style="@style/WeekViewDayTitleTextView"
-            android:text="@string/friday"
+            android:text="@string/friday_short"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/thursday_title_text"

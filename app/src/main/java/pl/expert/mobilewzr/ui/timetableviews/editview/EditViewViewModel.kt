@@ -35,13 +35,28 @@ class EditViewViewModel constructor(
         return subjects
     }
 
-    fun updateSubject(subjectIndex: Int, title: String, description: String) {
+    fun updateSubject(subjectIndex: Int, newSubject: Subject) {
         _isUpdatingDb.value = true
         viewModelScope.launch {
             val subject = subjects.value?.get(subjectIndex)!!
-            subject.title = title
-            subject.description = description
+            subject.title = newSubject.title
+            subject.description = newSubject.description
+            subject.startTime = newSubject.startTime
+            subject.startDate = newSubject.startDate
             repository.updateSubject(subject)
+            _isUpdatingDb.postValue(false)
+        }
+    }
+
+    fun addSubject(newSubject: Subject) {
+        _isUpdatingDb.value = true
+        viewModelScope.launch {
+            val subject = Subject()
+            subject.title = newSubject.title
+            subject.description = newSubject.description
+            subject.startTime = newSubject.startTime
+            subject.startDate = newSubject.startDate
+            repository.addSubject(subject)
             _isUpdatingDb.postValue(false)
         }
     }

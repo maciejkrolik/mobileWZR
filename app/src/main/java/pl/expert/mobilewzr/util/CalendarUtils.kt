@@ -79,6 +79,56 @@ abstract class CalendarUtils {
          */
         fun addMinutesToTimeString(timeString: String, minutesToAdd: Int) =
             convertMinutesToTimeString(getMinutesFromTimeString(timeString) + minutesToAdd)
+
+        /**
+         * Returns an index of the subject time.
+         * 0 - 08.00
+         * 1 - 08.45...
+         */
+        fun getSubjectTimeIndexFrom(subjectTime: String): Int {
+            return when (subjectTime) {
+                "08.00" -> 0
+                "08.45" -> 1
+                "09.45" -> 2
+                "10.30" -> 3
+                "11.30" -> 4
+                "12.15" -> 5
+                "13.30" -> 6
+                "14.15" -> 7
+                "15.15" -> 8
+                "16.00" -> 9
+                "17.00" -> 10
+                "17.45" -> 11
+                "18.45" -> 12
+                "19.30" -> 13
+                "20.15" -> 14
+                else -> throw IllegalArgumentException("There is no subject time: $subjectTime")
+            }
+        }
+
+        /**
+         * Returns a subject time string based on the given position of the spinner.
+         */
+        fun getSubjectTimeStringFrom(index: Int): String {
+            return when (index) {
+                0 -> "08.00"
+                1 -> "08.45"
+                2 -> "09.45"
+                3 -> "10.30"
+                4 -> "11.30"
+                5 -> "12.15"
+                6 -> "13.30"
+                7 -> "14.15"
+                8 -> "15.15"
+                9 -> "16.00"
+                10 -> "17.00"
+                11 -> "17.45"
+                12 -> "18.45"
+                13 -> "19.30"
+                14 -> "20.15"
+                else -> throw IllegalArgumentException("There is no index: $index")
+            }
+        }
     }
 }
 

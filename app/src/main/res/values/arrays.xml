@@ -29,4 +29,17 @@
         <item>20.15 – 21.00</item>
     </string-array>
 
+    <string-array name="weekdays">
+        <item>@string/monday</item>
+        <item>@string/tuesday</item>
+        <item>@string/wednesday</item>
+        <item>@string/thursday</item>
+        <item>@string/friday</item>
+    </string-array>
+
+    <string-array name="week_types">
+        <item>@string/weekA</item>
+        <item>@string/weekB</item>
+    </string-array>
+
 </resources>
