@@ -17,6 +17,7 @@ abstract class DayViewUtils {
             this.subjects = subjects
 
             assignSubjects()
+            sortSubjectsByStartTime()
 
             return DayViewDataHolder(AWeekDataHolder, BWeekDataHolder, this.subjects)
         }
@@ -51,6 +52,19 @@ abstract class DayViewUtils {
                 3 -> BWeekDataHolder.thursdaySubjects.add(DayViewItem(subject))
                 4 -> BWeekDataHolder.fridaySubjects.add(DayViewItem(subject))
             }
+        }
+
+        private fun sortSubjectsByStartTime() {
+            AWeekDataHolder.mondaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            AWeekDataHolder.tuesdaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            AWeekDataHolder.wednesdaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            AWeekDataHolder.thursdaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            AWeekDataHolder.fridaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            BWeekDataHolder.mondaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            BWeekDataHolder.tuesdaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            BWeekDataHolder.wednesdaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            BWeekDataHolder.thursdaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
+            BWeekDataHolder.fridaySubjects.sortBy { CalendarUtils.getMinutesFromTimeString(it.startTime) }
         }
     }
 }

@@ -81,8 +81,11 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
                 return true
             }
             R.id.add_new_subject -> {
+                val args = Bundle()
+                args.putInt("argSubjectIndex", -1)
+                args.putInt("argWeekNumber", weekNumber ?: 0)
                 Navigation.findNavController(view!!)
-                    .navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment)
+                    .navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
                 return true
             }
         }
@@ -107,13 +110,7 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
     private fun navigateToEditFragment(subjectIndex: Int) {
         val args = Bundle()
         args.putInt("argSubjectIndex", subjectIndex)
-        val navController = Navigation.findNavController(view!!)
-        when (timetableViewLocation) {
-            TimetableViewLocation.MY_TIMETABLE ->
-                navController.navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
-            TimetableViewLocation.SEARCH ->
-                navController.navigate(R.id.action_search_timetable_view_fragment_to_editViewFragment, args)
-        }
+        Navigation.findNavController(view!!).navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {

@@ -10,12 +10,13 @@ import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.dto.DayViewItem
 
 class DayViewRecyclerAdapter(
-    private val dataset: List<DayViewItem>
+    private val dataset: List<DayViewItem>,
+    private val onSubjectListener: OnSubjectListener
 ) : RecyclerView.Adapter<DayViewRecyclerAdapter.SubjectsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewRecyclerAdapter.SubjectsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.day_view_item, parent, false)
-        return SubjectsViewHolder(itemView)
+        return SubjectsViewHolder(itemView, onSubjectListener)
     }
 
     override fun onBindViewHolder(holder: SubjectsViewHolder, position: Int) {
@@ -27,18 +28,32 @@ class DayViewRecyclerAdapter(
 
     override fun getItemCount() = dataset.size
 
-    class SubjectsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class SubjectsViewHolder(itemView: View, onSubjectListener: OnSubjectListener) : RecyclerView.ViewHolder(itemView),
+        View.OnLongClickListener {
 
         var startTimeTextView: TextView? = null
         var endTimeTextView: TextView? = null
         var titleTextView: TextView? = null
         var locationWithDescriptionTextView: TextView? = null
+        var onSubjectListener: OnSubjectListener? = null
 
         init {
             startTimeTextView = itemView.start_time_day_view_text
             endTimeTextView = itemView.end_time_day_view_text
             titleTextView = itemView.title_day_view_text
             locationWithDescriptionTextView = itemView.location_description_day_view_text
+            this.onSubjectListener = onSubjectListener
+
+            itemView.setOnLongClickListener(this)
         }
+
+        override fun onLongClick(view: View?): Boolean {
+            onSubjectListener?.onSubjectLongClick(adapterPosition)
+            return true
+        }
+    }
+
+    interface OnSubjectListener {
+        fun onSubjectLongClick(position: Int)
     }
 }

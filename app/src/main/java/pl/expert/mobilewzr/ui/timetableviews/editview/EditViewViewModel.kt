@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.model.Subject
+import pl.expert.mobilewzr.util.CalendarUtils
 
 class EditViewViewModel constructor(
     private val repository: SubjectsRepository
@@ -38,12 +39,13 @@ class EditViewViewModel constructor(
     fun updateSubject(subjectIndex: Int, newSubject: Subject) {
         _isUpdatingDb.value = true
         viewModelScope.launch {
-            val subject = subjects.value?.get(subjectIndex)!!
-            subject.title = newSubject.title
-            subject.description = newSubject.description
-            subject.startTime = newSubject.startTime
-            subject.startDate = newSubject.startDate
-            repository.updateSubject(subject)
+            val subject = subjects.value?.single { subject -> subject.index == subjectIndex }
+            subject?.title = newSubject.title
+            subject?.description = newSubject.description
+            subject?.startTime = newSubject.startTime
+            subject?.endTime = CalendarUtils.addMinutesToTimeString(newSubject.startTime, 45)
+            subject?.startDate = newSubject.startDate
+            repository.updateSubject(subject!!)
             _isUpdatingDb.postValue(false)
         }
     }
@@ -51,12 +53,16 @@ class EditViewViewModel constructor(
     fun addSubject(newSubject: Subject) {
         _isUpdatingDb.value = true
         viewModelScope.launch {
+            val lastIndex = repository.getSubjectsFromDb().last().index
             val subject = Subject()
+            subject.index = lastIndex + 1
             subject.title = newSubject.title
             subject.description = newSubject.description
             subject.startTime = newSubject.startTime
+            subject.endTime = CalendarUtils.addMinutesToTimeString(newSubject.startTime, 45)
             subject.startDate = newSubject.startDate
             repository.addSubject(subject)
+            subjects.value = repository.getSubjectsFromDb()
             _isUpdatingDb.postValue(false)
         }
     }
@@ -64,8 +70,9 @@ class EditViewViewModel constructor(
     fun deleteSubject(subjectIndex: Int) {
         _isUpdatingDb.value = true
         viewModelScope.launch {
-            val subject = subjects.value?.get(subjectIndex)!!
-            repository.deleteSubject(subject)
+            val subject = subjects.value?.single { subject -> subject.index == subjectIndex }
+            repository.deleteSubject(subject!!)
+            subjects.value = repository.getSubjectsFromDb()
             _isUpdatingDb.postValue(false)
         }
     }

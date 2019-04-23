@@ -49,6 +49,10 @@ class DayViewViewModel constructor(
         return groupId == idOfAGroupSavedInDb
     }
 
+    fun reloadSubjects() {
+        loadSubjects(groupId)
+    }
+
     fun getDayViewItems(weekNumber: Int, weekDay: Int): LiveData<List<DayViewItem>> {
         return Transformations.map(dayViewDataHolder) { dayViewDataHolder ->
             when (weekNumber) {
@@ -75,6 +79,10 @@ class DayViewViewModel constructor(
                 else -> throw IllegalArgumentException("Unknown week number: $weekNumber")
             }
         }
+    }
+
+    fun getDayViewDataHolder(): LiveData<DayViewDataHolder> {
+        return dayViewDataHolder
     }
 
     fun replaceSubjectsInDb() {
