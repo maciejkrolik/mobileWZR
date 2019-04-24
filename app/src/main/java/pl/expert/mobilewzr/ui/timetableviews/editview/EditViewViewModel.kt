@@ -72,7 +72,6 @@ class EditViewViewModel constructor(
         viewModelScope.launch {
             val subject = subjects.value?.single { subject -> subject.index == subjectIndex }
             repository.deleteSubject(subject!!)
-            subjects.value = repository.getSubjectsFromDb()
             _isUpdatingDb.postValue(false)
         }
     }

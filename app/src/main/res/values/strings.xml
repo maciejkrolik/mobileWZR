@@ -39,4 +39,5 @@
     <string name="delete">Delete</string>
     <string name="time">Time</string>
     <string name="day">Day</string>
+    <string name="server_error">Server error</string>
 </resources>

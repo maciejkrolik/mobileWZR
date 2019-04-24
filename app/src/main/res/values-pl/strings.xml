@@ -38,4 +38,5 @@
     <string name="wednesday">Środa</string>
     <string name="thursday">Czwartek</string>
     <string name="friday">Piątek</string>
+    <string name="server_error">Błąd serwera</string>
 </resources>

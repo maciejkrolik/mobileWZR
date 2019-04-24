@@ -7,6 +7,6 @@ import retrofit2.http.Query
 
 interface WZRService {
 
-    @GET("/.csv/plan_st.php?f2=4")
+    @GET(URLs.SUBJECTS_PATH)
     fun getSubjects(@Query("f1") groupId: String): Call<List<Subject>>
 }

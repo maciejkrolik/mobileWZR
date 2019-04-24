@@ -15,6 +15,7 @@ import pl.expert.mobilewzr.data.dto.DayViewDataHolder
 import pl.expert.mobilewzr.data.dto.DayViewItem
 import pl.expert.mobilewzr.databinding.FragmentDayViewContentBinding
 import pl.expert.mobilewzr.ui.timetableviews.TimetableViewContentBaseFragment
+import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 import javax.inject.Inject
 
 class DayViewContentFragment : TimetableViewContentBaseFragment(), DayViewRecyclerAdapter.OnSubjectListener {
@@ -97,7 +98,9 @@ class DayViewContentFragment : TimetableViewContentBaseFragment(), DayViewRecycl
 
     override fun onSubjectLongClick(position: Int) {
         val subjectIndex = getSubjectIndexBasedOnPositionInDayView(position)
-        navigateToEditFragment(subjectIndex)
+        if (timetableViewLocation == TimetableViewLocation.MY_TIMETABLE) {
+            navigateToEditFragment(subjectIndex)
+        }
     }
 
     private fun getSubjectIndexBasedOnPositionInDayView(position: Int): Int {

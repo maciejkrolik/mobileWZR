@@ -90,12 +90,15 @@ class NewsViewFragment : Fragment() {
     private fun getNewsAndObserve() {
         newsViewViewModel.getNews().observe(viewLifecycleOwner,
             Observer<List<News>> { news ->
-                if (news != null) {
+                if (news != null && !news.isEmpty()) {
                     this.news.addAll(news)
+                    binding.newsRecyclerView.visibility = View.VISIBLE
+                    recyclerAdapter.notifyDataSetChanged()
+                } else {
+                    binding.internetErrorNewsViewText.visibility = View.VISIBLE
+                    binding.internetErrorNewsViewText.text = getString(R.string.server_error)
                 }
                 binding.newsProgressBar.visibility = View.GONE
-                binding.newsRecyclerView.visibility = View.VISIBLE
-                recyclerAdapter.notifyDataSetChanged()
             })
     }
 

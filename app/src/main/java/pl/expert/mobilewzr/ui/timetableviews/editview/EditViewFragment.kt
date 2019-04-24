@@ -36,7 +36,7 @@ class EditViewFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentEditViewBinding
-    private lateinit var firstSubjectStartDate: Date
+    private lateinit var firstWeekMondayDate: Date
     private lateinit var timetableViewType: TimetableViewType
     private var subjectIndex: Int? = null
     private var weekNumber: Int? = null
@@ -122,7 +122,7 @@ class EditViewFragment : Fragment() {
     private fun getStartDate(day: Int, week: Int): Date {
         val shiftStartDateBy = if (week == 0) day else day + 7
         val calendar = Calendar.getInstance(Locale.UK)
-        calendar.time = firstSubjectStartDate
+        calendar.time = firstWeekMondayDate
         calendar.add(Calendar.DATE, shiftStartDateBy)
         return calendar.time
     }
@@ -145,10 +145,16 @@ class EditViewFragment : Fragment() {
                     binding.chooseDaySpinner.setSelection(weekDayNumber!!)
                     binding.chooseWeekSpinner.setSelection(weekNumber!!)
                 }
-                // TODO Fix first() returns always first Monday
-                firstSubjectStartDate = subjects.first().startDate
+                firstWeekMondayDate = getFirstWeekMondayDate(subjects.first())
                 hideProgressBar()
             })
+    }
+
+    private fun getFirstWeekMondayDate(firstSubject: Subject): Date {
+        val calendar = Calendar.getInstance()
+        calendar.time = firstSubject.startDate
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        return calendar.time
     }
 
     private fun getStateAndObserveIt() {

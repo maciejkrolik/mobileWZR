@@ -95,14 +95,17 @@ class SearchViewFragment : Fragment() {
     private fun getGroupsAndObserveThem() {
         searchViewViewModel.getGroups().observe(viewLifecycleOwner,
             Observer { groups ->
-                if (groups != null) {
+                if (groups != null && !groups.isEmpty()) {
                     this.groups.clear()
                     this.groups.addAll(groups)
+                    spinnerAdapter.notifyDataSetChanged()
+                    binding.searchViewSpinner.setSelection(searchViewViewModel.getGroupIdIndex())
+                } else {
+                    binding.searchViewButton.isEnabled = false
+                    binding.searchViewText.text = getString(R.string.server_error)
                 }
-                binding.searchProgressBar.visibility = View.GONE
                 binding.searchViewButton.visibility = View.VISIBLE
-                spinnerAdapter.notifyDataSetChanged()
-                binding.searchViewSpinner.setSelection(searchViewViewModel.getGroupIdIndex())
+                binding.searchProgressBar.visibility = View.GONE
             })
     }
 

@@ -4,7 +4,9 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import pl.expert.mobilewzr.data.model.News
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,8 +16,13 @@ private const val TAG = "NewsRepository"
 class NewsRepository @Inject constructor() {
 
     suspend fun getNews(): List<News> {
-        val doc = withContext(Dispatchers.IO) {
-            Jsoup.connect("https://wzr.ug.edu.pl/studia/index.php?str=438").get()
+        var doc = Document("")
+        try {
+            doc = withContext(Dispatchers.IO) {
+                Jsoup.connect(URLs.NEWS_URL).get()
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
 
         Log.i(TAG, "News downloaded")

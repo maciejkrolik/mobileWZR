@@ -1,13 +1,14 @@
 package pl.expert.mobilewzr.data
 
-import androidx.lifecycle.MutableLiveData
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import pl.expert.mobilewzr.data.dto.DayViewDataHolder
-import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
+import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.util.DayViewUtils
 import pl.expert.mobilewzr.util.SubjectsUtils
 import pl.expert.mobilewzr.util.WeekViewUtils
@@ -113,8 +114,13 @@ class SubjectsRepository @Inject constructor(
     }
 
     suspend fun getGroups(): List<String> {
-        val doc = withContext(Dispatchers.IO) {
-            Jsoup.connect("https://wzr.ug.edu.pl/studia/index.php?str=437").get()
+        var doc = Document("")
+        try {
+            doc = withContext(Dispatchers.IO) {
+                Jsoup.connect(URLs.GROUPS_URL).get()
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
 
         Log.i(TAG, "Groups downloaded")
