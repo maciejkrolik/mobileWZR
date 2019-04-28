@@ -51,6 +51,21 @@ class EditViewViewModel constructor(
         }
     }
 
+    fun updateMultipleSubjects(subjectIndex: Int, newSubject: Subject) {
+        _isUpdatingDb.value = true
+        viewModelScope.launch {
+            val baseSubject = subjects.value?.single { subject -> subject.index == subjectIndex }
+            val subjectsToUpdate = subjects.value?.filter { subject -> subject.title == baseSubject?.title }
+            subjectsToUpdate?.forEach { subject ->
+                subject.title = newSubject.title
+                subject.description = newSubject.description
+                subject.location = newSubject.location
+            }
+            repository.updateSubjects(subjectsToUpdate!!)
+            _isUpdatingDb.postValue(false)
+        }
+    }
+
     fun addSubject(newSubject: Subject) {
         _isUpdatingDb.value = true
         viewModelScope.launch {

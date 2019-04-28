@@ -34,6 +34,10 @@ class SubjectsRepository @Inject constructor(
         subjectsDao.updateSubjects(subject)
     }
 
+    suspend fun updateSubjects(subjects: List<Subject>) {
+        subjectsDao.updateSubjects(*subjects.toTypedArray())
+    }
+
     suspend fun addSubject(subject: Subject) {
         subjectsDao.addSubject(subject)
     }

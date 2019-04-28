@@ -79,6 +79,7 @@ class EditViewFragment : Fragment() {
 
         getSubjectsAndObserveThem()
         getStateAndObserveIt()
+        setOnMultipleUpdateSwitchListener()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -100,7 +101,7 @@ class EditViewFragment : Fragment() {
                 if (!fieldsAreBlank) {
                     val newSubject = prepareSubject()
                     if (subjectIndex != -1 && !binding.editViewCopyModeSwitch.isChecked)
-                        editViewViewModel.updateSubject(subjectIndex!!, newSubject)
+                        updateSubjectsWith(newSubject)
                     else
                         editViewViewModel.addSubject(newSubject)
                 } else {
@@ -138,6 +139,13 @@ class EditViewFragment : Fragment() {
         calendar.time = firstWeekMondayDate
         calendar.add(Calendar.DATE, shiftStartDateBy)
         return calendar.time
+    }
+
+    private fun updateSubjectsWith(newSubject: Subject) {
+        if (binding.editViewUpdateMultipleSwitch.isChecked)
+            editViewViewModel.updateMultipleSubjects(subjectIndex!!, newSubject)
+        else
+            editViewViewModel.updateSubject(subjectIndex!!, newSubject)
     }
 
     private fun getSubjectsAndObserveThem() {
@@ -191,6 +199,23 @@ class EditViewFragment : Fragment() {
             })
     }
 
+    private fun setOnMultipleUpdateSwitchListener() {
+        binding.editViewUpdateMultipleSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.chooseTimeSpinner.isEnabled = false
+                binding.chooseDaySpinner.isEnabled = false
+                binding.chooseWeekSpinner.isEnabled = false
+                binding.editViewCopyModeSwitch.isChecked = false
+                binding.editViewCopyModeSwitch.isEnabled = false
+            } else {
+                binding.chooseTimeSpinner.isEnabled = true
+                binding.chooseDaySpinner.isEnabled = true
+                binding.chooseWeekSpinner.isEnabled = true
+                binding.editViewCopyModeSwitch.isEnabled = true
+            }
+        }
+    }
+
     private fun hideProgressBar() {
         binding.editViewProgressBar.visibility = View.GONE
         binding.editTitleLabel.visibility = View.VISIBLE
@@ -205,6 +230,7 @@ class EditViewFragment : Fragment() {
         binding.chooseDaySpinner.visibility = View.VISIBLE
         binding.chooseWeekLabel.visibility = View.VISIBLE
         binding.chooseWeekSpinner.visibility = View.VISIBLE
-        binding.editSwitchLinearLayout.visibility = View.VISIBLE
+        binding.editViewCopyLinearLayout.visibility = View.VISIBLE
+        binding.editViewMultipleLinearLayout.visibility = View.VISIBLE
     }
 }
