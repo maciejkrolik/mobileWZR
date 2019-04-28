@@ -42,6 +42,7 @@ class EditViewViewModel constructor(
             val subject = subjects.value?.single { subject -> subject.index == subjectIndex }
             subject?.title = newSubject.title
             subject?.description = newSubject.description
+            subject?.location = newSubject.location
             subject?.startTime = newSubject.startTime
             subject?.endTime = CalendarUtils.addMinutesToTimeString(newSubject.startTime, 45)
             subject?.startDate = newSubject.startDate
@@ -58,6 +59,7 @@ class EditViewViewModel constructor(
             subject.index = lastIndex + 1
             subject.title = newSubject.title
             subject.description = newSubject.description
+            subject.location = newSubject.location
             subject.startTime = newSubject.startTime
             subject.endTime = CalendarUtils.addMinutesToTimeString(newSubject.startTime, 45)
             subject.startDate = newSubject.startDate

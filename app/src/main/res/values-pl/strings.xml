@@ -39,4 +39,8 @@
     <string name="thursday">Czwartek</string>
     <string name="friday">Piątek</string>
     <string name="server_error">Błąd serwera</string>
+    <string name="location">Lokalizacja</string>
+    <string name="fields_cannot_be_empty">Pola nie mogą być puste</string>
+    <string name="copy_mode">Tryb kopiowania</string>
+    <string name="classes_has_been_copied">Zajęcia zostały skopiowane</string>
 </resources>

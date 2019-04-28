@@ -40,4 +40,8 @@
     <string name="time">Time</string>
     <string name="day">Day</string>
     <string name="server_error">Server error</string>
+    <string name="location">Location</string>
+    <string name="fields_cannot_be_empty">Fields cannot be empty</string>
+    <string name="copy_mode">Copy mode</string>
+    <string name="classes_has_been_copied">Classes has been copied</string>
 </resources>

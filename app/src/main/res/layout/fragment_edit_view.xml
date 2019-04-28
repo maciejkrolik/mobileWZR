@@ -2,113 +2,148 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/edit_title_label"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/title_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:ems="10"
-            android:hint="@string/title"
-            android:inputType="text"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/edit_title_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/edit_description_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <EditText
+                android:id="@+id/title_edit_text"
+                style="@style/EditViewEditText"
+                android:hint="@string/title"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <EditText
-            android:id="@+id/description_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:ems="10"
-            android:hint="@string/description"
-            android:inputType="text"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/edit_description_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/choose_time_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/time"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <EditText
+                android:id="@+id/description_edit_text"
+                style="@style/EditViewEditText"
+                android:hint="@string/description"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <Spinner
-            android:id="@+id/choose_time_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:entries="@array/subjects_times"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/edit_location_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/choose_day_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/day"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <EditText
+                android:id="@+id/location_edit_text"
+                style="@style/EditViewEditText"
+                android:hint="@string/location"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <Spinner
-            android:id="@+id/choose_day_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:entries="@array/weekdays"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/choose_time_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/time"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/choose_week_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/week"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <Spinner
+                android:id="@+id/choose_time_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:entries="@array/subjects_times"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <Spinner
-            android:id="@+id/choose_week_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:entries="@array/week_types"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/choose_day_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/day"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/edit_view_progress_bar"
-            android:layout_width="@dimen/progress_indicator_size"
-            android:layout_height="@dimen/progress_indicator_size"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            tools:visibility="gone" />
+            <Spinner
+                android:id="@+id/choose_day_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:entries="@array/weekdays"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/choose_week_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/week"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <Spinner
+                android:id="@+id/choose_week_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:entries="@array/week_types"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/edit_switch_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/copy_mode"
+                    android:textColor="@android:color/black" />
+
+                <Switch
+                    android:id="@+id/edit_view_copy_mode_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/edit_view_progress_bar"
+                android:layout_width="@dimen/progress_indicator_size"
+                android:layout_height="@dimen/progress_indicator_size"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                tools:visibility="gone" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </layout>
 

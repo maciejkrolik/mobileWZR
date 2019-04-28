@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -95,21 +96,33 @@ class EditViewFragment : Fragment() {
                 return true
             }
             R.id.save -> {
-                val newSubject = prepareSubject()
-                if (subjectIndex != -1)
-                    editViewViewModel.updateSubject(subjectIndex!!, newSubject)
-                else
-                    editViewViewModel.addSubject(newSubject)
+                val fieldsAreBlank = checkIfFieldsAreBlank()
+                if (!fieldsAreBlank) {
+                    val newSubject = prepareSubject()
+                    if (subjectIndex != -1 && !binding.editViewCopyModeSwitch.isChecked)
+                        editViewViewModel.updateSubject(subjectIndex!!, newSubject)
+                    else
+                        editViewViewModel.addSubject(newSubject)
+                } else {
+                    Toast.makeText(context, getString(R.string.fields_cannot_be_empty), Toast.LENGTH_SHORT).show()
+                }
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    private fun checkIfFieldsAreBlank(): Boolean {
+        return (binding.titleEditText.text.isBlank()
+                || binding.descriptionEditText.text.isBlank()
+                || binding.locationEditText.text.isBlank())
+    }
+
     private fun prepareSubject(): Subject {
         val newSubject = Subject()
         newSubject.title = binding.titleEditText.text.toString()
         newSubject.description = binding.descriptionEditText.text.toString()
+        newSubject.location = binding.locationEditText.text.toString()
         newSubject.startTime =
             CalendarUtils.getSubjectTimeStringFrom(binding.chooseTimeSpinner.selectedItemPosition)
         newSubject.startDate = getStartDate(
@@ -138,6 +151,7 @@ class EditViewFragment : Fragment() {
                     val subject = subjects.single { subject -> subject.index == subjectIndex }
                     binding.titleEditText.setText(subject.title)
                     binding.descriptionEditText.setText(subject.description)
+                    binding.locationEditText.setText(subject.location)
                     binding.chooseTimeSpinner.setSelection(CalendarUtils.getSubjectTimeIndexFrom(subject.startTime))
                     binding.chooseDaySpinner.setSelection(CalendarUtils.getDayOfWeek(subject.startDate))
                     binding.chooseWeekSpinner.setSelection(CalendarUtils.getWeekNumber(subject.startDate))
@@ -166,7 +180,11 @@ class EditViewFragment : Fragment() {
                         TimetableViewType.DAY_VIEW -> dayViewViewModel.reloadSubjects()
                         TimetableViewType.WEEK_VIEW -> weekViewViewModel.reloadSubjects()
                     }
-                    Navigation.findNavController(view!!).popBackStack()
+                    if (binding.editViewCopyModeSwitch.isChecked) {
+                        Toast.makeText(context, getString(R.string.classes_has_been_copied), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Navigation.findNavController(view!!).popBackStack()
+                    }
                 } else if (updatingDb) {
                     wasUpdatedBefore = true
                 }
@@ -179,11 +197,14 @@ class EditViewFragment : Fragment() {
         binding.titleEditText.visibility = View.VISIBLE
         binding.editDescriptionLabel.visibility = View.VISIBLE
         binding.descriptionEditText.visibility = View.VISIBLE
+        binding.editLocationLabel.visibility = View.VISIBLE
+        binding.locationEditText.visibility = View.VISIBLE
         binding.chooseTimeLabel.visibility = View.VISIBLE
         binding.chooseTimeSpinner.visibility = View.VISIBLE
         binding.chooseDayLabel.visibility = View.VISIBLE
         binding.chooseDaySpinner.visibility = View.VISIBLE
         binding.chooseWeekLabel.visibility = View.VISIBLE
         binding.chooseWeekSpinner.visibility = View.VISIBLE
+        binding.editSwitchLinearLayout.visibility = View.VISIBLE
     }
 }
