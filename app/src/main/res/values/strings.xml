@@ -45,4 +45,5 @@
     <string name="copy_mode">Copy mode</string>
     <string name="classes_has_been_copied">Classes has been copied</string>
     <string name="edit_all_with_the_same_title">Edit all classes with the same title</string>
+    <string name="edit">Edit/Add</string>
 </resources>

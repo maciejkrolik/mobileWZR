@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentEditViewBinding
@@ -56,7 +59,7 @@ class EditViewFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentEditViewBinding.inflate(inflater, container, false)
 
-        activity?.title = ""
+        (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.edit)
 
         subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
         weekNumber = arguments?.getInt("argWeekNumber") ?: 0

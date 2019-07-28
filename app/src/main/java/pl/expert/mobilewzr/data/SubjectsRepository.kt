@@ -76,8 +76,9 @@ class SubjectsRepository @Inject constructor(
                 val downloadedSubjects = response.body()!!
                 val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(downloadedSubjects)
                 val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
+                val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
 
-                dayViewDataHolder.value = DayViewUtils.getDayViewDataHolderFrom(fixedSubjects)
+                dayViewDataHolder.value = DayViewUtils.getDayViewDataHolderFrom(mergedSubjects)
 
                 Log.i(TAG, "Subjects successfully downloaded")
             }

@@ -4,12 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentSearchViewBinding
 import pl.expert.mobilewzr.util.NetworkUtils
@@ -41,7 +44,7 @@ class SearchViewFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchViewBinding.inflate(inflater, container, false)
 
-        activity?.title = getString(R.string.search)
+        (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.search)
 
         isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
 
@@ -102,7 +105,6 @@ class SearchViewFragment : Fragment() {
                     binding.searchViewSpinner.setSelection(searchViewViewModel.getGroupIdIndex())
                 } else {
                     binding.searchViewButton.isEnabled = false
-                    binding.searchViewText.text = getString(R.string.server_error)
                 }
                 binding.searchViewButton.visibility = View.VISIBLE
                 binding.searchProgressBar.visibility = View.GONE
@@ -110,13 +112,11 @@ class SearchViewFragment : Fragment() {
     }
 
     private fun showMainSearchViewItems() {
-        binding.searchViewText.visibility = View.VISIBLE
         binding.searchViewSpinner.visibility = View.VISIBLE
         binding.searchProgressBar.visibility = View.VISIBLE
     }
 
     private fun hideMainSearchViewItems() {
-        binding.searchViewText.visibility = View.GONE
         binding.searchViewSpinner.visibility = View.GONE
         binding.searchViewButton.visibility = View.GONE
         binding.searchProgressBar.visibility = View.GONE

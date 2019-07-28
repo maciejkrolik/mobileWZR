@@ -4,6 +4,7 @@ Android timetable app for the Faculty of Management of the University of Gdańsk
 #### Features:
 * Browse timetables,
 * Save your timetable locally,
+* Edit your saved timetable,
 * Read news from official website (wzr.pl),
 * Two view types
 
@@ -14,7 +15,7 @@ Android timetable app for the Faculty of Management of the University of Gdańsk
 * Dagger 2,
 * jsoup
 
-##### Estimated app launch in Google Play Store: May 2019
+##### Estimated app launch in Google Play Store: September/October 2019
 
 ![mobileWZR screenshot](https://gmsp5g.db.files.1drv.com/y4mvAEz3pm-zkTBZ0C_8JpgVwbc7uvkvDB4pQc_Ex-a3v5lIryYaq1o8LQZn5sFy_H2OsbNM45qbTXLm4MCPglswmh7hWX0sLLPeMeGZsjuShvhmzn5WsWc0qceSylI2Wmg-zGuWPGBZS6fu8WFc9aUUxoLX6Tw0QZF7QOCwP5dlb66AboORFoPsB7lHW3sYbbtI0WAuD9kQ_IIWnCIGQSDlw?width=371&height=660&cropmode=none) ![mobileWZR screenshot](https://igsp5g.db.files.1drv.com/y4myPLiC9Di8UKLHy0PIxVNfUZSdHKZS0b07o9AFl2lXxS2FXMhHcV3RNCqc5HJQBxrxOJRHl91MFg3Itd0LTlOy5K1WFyMZXjTpZPQZCFeUy8Qa-z7da3wQPzWxsaFV7c-WorNN970ZExy5ahJltvPJl9Z_A1RQewCo54VEXSztS5LDCAmAOzjHR2Bg7cuGLITNn9InZAjTFUegGDnX6Cd7w?width=371&height=660&cropmode=none)
 

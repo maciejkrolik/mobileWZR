@@ -63,8 +63,8 @@ class WeekViewViewModel constructor(
     fun getWeekViewItems(weekNumber: Int): LiveData<List<WeekViewItem>> {
         return Transformations.map(weekViewDataHolder) { weekViewDataHolder ->
             when (weekNumber) {
-                0 -> weekViewDataHolder.weekViewItems.take(15)
-                1 -> weekViewDataHolder.weekViewItems.takeLast(15)
+                0 -> weekViewDataHolder.weekViewItems.take(7)
+                1 -> weekViewDataHolder.weekViewItems.takeLast(7)
                 else -> {
                     throw IllegalArgumentException("Unknown week number: $weekNumber")
                 }

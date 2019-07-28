@@ -42,6 +42,20 @@ abstract class SubjectsUtils {
             return this.subjects
         }
 
+        /**
+         * Merges doubled subjects into one with start time of the first and end time of the second. Useful in DayView.
+         */
+        fun mergeMultipleSubjectsIntoOne(subjects: List<Subject>): List<Subject> {
+            val mergedSubjects = mutableListOf<Subject>()
+
+            for (i in 0 until subjects.size step 2) {
+                mergedSubjects.add(subjects[i])
+                subjects[i].endTime = subjects.getOrNull(i + 1)?.endTime ?: subjects[i].endTime
+            }
+
+            return mergedSubjects
+        }
+
         private fun deleteSubjectsWithoutTitle() {
             subjects.removeAll { subject -> subject.title.isEmpty() }
         }

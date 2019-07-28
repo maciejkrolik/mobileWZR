@@ -20,7 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="sans-serif"
             android:text="@string/no_classes"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/day_view_info_text_size"
             android:visibility="gone" />
 

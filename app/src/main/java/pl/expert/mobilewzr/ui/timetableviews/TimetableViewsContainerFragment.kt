@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +14,8 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentTimetableViewsContainerBinding
 import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewPagerAdapter
@@ -68,7 +71,7 @@ class TimetableViewsContainerFragment : Fragment() {
             binding.timetableViewViewPager.visibility = View.VISIBLE
             binding.timetableViewContainerTabLayout.visibility = View.VISIBLE
         } else {
-            activity?.title = getString(R.string.my_timetable)
+            (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.my_timetable)
             binding.timetableViewContainerTextInfo.visibility = View.VISIBLE
         }
 
@@ -86,11 +89,14 @@ class TimetableViewsContainerFragment : Fragment() {
     private fun prepareTimetableView() {
         when (timetableViewType) {
             TimetableViewType.WEEK_VIEW -> {
-                activity?.title = "${getString(R.string.group)}: $groupId"
+                (activity as AppCompatActivity).toolbar.toolbarTitle.text = "${getString(R.string.group)}: $groupId"
                 prepareWeekViewPagerAdapter()
             }
             TimetableViewType.DAY_VIEW -> {
-                activity?.title = "${getString(R.string.group)}: $groupId (${getString(R.string.week)} ${CalendarUtils.getWeekType(weekNumber)})"
+                (activity as AppCompatActivity).toolbar.toolbarTitle.text =
+                    "${getString(R.string.group)}: $groupId (${getString(R.string.week)} ${CalendarUtils.getWeekType(
+                        weekNumber
+                    )})"
                 prepareDayViewPagerAdapter()
             }
         }
@@ -120,9 +126,9 @@ class TimetableViewsContainerFragment : Fragment() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(dayNumber: Int) {
                 when (dayNumber) {
-                    0, 1, 2, 3, 4 -> activity?.title =
+                    0, 1, 2, 3, 4 -> (activity as AppCompatActivity).toolbar.toolbarTitle.text =
                         "${getString(R.string.group)}: $groupId (${getString(R.string.week)} A)"
-                    5, 6, 7, 8, 9 -> activity?.title =
+                    5, 6, 7, 8, 9 -> (activity as AppCompatActivity).toolbar.toolbarTitle.text =
                         "${getString(R.string.group)}: $groupId (${getString(R.string.week)} B)"
                 }
             }

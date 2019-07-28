@@ -12,21 +12,13 @@ abstract class WeekViewUtils {
         private lateinit var subjects: List<Subject>
 
         private val timeStrings = listOf(
-            "08.00 08.45",
-            "08.45 09.30",
-            "09.45 10.30",
-            "10.30 11.15",
-            "11.30 12.15",
-            "12.15 13.00",
-            "13.30 14.15",
-            "14.15 15.00",
-            "15.15 16.00",
-            "16.00 16.45",
-            "17.00 17.45",
-            "17.45 18.30",
-            "18.45 19.30",
-            "19.30 20.15",
-            "20.15 21.00"
+            "08.00 09.30",
+            "09.45 11.15",
+            "11.30 13.00",
+            "13.30 15.00",
+            "15.15 16.45",
+            "17.00 18.30",
+            "18.45 20.15"
         )
 
         /**
@@ -66,27 +58,19 @@ abstract class WeekViewUtils {
                 if (CalendarUtils.getWeekNumber(subject.startDate) == 0)
                     assignSubject(subject, 0)
                 else
-                    assignSubject(subject, 15)
+                    assignSubject(subject, 7)
             }
         }
 
         private fun assignSubject(subject: Subject, shiftValue: Int) {
             when (subject.startTime) {
                 "08.00" -> assignAt(0 + shiftValue, subject.index)
-                "08.45" -> assignAt(1 + shiftValue, subject.index)
-                "09.45" -> assignAt(2 + shiftValue, subject.index)
-                "10.30" -> assignAt(3 + shiftValue, subject.index)
-                "11.30" -> assignAt(4 + shiftValue, subject.index)
-                "12.15" -> assignAt(5 + shiftValue, subject.index)
-                "13.30" -> assignAt(6 + shiftValue, subject.index)
-                "14.15" -> assignAt(7 + shiftValue, subject.index)
-                "15.15" -> assignAt(8 + shiftValue, subject.index)
-                "16.00" -> assignAt(9 + shiftValue, subject.index)
-                "17.00" -> assignAt(10 + shiftValue, subject.index)
-                "17.45" -> assignAt(11 + shiftValue, subject.index)
-                "18.45" -> assignAt(12 + shiftValue, subject.index)
-                "19.30" -> assignAt(13 + shiftValue, subject.index)
-                "20.15" -> assignAt(14 + shiftValue, subject.index)
+                "09.45" -> assignAt(1 + shiftValue, subject.index)
+                "11.30" -> assignAt(2 + shiftValue, subject.index)
+                "13.30" -> assignAt(3 + shiftValue, subject.index)
+                "15.15" -> assignAt(4 + shiftValue, subject.index)
+                "17.00" -> assignAt(5 + shiftValue, subject.index)
+                "18.45" -> assignAt(6 + shiftValue, subject.index)
             }
         }
 

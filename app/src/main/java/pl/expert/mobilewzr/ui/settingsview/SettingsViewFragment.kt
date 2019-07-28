@@ -2,7 +2,10 @@ package pl.expert.mobilewzr.ui.settingsview
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 
 class SettingsViewFragment : PreferenceFragmentCompat() {
@@ -17,7 +20,7 @@ class SettingsViewFragment : PreferenceFragmentCompat() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity?.title = getString(R.string.settings)
+        (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.settings)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
