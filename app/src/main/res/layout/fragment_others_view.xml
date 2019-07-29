@@ -17,7 +17,9 @@
         app:layout_constraintEnd_toStartOf="@+id/materialCardView2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="2dp">
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -32,7 +34,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/materialCardView"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="2dp">
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -47,7 +51,9 @@
         app:layout_constraintEnd_toStartOf="@+id/settingsCardView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="2dp">
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -62,7 +68,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/materialCardView3"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView2"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="2dp">
 
         <ImageView
             android:layout_width="50dp"
@@ -78,7 +86,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:text="@string/settings"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -14,7 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/week_view_tab_layout_height"
             android:layout_marginBottom="5dp"
-            android:visibility="gone" />
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabTextColor="@android:color/white" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/timetable_view_view_pager"
