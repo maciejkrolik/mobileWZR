@@ -17,7 +17,9 @@
             android:layout_marginBottom="5dp"
             android:background="@color/colorPrimary"
             android:visibility="gone"
-            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicator="@drawable/tab_indicator"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="5dp"
             app:tabTextColor="@android:color/white" />
 
         <androidx.viewpager.widget.ViewPager
