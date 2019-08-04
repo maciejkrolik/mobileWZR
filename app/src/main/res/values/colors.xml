@@ -5,4 +5,5 @@
     <color name="colorAccent">#2CABE3</color>
 
     <color name="colorSubtitle">#444444</color>
+    <color name="colorAccentGradientEnd">#85C5FF</color>
 </resources>
