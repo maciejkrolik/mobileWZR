@@ -1,5 +1,6 @@
 package pl.expert.mobilewzr.util
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 abstract class CalendarUtils {
@@ -23,6 +24,14 @@ abstract class CalendarUtils {
         fun getDayOfWeek(): Int {
             val calendar: Calendar = Calendar.getInstance(Locale.UK)
             return getDayOfWeek(calendar.time)
+        }
+
+        /**
+         * Returns current time in time string
+         */
+        fun getCurrentTime(): String {
+            val sdf = SimpleDateFormat("HH.mm", Locale.UK)
+            return sdf.format(Calendar.getInstance().time)
         }
 
         /**

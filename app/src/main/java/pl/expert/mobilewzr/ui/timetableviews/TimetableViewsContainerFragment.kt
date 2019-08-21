@@ -89,12 +89,12 @@ class TimetableViewsContainerFragment : Fragment() {
     private fun prepareTimetableView() {
         when (timetableViewType) {
             TimetableViewType.WEEK_VIEW -> {
-                (activity as AppCompatActivity).toolbar.toolbarTitle.text = "${getString(R.string.group)}: $groupId"
+                (activity as AppCompatActivity).toolbar.toolbarTitle.text = "${getString(R.string.group)} $groupId"
                 prepareWeekViewPagerAdapter()
             }
             TimetableViewType.DAY_VIEW -> {
                 (activity as AppCompatActivity).toolbar.toolbarTitle.text =
-                    "${getString(R.string.group)}: $groupId (${getString(R.string.week)} ${CalendarUtils.getWeekType(
+                    "${getString(R.string.group)} $groupId (${getString(R.string.week)} ${CalendarUtils.getWeekType(
                         weekNumber
                     )})"
                 prepareDayViewPagerAdapter()
@@ -127,9 +127,9 @@ class TimetableViewsContainerFragment : Fragment() {
             override fun onPageSelected(dayNumber: Int) {
                 when (dayNumber) {
                     0, 1, 2, 3, 4 -> (activity as AppCompatActivity).toolbar.toolbarTitle.text =
-                        "${getString(R.string.group)}: $groupId (${getString(R.string.week)} A)"
+                        "${getString(R.string.group)} $groupId (${getString(R.string.week)} A)"
                     5, 6, 7, 8, 9 -> (activity as AppCompatActivity).toolbar.toolbarTitle.text =
-                        "${getString(R.string.group)}: $groupId (${getString(R.string.week)} B)"
+                        "${getString(R.string.group)} $groupId (${getString(R.string.week)} B)"
                 }
             }
         })

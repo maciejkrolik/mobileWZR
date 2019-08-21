@@ -10,7 +10,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
-import pl.expert.mobilewzr.data.dto.WeekViewItem
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.ui.timetableviews.TimetableViewLocation
 
@@ -36,9 +35,9 @@ class WeekViewViewModel constructor(
     }
 
     private fun loadSubjects(groupId: String) {
-        if (!isTimetableSavedInDb(groupId) || timetableViewLocation == TimetableViewLocation.SEARCH) weekViewDataHolder =
-            repository.getWeekViewDataFromService(groupId)
-        else {
+        if (!isTimetableSavedInDb(groupId) || timetableViewLocation == TimetableViewLocation.SEARCH) {
+            weekViewDataHolder = repository.getWeekViewDataFromService(groupId)
+        } else {
             weekViewDataHolder = MutableLiveData()
             viewModelScope.launch {
                 weekViewDataHolder = repository.getWeekViewDataFromDb(weekViewDataHolder)
@@ -60,11 +59,11 @@ class WeekViewViewModel constructor(
         }
     }
 
-    fun getWeekViewItems(weekNumber: Int): LiveData<List<WeekViewItem>> {
+    fun getSpecificWeekSubjects(weekNumber: Int): LiveData<List<Subject>> {
         return Transformations.map(weekViewDataHolder) { weekViewDataHolder ->
             when (weekNumber) {
-                0 -> weekViewDataHolder.weekViewItems.take(7)
-                1 -> weekViewDataHolder.weekViewItems.takeLast(7)
+                0 -> weekViewDataHolder.AWeek
+                1 -> weekViewDataHolder.BWeek
                 else -> {
                     throw IllegalArgumentException("Unknown week number: $weekNumber")
                 }

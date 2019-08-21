@@ -61,9 +61,8 @@ class SubjectsRepository @Inject constructor(
 
     suspend fun getWeekViewDataFromDb(weekViewDataHolder: MutableLiveData<WeekViewDataHolder>): MutableLiveData<WeekViewDataHolder> {
         val subjects = subjectsDao.getSubjects()
-        val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(subjects)
 
-        weekViewDataHolder.postValue(WeekViewDataHolder(subjects, weekViewItems))
+        weekViewDataHolder.postValue(WeekViewUtils.getWeekViewDataHolder(subjects))
 
         return weekViewDataHolder
     }
@@ -101,9 +100,9 @@ class SubjectsRepository @Inject constructor(
                 val downloadedSubjects = response.body()!!
                 val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(downloadedSubjects)
                 val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
-                val weekViewItems = WeekViewUtils.getWeekViewItemsFrom(fixedSubjects)
+                val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
 
-                weekViewDataHolder.value = WeekViewDataHolder(fixedSubjects, weekViewItems)
+                weekViewDataHolder.value = WeekViewUtils.getWeekViewDataHolder(mergedSubjects)
 
                 Log.i(TAG, "Subjects successfully downloaded")
             }

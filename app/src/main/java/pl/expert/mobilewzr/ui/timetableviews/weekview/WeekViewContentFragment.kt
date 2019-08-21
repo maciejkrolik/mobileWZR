@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_week_view_content.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.dto.WeekViewItem
 import pl.expert.mobilewzr.data.model.Subject
@@ -36,13 +36,6 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
 
         weekNumber = arguments?.getInt("argWeekNumber")!!
 
-        val recyclerAdapter = WeekViewRecyclerAdapter(weekViewItems, this)
-        binding.weekViewRecyclerView.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-            adapter = recyclerAdapter
-        }
-
         return binding.root
     }
 
@@ -52,22 +45,13 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
         weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
 
-        weekViewViewModel.getWeekViewItems(weekNumber as Int).observe(viewLifecycleOwner,
-            Observer<List<WeekViewItem>> { weekViewItems ->
-                if (weekViewItems != null) {
-                    this.weekViewItems.clear()
-                    this.weekViewItems.addAll(weekViewItems)
-                }
-
-                binding.weekViewProgressBar.visibility = View.GONE
-                binding.weekViewRecyclerView.visibility = View.VISIBLE
-            })
-
-        weekViewViewModel.getSubjects().observe(viewLifecycleOwner,
+        weekViewViewModel.getSpecificWeekSubjects(weekNumber!!).observe(viewLifecycleOwner,
             Observer<List<Subject>> { subjects ->
                 if (subjects != null) {
                     this.subjects.clear()
                     this.subjects.addAll(subjects)
+
+                    timetableGrid.setSubjects(subjects)
                 }
             })
     }
