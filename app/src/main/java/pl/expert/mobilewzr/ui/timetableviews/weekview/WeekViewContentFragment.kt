@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,8 +40,8 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
             .get(WeekViewViewModel::class.java)
@@ -54,6 +55,10 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
                     timetableGrid.setSubjects(subjects)
                 }
             })
+
+        timetableGrid.setListener { subjectIndex ->
+            showSubjectDetailsDialog(subjects[subjectIndex])
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -98,7 +103,7 @@ class WeekViewContentFragment : TimetableViewContentBaseFragment(), WeekViewRecy
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {
-        val alertDialog = AlertDialog.Builder(context!!).apply {
+        val alertDialog = AlertDialog.Builder(requireContext()).apply {
             setTitle(subject.title)
             setMessage("${subject.location}, ${subject.description}")
         }.create()

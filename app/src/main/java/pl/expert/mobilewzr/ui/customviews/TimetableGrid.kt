@@ -18,6 +18,8 @@ import kotlin.math.roundToInt
 
 class TimetableGrid : View {
 
+    private var subjectSelectListener: ((Int) -> Unit)? = null
+
     private var subjects = listOf<Subject>()
     private val subjectRects = mutableListOf<RectF>()
 
@@ -170,7 +172,8 @@ class TimetableGrid : View {
             MotionEvent.ACTION_UP -> {
                 for ((index, rect) in subjectRects.withIndex()) {
                     if (rect.contains(event.x, event.y)) {
-                        Toast.makeText(context, subjects[index].title, Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, subjects[index].title, Toast.LENGTH_SHORT).show()
+                        broadcastSubject(index)
                         break
                     }
                 }
@@ -185,12 +188,22 @@ class TimetableGrid : View {
         invalidate()
     }
 
+    fun setListener(subjectIndex: (Int) -> Unit) {
+        this.subjectSelectListener = subjectIndex
+    }
+
     private fun getYPosition(timeString: String): Float {
         return (CalendarUtils.getMinutesFromTimeString(timeString) - startTime + 15).toPx()
     }
 
     private fun Int.toPx(): Float {
         return this * screenDensity
+    }
+
+    private fun broadcastSubject(subjectIndex: Int) {
+        this.subjectSelectListener?.let { function ->
+            function(subjectIndex)
+        }
     }
 
 }
