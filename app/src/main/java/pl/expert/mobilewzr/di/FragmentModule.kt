@@ -2,12 +2,12 @@ package pl.expert.mobilewzr.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewContentFragment
-import pl.expert.mobilewzr.ui.newsview.NewsViewFragment
-import pl.expert.mobilewzr.ui.searchview.SearchViewFragment
-import pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment
-import pl.expert.mobilewzr.ui.timetableviews.editview.EditViewFragment
-import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewContentFragment
+import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContentFragment
+import pl.expert.mobilewzr.ui.news.NewsFragment
+import pl.expert.mobilewzr.ui.search.SearchFragment
+import pl.expert.mobilewzr.ui.timetable.TimetableContainerFragment
+import pl.expert.mobilewzr.ui.timetable.editview.EditViewFragment
+import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewContentFragment
 
 @Module
 abstract class FragmentModule {
@@ -16,13 +16,13 @@ abstract class FragmentModule {
     abstract fun contributeWeekViewContentFragmentInjector(): WeekViewContentFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeTimetableViewsContainerFragmentInjector(): TimetableViewsContainerFragment
+    abstract fun contributeTimetableViewsContainerFragmentInjector(): TimetableContainerFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeNewsViewFragmentInjector(): NewsViewFragment
+    abstract fun contributeNewsViewFragmentInjector(): NewsFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeSearchViewFragmentInjector(): SearchViewFragment
+    abstract fun contributeSearchViewFragmentInjector(): SearchFragment
 
     @ContributesAndroidInjector
     abstract fun contributeDayViewContentFragmentInjector(): DayViewContentFragment

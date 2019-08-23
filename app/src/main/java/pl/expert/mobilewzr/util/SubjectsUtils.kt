@@ -11,7 +11,7 @@ abstract class SubjectsUtils {
         private lateinit var subjects: MutableList<Subject>
 
         /**
-         * Returns subjects only from the first two weeks of the semester. Useful in full-time studies layouts.
+         * Returns allSubjects only from the first two weeks of the semester. Useful in full-time studies layouts.
          */
         fun getOnlyFirstTwoWeeksSubjectsFrom(subjects: List<Subject>): List<Subject> {
             val firstTwoWeeksSubjects: MutableList<Subject> = mutableListOf()
@@ -29,8 +29,8 @@ abstract class SubjectsUtils {
         }
 
         /**
-         * Some two hour subjects take two lines in CSV file but others take only one line.
-         * This function assigns indexes to subjects and fixes above problem by adding additional subject when needed.
+         * Some two hour allSubjects take two lines in CSV file but others take only one line.
+         * This function assigns indexes to allSubjects and fixes above problem by adding additional subject when needed.
          */
         fun fix(subjects: List<Subject>): List<Subject> {
             this.subjects = subjects.toMutableList()
@@ -43,7 +43,7 @@ abstract class SubjectsUtils {
         }
 
         /**
-         * Merges doubled subjects into one with start time of the first and end time of the second. Useful in DayView.
+         * Merges doubled allSubjects into one with start time of the first and end time of the second. Useful in DayView.
          */
         fun mergeMultipleSubjectsIntoOne(subjects: List<Subject>): List<Subject> {
             val mergedSubjects = mutableListOf<Subject>()

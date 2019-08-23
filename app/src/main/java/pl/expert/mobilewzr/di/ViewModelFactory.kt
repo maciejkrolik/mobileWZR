@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.ui.timetableviews.dayview.DayViewViewModel
-import pl.expert.mobilewzr.ui.newsview.NewsViewViewModel
-import pl.expert.mobilewzr.ui.searchview.SearchViewViewModel
-import pl.expert.mobilewzr.ui.timetableviews.editview.EditViewViewModel
-import pl.expert.mobilewzr.ui.timetableviews.weekview.WeekViewViewModel
+import pl.expert.mobilewzr.ui.timetable.dayview.DayViewViewModel
+import pl.expert.mobilewzr.ui.news.NewsViewModel
+import pl.expert.mobilewzr.ui.search.SearchViewModel
+import pl.expert.mobilewzr.ui.timetable.editview.EditViewViewModel
+import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,10 +24,10 @@ class ViewModelFactory @Inject constructor(
             when {
                 isAssignableFrom(WeekViewViewModel::class.java) ->
                     WeekViewViewModel(subjectsRepository)
-                isAssignableFrom(NewsViewViewModel::class.java) ->
-                    NewsViewViewModel(newsRepository)
-                isAssignableFrom(SearchViewViewModel::class.java) ->
-                    SearchViewViewModel(subjectsRepository)
+                isAssignableFrom(NewsViewModel::class.java) ->
+                    NewsViewModel(newsRepository)
+                isAssignableFrom(SearchViewModel::class.java) ->
+                    SearchViewModel(subjectsRepository)
                 isAssignableFrom(DayViewViewModel::class.java) ->
                     DayViewViewModel(subjectsRepository)
                 isAssignableFrom(EditViewViewModel::class.java) ->

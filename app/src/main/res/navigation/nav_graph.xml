@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/search_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.searchview.SearchViewFragment"
-        tools:layout="@layout/fragment_search_view">
+        android:name="pl.expert.mobilewzr.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_search_view_fragment_to_search_timetable_view_fragment"
             app:destination="@id/search_timetable_view_fragment"
@@ -20,17 +20,17 @@
 
     <fragment
         android:id="@+id/news_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.newsview.NewsViewFragment"
-        tools:layout="@layout/fragment_news_view" />
+        android:name="pl.expert.mobilewzr.ui.news.NewsFragment"
+        tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/search_timetable_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment"
+        android:name="pl.expert.mobilewzr.ui.timetable.TimetableContainerFragment"
         tools:layout="@layout/fragment_week_view_content" />
 
     <fragment
         android:id="@+id/my_timetable_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.timetableviews.TimetableViewsContainerFragment"
+        android:name="pl.expert.mobilewzr.ui.timetable.TimetableContainerFragment"
         tools:layout="@layout/fragment_week_view_content">
         <action
             android:id="@+id/action_my_timetable_view_fragment_to_editViewFragment"
@@ -43,12 +43,12 @@
 
     <fragment
         android:id="@+id/settings_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.settingsview.SettingsViewFragment" />
+        android:name="pl.expert.mobilewzr.ui.settings.SettingsFragment" />
 
     <fragment
         android:id="@+id/others_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.othersview.OthersViewFragment"
-        tools:layout="@layout/fragment_others_view">
+        android:name="pl.expert.mobilewzr.ui.others.OthersFragment"
+        tools:layout="@layout/fragment_others">
         <action
             android:id="@+id/action_others_view_fragment_to_settings_view_fragment"
             app:destination="@id/settings_view_fragment"
@@ -60,7 +60,7 @@
 
     <fragment
         android:id="@+id/edit_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.timetableviews.editview.EditViewFragment"
+        android:name="pl.expert.mobilewzr.ui.timetable.editview.EditViewFragment"
         tools:layout="@layout/fragment_edit_view" />
 
 </navigation>

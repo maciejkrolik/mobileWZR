@@ -58,4 +58,5 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private fun setupBottomNavMenu(navController: NavController) {
         bottom_nav_view.setupWithNavController(navController)
     }
+
 }

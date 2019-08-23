@@ -1,8 +1,8 @@
 package pl.expert.mobilewzr.util
 
-import pl.expert.mobilewzr.data.dto.DayViewDataHolder
-import pl.expert.mobilewzr.data.dto.DayViewItem
-import pl.expert.mobilewzr.data.dto.DayViewWeekDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.DayViewItem
+import pl.expert.mobilewzr.domain.domainmodel.DayViewWeekDataHolder
 import pl.expert.mobilewzr.data.model.Subject
 
 abstract class DayViewUtils {
@@ -19,7 +19,11 @@ abstract class DayViewUtils {
             assignSubjects()
             sortSubjectsByStartTime()
 
-            return DayViewDataHolder(AWeekDataHolder, BWeekDataHolder, this.subjects)
+            return DayViewDataHolder(
+                AWeekDataHolder,
+                BWeekDataHolder,
+                this.subjects
+            )
         }
 
         private fun assignSubjects() {

@@ -12,5 +12,6 @@ abstract class NetworkUtils {
             val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
             return activeNetworkInfo != null && activeNetworkInfo.isConnected
         }
+
     }
 }

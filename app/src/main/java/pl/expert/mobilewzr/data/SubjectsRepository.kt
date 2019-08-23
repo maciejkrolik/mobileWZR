@@ -6,8 +6,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import pl.expert.mobilewzr.data.dto.DayViewDataHolder
-import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
+import pl.expert.mobilewzr.data.db.SubjectsDao
+import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.WeekViewDataHolder
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.util.DayViewUtils
 import pl.expert.mobilewzr.util.SubjectsUtils
@@ -85,7 +86,7 @@ class SubjectsRepository @Inject constructor(
             override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
                 t.printStackTrace()
 
-                Log.i(TAG, "Error downloading subjects")
+                Log.i(TAG, "Error downloading allSubjects")
             }
         })
 
@@ -110,7 +111,7 @@ class SubjectsRepository @Inject constructor(
             override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
                 t.printStackTrace()
 
-                Log.i(TAG, "Error downloading subjects")
+                Log.i(TAG, "Error downloading allSubjects")
             }
         })
 

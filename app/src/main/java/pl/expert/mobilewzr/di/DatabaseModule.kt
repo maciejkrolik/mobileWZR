@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import pl.expert.mobilewzr.data.MobileWZRDatabase
-import pl.expert.mobilewzr.data.SubjectsDao
+import pl.expert.mobilewzr.data.db.MobileWZRDatabase
+import pl.expert.mobilewzr.data.db.SubjectsDao
 import javax.inject.Singleton
 
 @Module

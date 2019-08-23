@@ -1,6 +1,6 @@
 package pl.expert.mobilewzr.util
 
-import pl.expert.mobilewzr.data.dto.WeekViewDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.WeekViewDataHolder
 import pl.expert.mobilewzr.data.model.Subject
 
 abstract class WeekViewUtils {
