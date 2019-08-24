@@ -59,8 +59,6 @@ class EditViewFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentEditViewBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.edit)
-
         subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
         weekNumber = arguments?.getInt("argWeekNumber") ?: 0
         weekDayNumber = arguments?.getInt("argWeekDayNumber") ?: 0
@@ -73,6 +71,11 @@ class EditViewFragment : Fragment() {
                     TimetableViewType.DAY_VIEW.value.toString()
                 ).toInt()
             )
+
+        if (subjectIndex != -1)
+            (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.edit)
+        else
+            (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.add)
 
         return binding.root
     }

@@ -45,7 +45,9 @@
     <string name="copy_mode">Copy mode</string>
     <string name="classes_has_been_copied">Classes has been copied</string>
     <string name="edit_all_with_the_same_title">Edit all classes with the same title</string>
-    <string name="edit">Edit/Add</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
     <string name="timetable_title_base">Group %1$s</string>
     <string name="timetable_title_with_week">Group %1$s (Week %2$s)</string>
     <string name="timetable_title_week_a">Group %1$s (Week A)</string>

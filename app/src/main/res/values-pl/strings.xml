@@ -44,7 +44,9 @@
     <string name="copy_mode">Tryb kopiowania</string>
     <string name="classes_has_been_copied">Zajęcia zostały skopiowane</string>
     <string name="edit_all_with_the_same_title">Edytuj wszystkie zajęcia z tym samym tytułem</string>
-    <string name="edit">Edytuj/Dodaj</string>
+    <string name="add">Dodaj</string>
+    <string name="edit">Edytuj</string>
+    <string name="cancel">Anuluj</string>
     <string name="timetable_title_base">Grupa %1$s</string>
     <string name="timetable_title_with_week">Grupa %1$s (Tydzień %2$s)</string>
     <string name="timetable_title_week_a">Grupa %1$s (Tydzień A)</string>

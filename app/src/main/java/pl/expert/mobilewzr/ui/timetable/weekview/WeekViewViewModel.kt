@@ -18,7 +18,7 @@ class WeekViewViewModel constructor(
 ) : ViewModel() {
 
     private lateinit var weekViewDataHolder: MutableLiveData<WeekViewDataHolder>
-    private lateinit var timetableViewLocation: TimetableViewLocation
+    lateinit var timetableViewLocation: TimetableViewLocation
 
     private var idOfAGroupSavedInDb = ""
     var groupId = ""

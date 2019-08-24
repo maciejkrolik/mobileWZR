@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +15,7 @@ import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
 import pl.expert.mobilewzr.ui.timetable.TimetableContentBaseFragment
+import pl.expert.mobilewzr.ui.timetable.TimetableViewLocation
 
 class WeekViewContentFragment : TimetableContentBaseFragment() {
 
@@ -48,7 +50,10 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
             })
 
         timetableGrid.setListener { subjectIndex ->
-            showSubjectDetailsDialog(subjects[subjectIndex])
+            if (weekViewViewModel.timetableViewLocation == TimetableViewLocation.SEARCH)
+                showSimpleSubjectDetailsDialog(subjects[subjectIndex])
+            else
+                showSubjectDetailsDialog(subjects[subjectIndex])
         }
     }
 
@@ -78,6 +83,20 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {
+        val alertDialog = AlertDialog.Builder(requireContext()).apply {
+            setTitle(subject.title)
+            setMessage("${subject.location}, ${subject.description}")
+            setPositiveButton(R.string.edit) { _, _ ->
+                navigateToEditFragment(subject.index)
+            }
+            setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.cancel()
+            }
+        }.create()
+        alertDialog.show()
+    }
+
+    private fun showSimpleSubjectDetailsDialog(subject: Subject) {
         val alertDialog = AlertDialog.Builder(requireContext()).apply {
             setTitle(subject.title)
             setMessage("${subject.location}, ${subject.description}")

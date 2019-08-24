@@ -34,11 +34,7 @@
         tools:layout="@layout/fragment_week_view_content">
         <action
             android:id="@+id/action_my_timetable_view_fragment_to_editViewFragment"
-            app:destination="@id/edit_view_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/edit_view_fragment" />
     </fragment>
 
     <fragment

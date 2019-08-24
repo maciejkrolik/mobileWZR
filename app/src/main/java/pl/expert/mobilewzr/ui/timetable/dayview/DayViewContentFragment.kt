@@ -91,7 +91,7 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onSubjectLongClick(position: Int) {
+    override fun onSubjectClick(position: Int) {
         val subjectIndex = getSubjectIndexBasedOnPositionInDayView(position)
         if (timetableViewLocation == TimetableViewLocation.MY_TIMETABLE) {
             navigateToEditFragment(subjectIndex)

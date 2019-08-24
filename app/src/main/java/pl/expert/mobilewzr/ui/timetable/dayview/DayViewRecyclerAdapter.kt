@@ -29,7 +29,7 @@ class DayViewRecyclerAdapter(
     override fun getItemCount() = dataSet.size
 
     class SubjectsViewHolder(itemView: View, onSubjectListener: OnSubjectListener) : RecyclerView.ViewHolder(itemView),
-        View.OnLongClickListener {
+        View.OnClickListener {
 
         var startTimeTextView: TextView? = null
         var endTimeTextView: TextView? = null
@@ -44,16 +44,16 @@ class DayViewRecyclerAdapter(
             locationWithDescriptionTextView = itemView.location_description_day_view_text
             this.onSubjectListener = onSubjectListener
 
-            itemView.setOnLongClickListener(this)
+            itemView.setOnClickListener(this)
         }
 
-        override fun onLongClick(view: View?): Boolean {
-            onSubjectListener?.onSubjectLongClick(adapterPosition)
-            return true
+        override fun onClick(v: View?) {
+            onSubjectListener?.onSubjectClick(adapterPosition)
         }
     }
 
     interface OnSubjectListener {
-        fun onSubjectLongClick(position: Int)
+        fun onSubjectClick(position: Int)
     }
+
 }
