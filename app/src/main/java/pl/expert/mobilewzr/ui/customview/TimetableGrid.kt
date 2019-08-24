@@ -98,11 +98,11 @@ class TimetableGrid : View {
 
         // Draw current time line
         val currentTimeYPosition = getYPosition(CalendarUtils.getCurrentTime())
-        canvas.drawLine(oneSixthWide - 3.toPx(), currentTimeYPosition, width.toFloat(), currentTimeYPosition, redPaint)
+        canvas.drawLine(oneSixthWide - 5.toPx(), currentTimeYPosition, width.toFloat(), currentTimeYPosition, redPaint)
         canvas.drawOval(
-            oneSixthWide - 7.toPx(),
+            oneSixthWide - 9.toPx(),
             currentTimeYPosition - 3.toPx(),
-            oneSixthWide - 1.toPx(),
+            oneSixthWide - 3.toPx(),
             currentTimeYPosition + 3.toPx(),
             redPaint
         )
@@ -136,7 +136,7 @@ class TimetableGrid : View {
                 getYPosition(subject.endTime)
             )
 
-            canvas.drawRoundRect(rect, 25F, 25F, subjectPaint)
+            canvas.drawRoundRect(rect, 15F, 15F, subjectPaint)
             subjectRects.add(rect)
 
             val subjectTitle = subject.title

@@ -7,20 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_week_view_content.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
 import pl.expert.mobilewzr.ui.timetable.TimetableContentBaseFragment
-import javax.inject.Inject
 
 class WeekViewContentFragment : TimetableContentBaseFragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentWeekViewContentBinding
     private lateinit var weekViewViewModel: WeekViewViewModel
@@ -69,8 +64,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                 val args = Bundle()
                 args.putInt("argSubjectIndex", -1)
                 args.putInt("argWeekNumber", weekNumber ?: 0)
-                Navigation.findNavController(view!!)
-                    .navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
+                findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
                 return true
             }
         }
@@ -80,7 +74,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     private fun navigateToEditFragment(subjectIndex: Int) {
         val args = Bundle()
         args.putInt("argSubjectIndex", subjectIndex)
-        Navigation.findNavController(view!!).navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
+        findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {
@@ -90,4 +84,5 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
         }.create()
         alertDialog.show()
     }
+
 }

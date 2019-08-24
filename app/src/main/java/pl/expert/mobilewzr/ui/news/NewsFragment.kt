@@ -74,7 +74,7 @@ class NewsFragment : BaseInjectedFragment() {
     }
 
     private fun getViewModel() {
-        newsViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
+        newsViewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(NewsViewModel::class.java)
     }
 

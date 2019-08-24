@@ -1,32 +1,21 @@
 package pl.expert.mobilewzr.ui.timetable
 
-import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import dagger.android.support.AndroidSupportInjection
 import pl.expert.mobilewzr.R
+import pl.expert.mobilewzr.ui.BaseInjectedFragment
 
-abstract class TimetableContentBaseFragment : Fragment() {
+abstract class TimetableContentBaseFragment : BaseInjectedFragment() {
 
     protected lateinit var timetableViewLocation: TimetableViewLocation
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        timetableViewLocation = TimetableViewLocation.getByValue(arguments?.getInt("argTimetableViewLocation")!!)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -34,6 +23,12 @@ abstract class TimetableContentBaseFragment : Fragment() {
             TimetableViewLocation.MY_TIMETABLE -> inflater?.inflate(R.menu.saved_timetable_menu, menu)
             TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.downloaded_timetable_menu, menu)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        timetableViewLocation = TimetableViewLocation.getByValue(arguments?.getInt("argTimetableViewLocation")!!)
+
     }
 
     protected fun putIdOfAGroupSavedInDbIntoSharedPref(groupId: String) {
@@ -48,4 +43,5 @@ abstract class TimetableContentBaseFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
     }
+
 }

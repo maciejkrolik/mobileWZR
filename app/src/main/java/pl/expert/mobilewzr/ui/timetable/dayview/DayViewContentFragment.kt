@@ -6,22 +6,17 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import pl.expert.mobilewzr.R
+import pl.expert.mobilewzr.databinding.FragmentDayViewContentBinding
 import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
 import pl.expert.mobilewzr.domain.domainmodel.DayViewItem
-import pl.expert.mobilewzr.databinding.FragmentDayViewContentBinding
 import pl.expert.mobilewzr.ui.timetable.TimetableContentBaseFragment
 import pl.expert.mobilewzr.ui.timetable.TimetableViewLocation
-import javax.inject.Inject
 
 class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAdapter.OnSubjectListener {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentDayViewContentBinding
     private lateinit var dayViewViewModel: DayViewViewModel
@@ -47,8 +42,8 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         dayViewViewModel =
             ViewModelProviders.of(requireActivity(), viewModelFactory).get(DayViewViewModel::class.java)
@@ -136,4 +131,5 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
         args.putInt("argSubjectIndex", subjectIndex)
         Navigation.findNavController(view!!).navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
     }
+
 }

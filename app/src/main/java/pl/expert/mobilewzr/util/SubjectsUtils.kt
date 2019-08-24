@@ -47,10 +47,17 @@ abstract class SubjectsUtils {
          */
         fun mergeMultipleSubjectsIntoOne(subjects: List<Subject>): List<Subject> {
             val mergedSubjects = mutableListOf<Subject>()
+            val tempSubjects = mutableListOf<Subject>()
 
-            for (i in 0 until subjects.size step 2) {
-                mergedSubjects.add(subjects[i])
-                subjects[i].endTime = subjects.getOrNull(i + 1)?.endTime ?: subjects[i].endTime
+            for (i in 0 until subjects.size) {
+                if (subjects[i].title == subjects.getOrNull(i + 1)?.title) {
+                    tempSubjects.add(subjects[i])
+                } else {
+                    val subject = subjects[i]
+                    subject.startTime = tempSubjects.firstOrNull()?.startTime ?: subject.startTime
+                    tempSubjects.clear()
+                    mergedSubjects.add(subject)
+                }
             }
 
             return mergedSubjects
