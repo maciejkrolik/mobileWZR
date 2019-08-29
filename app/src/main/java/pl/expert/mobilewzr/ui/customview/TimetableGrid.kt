@@ -72,7 +72,11 @@ class TimetableGrid : View {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -90,6 +94,38 @@ class TimetableGrid : View {
             canvas.drawText(time, oneTwelfthWide, yPosition + 5.toPx(), blackPaint)
         }
 
+        // Draw days titles
+        canvas.drawText(
+            context.getString(R.string.monday_short),
+            oneTwelfthWide * 3,
+            20.toPx(),
+            blackPaint
+        )
+        canvas.drawText(
+            context.getString(R.string.tuesday_short),
+            oneTwelfthWide * 5,
+            20.toPx(),
+            blackPaint
+        )
+        canvas.drawText(
+            context.getString(R.string.wednesday_short),
+            oneTwelfthWide * 7,
+            20.toPx(),
+            blackPaint
+        )
+        canvas.drawText(
+            context.getString(R.string.thursday_short),
+            oneTwelfthWide * 9,
+            20.toPx(),
+            blackPaint
+        )
+        canvas.drawText(
+            context.getString(R.string.friday_short),
+            oneTwelfthWide * 11,
+            20.toPx(),
+            blackPaint
+        )
+
         // Draw break dividers
         for (time in breakTimes) {
             val yPosition = getYPosition(time)
@@ -98,7 +134,13 @@ class TimetableGrid : View {
 
         // Draw current time line
         val currentTimeYPosition = getYPosition(CalendarUtils.getCurrentTime())
-        canvas.drawLine(oneSixthWide - 5.toPx(), currentTimeYPosition, width.toFloat(), currentTimeYPosition, redPaint)
+        canvas.drawLine(
+            oneSixthWide - 5.toPx(),
+            currentTimeYPosition,
+            width.toFloat(),
+            currentTimeYPosition,
+            redPaint
+        )
         canvas.drawOval(
             oneSixthWide - 9.toPx(),
             currentTimeYPosition - 3.toPx(),
@@ -191,7 +233,7 @@ class TimetableGrid : View {
     }
 
     private fun getYPosition(timeString: String): Float {
-        return (CalendarUtils.getMinutesFromTimeString(timeString) - startTime + 15).toPx()
+        return (CalendarUtils.getMinutesFromTimeString(timeString) - startTime + 35).toPx()
     }
 
     private fun Int.toPx(): Float {
