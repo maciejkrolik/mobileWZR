@@ -57,6 +57,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private fun setupBottomNavMenu(navController: NavController) {
         bottom_nav_view.setupWithNavController(navController)
+        bottom_nav_view.setOnNavigationItemReselectedListener { menuItem ->
+            if (menuItem.itemId != navController.currentDestination?.id) {
+                while (navController.currentDestination?.id != menuItem.itemId) {
+                    navController.popBackStack()
+                }
+            }
+        }
     }
 
 }
