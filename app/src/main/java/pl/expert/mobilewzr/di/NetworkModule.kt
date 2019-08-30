@@ -16,8 +16,9 @@ class NetworkModule {
     fun provideWZRService(): WZRService {
         return Retrofit.Builder()
             .baseUrl(URLs.SUBJECTS_DOMAIN)
-            .addConverterFactory(CsvConverterFactory.create())
+            .addConverterFactory(CsvConverterFactory())
             .build()
             .create(WZRService::class.java)
     }
+
 }
