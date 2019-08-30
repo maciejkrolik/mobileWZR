@@ -11,28 +11,28 @@
         android:orientation="vertical">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/timetable_view_container_tab_layout"
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/week_view_tab_layout_height"
-            android:background="@color/colorPrimary"
+            android:background="?android:colorBackground"
             android:paddingBottom="5dp"
             android:visibility="gone"
             app:tabIndicator="@drawable/tab_indicator"
-            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="5dp"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="#99FFFFFF" />
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="#696969" />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/timetable_view_view_pager"
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/timetable_view_container_text_info"
+            android:id="@+id/timetableViewContainerTextInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,7 +40,7 @@
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </LinearLayout>
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
@@ -29,7 +30,11 @@ class SearchFragment : BaseInjectedFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.search)
@@ -46,7 +51,8 @@ class SearchFragment : BaseInjectedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
+        spinnerAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.searchViewSpinner.adapter = spinnerAdapter
 
@@ -55,7 +61,10 @@ class SearchFragment : BaseInjectedFragment() {
                 putString("argGroupId", binding.searchViewSpinner.selectedItem.toString())
             }
             searchViewModel.setGroupIdIndex(binding.searchViewSpinner.selectedItemId.toInt())
-            findNavController().navigate(R.id.action_search_view_fragment_to_search_timetable_view_fragment, args)
+            findNavController().navigate(
+                R.id.action_search_view_fragment_to_search_timetable_view_fragment,
+                args
+            )
         }
 
         binding.internetErrorSearchViewButton.setOnClickListener {
@@ -118,4 +127,5 @@ class SearchFragment : BaseInjectedFragment() {
         binding.internetErrorSearchViewText.visibility = View.GONE
         binding.internetErrorSearchViewButton.visibility = View.GONE
     }
+
 }

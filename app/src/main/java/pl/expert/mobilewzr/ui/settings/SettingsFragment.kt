@@ -27,4 +27,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
     }
+
 }

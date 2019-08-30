@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.customview
+package pl.expert.mobilewzr.widget
 
 import android.content.Context
 import android.graphics.*

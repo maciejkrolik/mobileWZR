@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <pl.expert.mobilewzr.ui.customview.TimetableGrid
-            android:id="@+id/timetableGrid"
+        <ScrollView
+            android:id="@+id/weekViewGrid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-    </ScrollView>
+            <pl.expert.mobilewzr.widget.TimetableGrid
+                android:id="@+id/timetableGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/weekViewProgressBar"
+            android:layout_width="@dimen/progress_indicator_size"
+            android:layout_height="@dimen/progress_indicator_size"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            tools:visibility="gone" />
+
+    </FrameLayout>
 
 </layout>

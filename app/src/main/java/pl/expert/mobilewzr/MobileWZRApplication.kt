@@ -26,4 +26,5 @@ class MobileWZRApplication : Application(), HasActivityInjector {
     override fun activityInjector(): AndroidInjector<Activity> {
         return dispatchingAndroidInjector
     }
+
 }

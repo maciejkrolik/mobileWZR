@@ -34,4 +34,5 @@ class NewsAdapter(
             newsContentTextView = itemView.news_content_text
         }
     }
+
 }

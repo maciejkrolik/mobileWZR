@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_week_view_content.*
 import pl.expert.mobilewzr.R
@@ -25,7 +25,11 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
 
     private val subjects: MutableList<Subject> = mutableListOf()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
 
         weekNumber = arguments?.getInt("argWeekNumber")!!
@@ -44,8 +48,10 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                 if (subjects != null) {
                     this.subjects.clear()
                     this.subjects.addAll(subjects)
-
                     timetableGrid.setSubjects(subjects)
+
+                    weekViewProgressBar.visibility = View.GONE
+                    weekViewGrid.visibility = View.VISIBLE
                 }
             })
 
@@ -69,7 +75,10 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                 val args = Bundle()
                 args.putInt("argSubjectIndex", -1)
                 args.putInt("argWeekNumber", weekNumber ?: 0)
-                findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
+                findNavController().navigate(
+                    R.id.action_my_timetable_view_fragment_to_editViewFragment,
+                    args
+                )
                 return true
             }
         }
@@ -79,7 +88,10 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     private fun navigateToEditFragment(subjectIndex: Int) {
         val args = Bundle()
         args.putInt("argSubjectIndex", subjectIndex)
-        findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
+        findNavController().navigate(
+            R.id.action_my_timetable_view_fragment_to_editViewFragment,
+            args
+        )
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {

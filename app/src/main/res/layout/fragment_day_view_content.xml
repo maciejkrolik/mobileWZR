@@ -7,7 +7,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/day_view_recycler_view"
+            android:id="@+id/dayViewRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
@@ -16,7 +16,7 @@
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/day_view_info_text"
+            android:id="@+id/dayViewInfoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -27,7 +27,7 @@
             android:visibility="gone" />
 
         <ProgressBar
-            android:id="@+id/day_view_progress_bar"
+            android:id="@+id/dayViewProgressBar"
             android:layout_width="@dimen/progress_indicator_size"
             android:layout_height="@dimen/progress_indicator_size"
             android:layout_gravity="center"

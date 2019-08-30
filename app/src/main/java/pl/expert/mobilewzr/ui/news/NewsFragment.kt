@@ -2,11 +2,9 @@ package pl.expert.mobilewzr.ui.news
 
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.News
@@ -29,10 +27,14 @@ class NewsFragment : BaseInjectedFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.news)
+        toolbar.toolbarTitle.text = getString(R.string.news)
 
         isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
 
@@ -74,23 +76,22 @@ class NewsFragment : BaseInjectedFragment() {
     }
 
     private fun getViewModel() {
-        newsViewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(NewsViewModel::class.java)
+        newsViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
     }
 
     private fun getNewsAndObserve() {
         newsViewModel.getNews().observe(viewLifecycleOwner,
-            Observer<List<News>> { news ->
-                if (news != null && news.isNotEmpty()) {
-                    this.news.addAll(news)
-                    binding.newsRecyclerView.visibility = View.VISIBLE
-                    adapter.notifyDataSetChanged()
-                } else {
-                    binding.internetErrorNewsViewText.visibility = View.VISIBLE
-                    binding.internetErrorNewsViewText.text = getString(R.string.server_error)
-                }
-                binding.newsProgressBar.visibility = View.GONE
-            })
+                Observer<List<News>> { news ->
+                    if (news != null && news.isNotEmpty()) {
+                        this.news.addAll(news)
+                        binding.newsRecyclerView.visibility = View.VISIBLE
+                        adapter.notifyDataSetChanged()
+                    } else {
+                        binding.internetErrorNewsViewText.visibility = View.VISIBLE
+                        binding.internetErrorNewsViewText.text = getString(R.string.no_news_available)
+                    }
+                    binding.newsProgressBar.visibility = View.GONE
+                })
     }
 
     private fun showMainNewsViewItems() {
@@ -112,4 +113,5 @@ class NewsFragment : BaseInjectedFragment() {
         binding.internetErrorNewsViewText.visibility = View.GONE
         binding.internetErrorNewsViewButton.visibility = View.GONE
     }
+
 }

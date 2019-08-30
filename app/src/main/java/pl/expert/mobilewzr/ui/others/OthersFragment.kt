@@ -36,4 +36,5 @@ class OthersFragment : Fragment() {
             findNavController().navigate(R.id.action_others_view_fragment_to_settings_view_fragment)
         }
     }
+
 }

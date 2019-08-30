@@ -11,11 +11,7 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_search_view_fragment_to_search_timetable_view_fragment"
-            app:destination="@id/search_timetable_view_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/search_timetable_view_fragment" />
     </fragment>
 
     <fragment
@@ -47,16 +43,16 @@
         tools:layout="@layout/fragment_others">
         <action
             android:id="@+id/action_others_view_fragment_to_settings_view_fragment"
-            app:destination="@id/settings_view_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/settings_view_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/edit_view_fragment"
         android:name="pl.expert.mobilewzr.ui.timetable.editview.EditViewFragment"
-        tools:layout="@layout/fragment_edit_view" />
+        tools:layout="@layout/fragment_edit_view" >
+        <argument
+            android:name="subjectIndex"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

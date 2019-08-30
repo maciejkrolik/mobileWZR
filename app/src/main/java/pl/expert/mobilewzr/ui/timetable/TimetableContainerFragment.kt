@@ -1,34 +1,28 @@
 package pl.expert.mobilewzr.ui.timetable
 
-import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_timetable_views_container.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentTimetableViewsContainerBinding
+import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewPagerAdapter
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewViewModel
 import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewPagerAdapter
 import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewViewModel
 import pl.expert.mobilewzr.util.CalendarUtils
-import javax.inject.Inject
 
-class TimetableContainerFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+class TimetableContainerFragment : BaseInjectedFragment() {
 
     private lateinit var binding: FragmentTimetableViewsContainerBinding
     private lateinit var groupId: String
@@ -38,13 +32,17 @@ class TimetableContainerFragment : Fragment() {
     private lateinit var pagerAdapter: PagerAdapter
     private var weekNumber: Int = 0
 
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentTimetableViewsContainerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentTimetableViewsContainerBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         weekNumber = CalendarUtils.getWeekNumber()
 
@@ -61,86 +59,89 @@ class TimetableContainerFragment : Fragment() {
 
         timetableViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())
             TimetableViewLocation.MY_TIMETABLE else TimetableViewLocation.SEARCH
-        groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+        groupId = arguments?.getString("argGroupId") ?: sharedPref.getString(
+            "prefIdOfAGroupSavedInDb",
+            ""
+        )!!
 
-        if (!groupId.isEmpty()) {
-            prepareTimetableView()
-            prepareTimetableViewTabLayout()
-            binding.timetableViewContainerTabLayout.setupWithViewPager(binding.timetableViewViewPager)
-
-            binding.timetableViewViewPager.visibility = View.VISIBLE
-            binding.timetableViewContainerTabLayout.visibility = View.VISIBLE
+        if (groupId.isNotEmpty()) {
+            setupTimetableView()
+            setupTabLayout()
+            tabLayout.setupWithViewPager(viewPager)
+            assignViewModel()
+            viewPager.visibility = View.VISIBLE
+            tabLayout.visibility = View.VISIBLE
         } else {
-            (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.my_timetable)
-            binding.timetableViewContainerTextInfo.visibility = View.VISIBLE
-        }
-
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        if (!groupId.isEmpty()) {
-            assignTimetableViewViewModel()
+            toolbar.toolbarTitle.text = getString(R.string.my_timetable)
+            timetableViewContainerTextInfo.visibility = View.VISIBLE
         }
     }
 
-    private fun prepareTimetableView() {
+    private fun setupTimetableView() {
         when (timetableViewType) {
             TimetableViewType.WEEK_VIEW -> {
                 (activity as AppCompatActivity).toolbar.toolbarTitle.text =
                     getString(R.string.timetable_title_base, groupId)
-                prepareWeekViewPagerAdapter()
+                setupWeekViewPagerAdapter()
             }
             TimetableViewType.DAY_VIEW -> {
                 (activity as AppCompatActivity).toolbar.toolbarTitle.text =
-                    getString(R.string.timetable_title_with_week, groupId, CalendarUtils.getWeekType(weekNumber))
-                prepareDayViewPagerAdapter()
+                    getString(
+                        R.string.timetable_title_with_week,
+                        groupId,
+                        CalendarUtils.getWeekType(weekNumber)
+                    )
+                setupDayViewPagerAdapter()
             }
         }
     }
 
-    private fun prepareWeekViewPagerAdapter() {
+    private fun setupWeekViewPagerAdapter() {
         pagerAdapter = WeekViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
-        binding.timetableViewViewPager.adapter = pagerAdapter
-        binding.timetableViewViewPager.currentItem = weekNumber
+        viewPager.adapter = pagerAdapter
+        viewPager.currentItem = weekNumber
     }
 
-    private fun prepareDayViewPagerAdapter() {
+    private fun setupDayViewPagerAdapter() {
         pagerAdapter = DayViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
-        binding.timetableViewViewPager.adapter = pagerAdapter
+        viewPager.adapter = pagerAdapter
         setDayViewViewPagerCurrentItem()
         assignOnPageChangeListener()
     }
 
     private fun setDayViewViewPagerCurrentItem() {
-        binding.timetableViewViewPager.currentItem =
+        viewPager.currentItem =
             if (weekNumber == 0) CalendarUtils.getDayOfWeek() else CalendarUtils.getDayOfWeek() + 5
     }
 
     private fun assignOnPageChangeListener() {
-        binding.timetableViewViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
             override fun onPageSelected(dayNumber: Int) {
                 when (dayNumber) {
-                    0, 1, 2, 3, 4 -> (activity as AppCompatActivity).toolbar.toolbarTitle.text =
+                    0, 1, 2, 3, 4 -> toolbar.toolbarTitle.text =
                         getString(R.string.timetable_title_week_a, groupId)
-                    5, 6, 7, 8, 9 -> (activity as AppCompatActivity).toolbar.toolbarTitle.text =
+                    5, 6, 7, 8, 9 -> toolbar.toolbarTitle.text =
                         getString(R.string.timetable_title_week_b, groupId)
                 }
             }
         })
     }
 
-    private fun prepareTimetableViewTabLayout() {
+    private fun setupTabLayout() {
         if (timetableViewType == TimetableViewType.DAY_VIEW) {
-            binding.timetableViewContainerTabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+            tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         }
     }
 
-    private fun assignTimetableViewViewModel() {
+    private fun assignViewModel() {
         when (timetableViewType) {
             TimetableViewType.WEEK_VIEW -> {
                 assignWeekViewViewModel()

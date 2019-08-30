@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 
 class SearchViewModel constructor(
-    private val repository: SubjectsRepository
+        private val repository: SubjectsRepository
 ) : ViewModel() {
 
     private var groups = MutableLiveData<List<String>>()
@@ -38,4 +38,5 @@ class SearchViewModel constructor(
         super.onCleared()
         viewModelJob.cancel()
     }
+
 }
