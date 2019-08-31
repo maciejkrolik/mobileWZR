@@ -5,6 +5,7 @@ import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.News
@@ -50,13 +51,13 @@ class NewsFragment : BaseInjectedFragment() {
 
         adapter = NewsAdapter(news)
 
-        binding.newsRecyclerView.apply {
+        newsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = adapter
         }
 
-        binding.internetErrorNewsViewButton.setOnClickListener {
+        newsButton.setOnClickListener {
             isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
             if (isNetworkAvailable) {
                 hideInternetErrorNewsViewItems()
@@ -84,34 +85,34 @@ class NewsFragment : BaseInjectedFragment() {
                 Observer<List<News>> { news ->
                     if (news != null && news.isNotEmpty()) {
                         this.news.addAll(news)
-                        binding.newsRecyclerView.visibility = View.VISIBLE
+                        newsRecyclerView.visibility = View.VISIBLE
                         adapter.notifyDataSetChanged()
                     } else {
-                        binding.internetErrorNewsViewText.visibility = View.VISIBLE
-                        binding.internetErrorNewsViewText.text = getString(R.string.no_news_available)
+                        newsTextView.text = getString(R.string.no_news_available)
+                        newsTextView.visibility = View.VISIBLE
                     }
-                    binding.newsProgressBar.visibility = View.GONE
+                    newsProgressBar.visibility = View.GONE
                 })
     }
 
     private fun showMainNewsViewItems() {
-        binding.newsRecyclerView.visibility = View.VISIBLE
-        binding.newsProgressBar.visibility = View.VISIBLE
+        newsRecyclerView.visibility = View.VISIBLE
+        newsProgressBar.visibility = View.VISIBLE
     }
 
     private fun hideMainNewsViewItems() {
-        binding.newsRecyclerView.visibility = View.GONE
-        binding.newsProgressBar.visibility = View.GONE
+        newsRecyclerView.visibility = View.GONE
+        newsProgressBar.visibility = View.GONE
     }
 
     private fun showInternetErrorNewsViewItems() {
-        binding.internetErrorNewsViewText.visibility = View.VISIBLE
-        binding.internetErrorNewsViewButton.visibility = View.VISIBLE
+        newsTextView.visibility = View.VISIBLE
+        newsButton.visibility = View.VISIBLE
     }
 
     private fun hideInternetErrorNewsViewItems() {
-        binding.internetErrorNewsViewText.visibility = View.GONE
-        binding.internetErrorNewsViewButton.visibility = View.GONE
+        newsTextView.visibility = View.GONE
+        newsButton.visibility = View.GONE
     }
 
 }

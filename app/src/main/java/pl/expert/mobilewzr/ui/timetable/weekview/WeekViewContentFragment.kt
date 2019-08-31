@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_week_view_content.*
 import pl.expert.mobilewzr.R
@@ -75,10 +74,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                 val args = Bundle()
                 args.putInt("argSubjectIndex", -1)
                 args.putInt("argWeekNumber", weekNumber ?: 0)
-                findNavController().navigate(
-                    R.id.action_my_timetable_view_fragment_to_editViewFragment,
-                    args
-                )
+                findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
                 return true
             }
         }
@@ -88,10 +84,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     private fun navigateToEditFragment(subjectIndex: Int) {
         val args = Bundle()
         args.putInt("argSubjectIndex", subjectIndex)
-        findNavController().navigate(
-            R.id.action_my_timetable_view_fragment_to_editViewFragment,
-            args
-        )
+        findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
     }
 
     private fun showSubjectDetailsDialog(subject: Subject) {
@@ -105,6 +98,8 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                 dialog.cancel()
             }
         }.create()
+        alertDialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
+        alertDialog.window?.attributes?.windowAnimations = R.style.AlertDialogAnimation
         alertDialog.show()
     }
 
@@ -113,6 +108,8 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
             setTitle(subject.title)
             setMessage("${subject.location}, ${subject.description}")
         }.create()
+        alertDialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
+        alertDialog.window?.attributes?.windowAnimations = R.style.AlertDialogAnimation
         alertDialog.show()
     }
 
