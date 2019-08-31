@@ -70,8 +70,8 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
             })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.set_as_my_timetable -> {
                 dayViewViewModel.replaceSubjectsInDb()
                 putIdOfAGroupSavedInDbIntoSharedPref(dayViewViewModel.groupId)

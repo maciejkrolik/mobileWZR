@@ -46,7 +46,7 @@ class EditViewFragment : Fragment() {
     private var weekNumber: Int? = null
     private var weekDayNumber: Int? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
@@ -88,16 +88,16 @@ class EditViewFragment : Fragment() {
         setOnMultipleUpdateSwitchListener()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.edit_view_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.edit_view_menu, menu)
         if (subjectIndex == -1) {
-            val deleteItem = menu?.findItem(R.id.delete)
+            val deleteItem = menu.findItem(R.id.delete)
             deleteItem?.isVisible = false
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.delete -> {
                 editViewViewModel.deleteSubject(subjectIndex!!)
                 return true

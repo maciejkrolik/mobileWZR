@@ -18,10 +18,10 @@ abstract class TimetableContentBaseFragment : BaseInjectedFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         when (timetableViewLocation) {
-            TimetableViewLocation.MY_TIMETABLE -> inflater?.inflate(R.menu.saved_timetable_menu, menu)
-            TimetableViewLocation.SEARCH -> inflater?.inflate(R.menu.downloaded_timetable_menu, menu)
+            TimetableViewLocation.MY_TIMETABLE -> inflater.inflate(R.menu.saved_timetable_menu, menu)
+            TimetableViewLocation.SEARCH -> inflater.inflate(R.menu.downloaded_timetable_menu, menu)
         }
     }
 

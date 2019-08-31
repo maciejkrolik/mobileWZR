@@ -16,7 +16,7 @@ abstract class BaseInjectedFragment : Fragment() {
 
     protected val toolbar: Toolbar by lazy { (activity as AppCompatActivity).toolbar }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

@@ -44,8 +44,8 @@ class SearchFragment : BaseInjectedFragment() {
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

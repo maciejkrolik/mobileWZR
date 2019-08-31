@@ -62,8 +62,8 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.set_as_my_timetable -> {
                 weekViewViewModel.replaceSubjectsInDb()
                 putIdOfAGroupSavedInDbIntoSharedPref(weekViewViewModel.groupId)
