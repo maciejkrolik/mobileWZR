@@ -55,10 +55,12 @@
 
         <Button
             android:id="@+id/internet_error_search_view_button"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
+            style="@style/RobotoButtonStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="25dp"
             android:text="@string/try_again"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"

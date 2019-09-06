@@ -44,7 +44,7 @@ class EditViewViewModel constructor(
             subject?.description = newSubject.description
             subject?.location = newSubject.location
             subject?.startTime = newSubject.startTime
-            subject?.endTime = CalendarUtils.addMinutesToTimeString(newSubject.startTime, 45)
+            subject?.endTime = newSubject.endTime
             subject?.startDate = newSubject.startDate
             repository.updateSubject(subject!!)
             _isUpdatingDb.postValue(false)

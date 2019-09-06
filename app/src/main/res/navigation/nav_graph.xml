@@ -30,7 +30,10 @@
         tools:layout="@layout/fragment_week_view_content">
         <action
             android:id="@+id/action_my_timetable_view_fragment_to_editViewFragment"
-            app:destination="@id/edit_view_fragment" />
+            app:destination="@id/edit_view_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_bottom" />
     </fragment>
 
     <fragment

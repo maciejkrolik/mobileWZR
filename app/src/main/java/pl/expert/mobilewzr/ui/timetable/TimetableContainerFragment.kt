@@ -1,12 +1,12 @@
 package pl.expert.mobilewzr.ui.timetable
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -54,7 +54,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
                 sharedPref.getString(
                     "prefTimetableViewType",
                     TimetableViewType.DAY_VIEW.value.toString()
-                ).toInt()
+                )!!.toInt()
             )
 
         timetableViewLocation = if (arguments?.getString("argGroupId").isNullOrEmpty())

@@ -1,33 +1,26 @@
 package pl.expert.mobilewzr.ui.timetable.editview
 
-import android.content.Context
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.fragment_edit_view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentEditViewBinding
+import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.ui.timetable.TimetableViewType
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewViewModel
 import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewViewModel
 import pl.expert.mobilewzr.util.CalendarUtils
 import java.util.*
-import javax.inject.Inject
 
-class EditViewFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+class EditViewFragment : BaseInjectedFragment() {
 
     private val editViewViewModel by lazy {
         ViewModelProviders.of(requireActivity(), viewModelFactory).get(EditViewViewModel::class.java)
@@ -42,14 +35,10 @@ class EditViewFragment : Fragment() {
     private lateinit var binding: FragmentEditViewBinding
     private lateinit var firstWeekMondayDate: Date
     private lateinit var timetableViewType: TimetableViewType
+    private lateinit var subject: Subject
     private var subjectIndex: Int? = null
     private var weekNumber: Int? = null
     private var weekDayNumber: Int? = null
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,13 +58,13 @@ class EditViewFragment : Fragment() {
                 sharedPref.getString(
                     "prefTimetableViewType",
                     TimetableViewType.DAY_VIEW.value.toString()
-                ).toInt()
+                )!!.toInt()
             )
 
         if (subjectIndex != -1)
-            (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.edit)
+            toolbar.toolbarTitle.text = getString(R.string.edit)
         else
-            (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.add)
+            toolbar.toolbarTitle.text = getString(R.string.add)
 
         return binding.root
     }
@@ -86,6 +75,7 @@ class EditViewFragment : Fragment() {
         getSubjectsAndObserveThem()
         getStateAndObserveIt()
         setOnMultipleUpdateSwitchListener()
+        setOnClickListeners()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -106,7 +96,7 @@ class EditViewFragment : Fragment() {
                 val fieldsAreBlank = checkIfFieldsAreBlank()
                 if (!fieldsAreBlank) {
                     val newSubject = prepareSubject()
-                    if (subjectIndex != -1 && !binding.editViewCopyModeSwitch.isChecked)
+                    if (subjectIndex != -1 && !copyModeSwitch.isChecked)
                         updateSubjectsWith(newSubject)
                     else
                         editViewViewModel.addSubject(newSubject)
@@ -119,22 +109,52 @@ class EditViewFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setOnClickListeners() {
+        editViewStartTime.setOnClickListener {
+            val hour = subject.startTime.substringBefore(".").toInt()
+            val minute = subject.startTime.substringAfter(".").toInt()
+
+            val timePicker = TimePickerDialog(context, { _, selectedHour, selectedMinute ->
+
+                editViewStartTime.text =
+                    "${selectedHour.toString().padStart(2, '0')}.${selectedMinute.toString().padStart(2, '0')}"
+
+            }, hour, minute, true)
+
+            timePicker.show()
+        }
+
+        editViewEndTime.setOnClickListener {
+            val hour = subject.endTime.substringBefore(".").toInt()
+            val minute = subject.endTime.substringAfter(".").toInt()
+
+            val timePicker = TimePickerDialog(context, { _, selectedHour, selectedMinute ->
+
+                editViewEndTime.text =
+                    "${selectedHour.toString().padStart(2, '0')}.${selectedMinute.toString().padStart(2, '0')}"
+
+            }, hour, minute, true)
+
+            timePicker.show()
+        }
+    }
+
     private fun checkIfFieldsAreBlank(): Boolean {
-        return (binding.titleEditText.text.isBlank()
-                || binding.descriptionEditText.text.isBlank()
-                || binding.locationEditText.text.isBlank())
+        return (titleEditText.text.isBlank()
+                || descriptionEditText.text.isBlank()
+                || locationEditText.text.isBlank())
     }
 
     private fun prepareSubject(): Subject {
         val newSubject = Subject()
-        newSubject.title = binding.titleEditText.text.toString()
-        newSubject.description = binding.descriptionEditText.text.toString()
-        newSubject.location = binding.locationEditText.text.toString()
-        newSubject.startTime =
-            CalendarUtils.getSubjectTimeStringFrom(binding.chooseTimeSpinner.selectedItemPosition)
+        newSubject.title = titleEditText.text.toString()
+        newSubject.description = descriptionEditText.text.toString()
+        newSubject.location = locationEditText.text.toString()
+        newSubject.startTime = editViewStartTime.text.toString()
+        newSubject.endTime = editViewEndTime.text.toString()
         newSubject.startDate = getStartDate(
-            binding.chooseDaySpinner.selectedItemPosition,
-            binding.chooseWeekSpinner.selectedItemPosition
+            dayWeekSegmentedGroup.position,
+            weekSegmentedGroup.position
         )
         return newSubject
     }
@@ -148,7 +168,7 @@ class EditViewFragment : Fragment() {
     }
 
     private fun updateSubjectsWith(newSubject: Subject) {
-        if (binding.editViewUpdateMultipleSwitch.isChecked)
+        if (updateMultipleSubjectsSwitch.isChecked)
             editViewViewModel.updateMultipleSubjects(subjectIndex!!, newSubject)
         else
             editViewViewModel.updateSubject(subjectIndex!!, newSubject)
@@ -162,16 +182,17 @@ class EditViewFragment : Fragment() {
         editViewViewModel.getSubjects(groupId).observe(viewLifecycleOwner,
             Observer { subjects ->
                 if (subjects != null && subjectIndex != -1) {
-                    val subject = subjects.single { subject -> subject.index == subjectIndex }
-                    binding.titleEditText.setText(subject.title)
-                    binding.descriptionEditText.setText(subject.description)
-                    binding.locationEditText.setText(subject.location)
-                    binding.chooseTimeSpinner.setSelection(CalendarUtils.getSubjectTimeIndexFrom(subject.startTime))
-                    binding.chooseDaySpinner.setSelection(CalendarUtils.getDayOfWeek(subject.startDate))
-                    binding.chooseWeekSpinner.setSelection(CalendarUtils.getWeekNumber(subject.startDate))
+                    subject = subjects.single { subject -> subject.index == subjectIndex }
+                    titleEditText.setText(subject.title)
+                    descriptionEditText.setText(subject.description)
+                    locationEditText.setText(subject.location)
+                    dayWeekSegmentedGroup.setPosition(CalendarUtils.getDayOfWeek(subject.startDate), false)
+                    weekSegmentedGroup.setPosition(CalendarUtils.getWeekNumber(subject.startDate), false)
+                    editViewStartTime.text = subject.startTime
+                    editViewEndTime.text = subject.endTime
                 } else {
-                    binding.chooseDaySpinner.setSelection(weekDayNumber!!)
-                    binding.chooseWeekSpinner.setSelection(weekNumber!!)
+                    dayWeekSegmentedGroup.setPosition(weekDayNumber!!, false)
+                    weekSegmentedGroup.setPosition(weekNumber!!, false)
                 }
                 firstWeekMondayDate = getFirstWeekMondayDate(subjects.first())
                 hideProgressBar()
@@ -194,7 +215,7 @@ class EditViewFragment : Fragment() {
                         TimetableViewType.DAY_VIEW -> dayViewViewModel.reloadSubjects()
                         TimetableViewType.WEEK_VIEW -> weekViewViewModel.reloadSubjects()
                     }
-                    if (binding.editViewCopyModeSwitch.isChecked) {
+                    if (copyModeSwitch.isChecked) {
                         Toast.makeText(context, getString(R.string.classes_has_been_copied), Toast.LENGTH_SHORT).show()
                     } else {
                         Navigation.findNavController(view!!).popBackStack()
@@ -206,37 +227,32 @@ class EditViewFragment : Fragment() {
     }
 
     private fun setOnMultipleUpdateSwitchListener() {
-        binding.editViewUpdateMultipleSwitch.setOnCheckedChangeListener { _, isChecked ->
+        updateMultipleSubjectsSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                binding.chooseTimeSpinner.isEnabled = false
-                binding.chooseDaySpinner.isEnabled = false
-                binding.chooseWeekSpinner.isEnabled = false
-                binding.editViewCopyModeSwitch.isChecked = false
-                binding.editViewCopyModeSwitch.isEnabled = false
+                timeChooser.visibility = View.GONE
+                dayWeekSegmentedGroup.visibility = View.GONE
+                weekSegmentedGroup.visibility = View.GONE
+                copyModeSwitch.visibility = View.GONE
+                copyModeSwitch.isChecked = false
             } else {
-                binding.chooseTimeSpinner.isEnabled = true
-                binding.chooseDaySpinner.isEnabled = true
-                binding.chooseWeekSpinner.isEnabled = true
-                binding.editViewCopyModeSwitch.isEnabled = true
+                timeChooser.visibility = View.VISIBLE
+                dayWeekSegmentedGroup.visibility = View.VISIBLE
+                weekSegmentedGroup.visibility = View.VISIBLE
+                copyModeSwitch.visibility = View.VISIBLE
             }
         }
     }
 
     private fun hideProgressBar() {
-        binding.editViewProgressBar.visibility = View.GONE
-        binding.editTitleLabel.visibility = View.VISIBLE
-        binding.titleEditText.visibility = View.VISIBLE
-        binding.editDescriptionLabel.visibility = View.VISIBLE
-        binding.descriptionEditText.visibility = View.VISIBLE
-        binding.editLocationLabel.visibility = View.VISIBLE
-        binding.locationEditText.visibility = View.VISIBLE
-        binding.chooseTimeLabel.visibility = View.VISIBLE
-        binding.chooseTimeSpinner.visibility = View.VISIBLE
-        binding.chooseDayLabel.visibility = View.VISIBLE
-        binding.chooseDaySpinner.visibility = View.VISIBLE
-        binding.chooseWeekLabel.visibility = View.VISIBLE
-        binding.chooseWeekSpinner.visibility = View.VISIBLE
-        binding.editViewCopyLinearLayout.visibility = View.VISIBLE
-        binding.editViewMultipleLinearLayout.visibility = View.VISIBLE
+        editViewProgressBar.visibility = View.GONE
+        titleEditText.visibility = View.VISIBLE
+        descriptionEditText.visibility = View.VISIBLE
+        locationEditText.visibility = View.VISIBLE
+        timeChooser.visibility = View.VISIBLE
+        dayWeekSegmentedGroup.visibility = View.VISIBLE
+        weekSegmentedGroup.visibility = View.VISIBLE
+        copyModeSwitch.visibility = View.VISIBLE
+        updateMultipleSubjectsSwitch.visibility = View.VISIBLE
     }
+
 }

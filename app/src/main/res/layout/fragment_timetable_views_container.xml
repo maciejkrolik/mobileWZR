@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/week_view_tab_layout_height"
             android:background="?android:colorBackground"
-            android:paddingBottom="5dp"
             android:visibility="gone"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorColor="@color/colorPrimary"

@@ -132,23 +132,6 @@ class TimetableGrid : View {
             canvas.drawLine(oneSixthWide, yPosition, width.toFloat(), yPosition, blackPaint)
         }
 
-        // Draw current time line
-        val currentTimeYPosition = getYPosition(CalendarUtils.getCurrentTime())
-        canvas.drawLine(
-            oneSixthWide - 5.toPx(),
-            currentTimeYPosition,
-            width.toFloat(),
-            currentTimeYPosition,
-            redPaint
-        )
-        canvas.drawOval(
-            oneSixthWide - 9.toPx(),
-            currentTimeYPosition - 3.toPx(),
-            oneSixthWide - 3.toPx(),
-            currentTimeYPosition + 3.toPx(),
-            redPaint
-        )
-
         // Draw allSubjects rectangles
         for (subject in subjects) {
             val dayOfTheWeek = CalendarUtils.getDayOfWeek(subject.startDate)
@@ -203,6 +186,23 @@ class TimetableGrid : View {
             staticLayout.draw(canvas)
             canvas.restore()
         }
+
+        // Draw current time line
+        val currentTimeYPosition = getYPosition(CalendarUtils.getCurrentTime())
+        canvas.drawLine(
+            oneSixthWide - 5.toPx(),
+            currentTimeYPosition,
+            width.toFloat(),
+            currentTimeYPosition,
+            redPaint
+        )
+        canvas.drawOval(
+            oneSixthWide - 9.toPx(),
+            currentTimeYPosition - 3.toPx(),
+            oneSixthWide - 3.toPx(),
+            currentTimeYPosition + 3.toPx(),
+            redPaint
+        )
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
