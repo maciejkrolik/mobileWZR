@@ -52,4 +52,6 @@
     <string name="timetable_title_week_a">Grupa %1$s (Tydzień A)</string>
     <string name="timetable_title_week_b">Grupa %1$s (Tydzień B)</string>
     <string name="no_news_available">Aktualnie brak ogłoszeń</string>
+    <string name="from">Od:</string>
+    <string name="to">Do:</string>
 </resources>

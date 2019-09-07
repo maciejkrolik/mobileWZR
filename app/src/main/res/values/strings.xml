@@ -53,4 +53,6 @@
     <string name="timetable_title_week_a">Group %1$s (Week A)</string>
     <string name="timetable_title_week_b">Group %1$s (Week B)</string>
     <string name="no_news_available">No news available</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
 </resources>

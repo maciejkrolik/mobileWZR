@@ -1,13 +1,14 @@
 package pl.expert.mobilewzr.ui.timetable.editview
 
+import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.*
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.fragment_edit_view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
@@ -114,7 +115,7 @@ class EditViewFragment : BaseInjectedFragment() {
             val hour = subject.startTime.substringBefore(".").toInt()
             val minute = subject.startTime.substringAfter(".").toInt()
 
-            val timePicker = TimePickerDialog(context, { _, selectedHour, selectedMinute ->
+            val timePicker = TimePickerDialog(context, R.style.AlertDialogTheme, { _, selectedHour, selectedMinute ->
 
                 editViewStartTime.text =
                     "${selectedHour.toString().padStart(2, '0')}.${selectedMinute.toString().padStart(2, '0')}"
@@ -128,7 +129,7 @@ class EditViewFragment : BaseInjectedFragment() {
             val hour = subject.endTime.substringBefore(".").toInt()
             val minute = subject.endTime.substringAfter(".").toInt()
 
-            val timePicker = TimePickerDialog(context, { _, selectedHour, selectedMinute ->
+            val timePicker = TimePickerDialog(context, R.style.AlertDialogTheme, { _, selectedHour, selectedMinute ->
 
                 editViewEndTime.text =
                     "${selectedHour.toString().padStart(2, '0')}.${selectedMinute.toString().padStart(2, '0')}"
@@ -174,6 +175,7 @@ class EditViewFragment : BaseInjectedFragment() {
             editViewViewModel.updateSubject(subjectIndex!!, newSubject)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getSubjectsAndObserveThem() {
         val groupId = when (timetableViewType) {
             TimetableViewType.DAY_VIEW -> dayViewViewModel.groupId
@@ -191,11 +193,12 @@ class EditViewFragment : BaseInjectedFragment() {
                     editViewStartTime.text = subject.startTime
                     editViewEndTime.text = subject.endTime
                 } else {
+                    editViewStartTime.text = "08.00"
+                    editViewEndTime.text = "09.30"
                     dayWeekSegmentedGroup.setPosition(weekDayNumber!!, false)
                     weekSegmentedGroup.setPosition(weekNumber!!, false)
                 }
                 firstWeekMondayDate = getFirstWeekMondayDate(subjects.first())
-                hideProgressBar()
             })
     }
 
@@ -218,7 +221,7 @@ class EditViewFragment : BaseInjectedFragment() {
                     if (copyModeSwitch.isChecked) {
                         Toast.makeText(context, getString(R.string.classes_has_been_copied), Toast.LENGTH_SHORT).show()
                     } else {
-                        Navigation.findNavController(view!!).popBackStack()
+                        findNavController().popBackStack()
                     }
                 } else if (updatingDb) {
                     wasUpdatedBefore = true
@@ -241,18 +244,6 @@ class EditViewFragment : BaseInjectedFragment() {
                 copyModeSwitch.visibility = View.VISIBLE
             }
         }
-    }
-
-    private fun hideProgressBar() {
-        editViewProgressBar.visibility = View.GONE
-        titleEditText.visibility = View.VISIBLE
-        descriptionEditText.visibility = View.VISIBLE
-        locationEditText.visibility = View.VISIBLE
-        timeChooser.visibility = View.VISIBLE
-        dayWeekSegmentedGroup.visibility = View.VISIBLE
-        weekSegmentedGroup.visibility = View.VISIBLE
-        copyModeSwitch.visibility = View.VISIBLE
-        updateMultipleSubjectsSwitch.visibility = View.VISIBLE
     }
 
 }

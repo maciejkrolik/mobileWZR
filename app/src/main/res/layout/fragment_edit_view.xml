@@ -20,30 +20,28 @@
                 style="@style/EditViewEditText"
                 android:drawableStart="@drawable/ic_title"
                 android:hint="@string/title"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/descriptionEditText"
                 style="@style/EditViewEditText"
                 android:drawableStart="@drawable/ic_subtitle"
                 android:hint="@string/description"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/locationEditText"
                 style="@style/EditViewEditText"
+                android:layout_marginBottom="15dp"
                 android:drawableStart="@drawable/ic_location"
                 android:hint="@string/location"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:importantForAutofill="no" />
 
             <LinearLayout
                 android:id="@+id/timeChooser"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -52,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Od:"
+                    android:text="@string/from"
                     android:textColor="@android:color/black" />
 
                 <TextView
@@ -61,8 +59,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
                     tools:text="08:00" />
 
                 <TextView
@@ -70,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Do:"
+                    android:text="@string/to"
                     android:textColor="@android:color/black" />
 
                 <TextView
@@ -79,8 +77,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
                     tools:text="16:00" />
 
             </LinearLayout>
@@ -178,26 +176,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="@string/copy_mode"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:text="@string/copy_mode" />
 
             <Switch
                 android:id="@+id/updateMultipleSubjectsSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="@string/edit_all_with_the_same_title"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <ProgressBar
-                android:id="@+id/editViewProgressBar"
-                android:layout_width="@dimen/progress_indicator_size"
-                android:layout_height="@dimen/progress_indicator_size"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                tools:visibility="gone" />
+                android:text="@string/edit_all_with_the_same_title" />
 
         </LinearLayout>
 
