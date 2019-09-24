@@ -3,9 +3,7 @@ package pl.expert.mobilewzr.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 
@@ -15,9 +13,6 @@ class SearchViewModel constructor(
 
     private var groups = MutableLiveData<List<String>>()
     private var previouslySelectedGroupIdIndex = 0
-
-    private val viewModelJob = Job()
-    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     fun getGroups(): LiveData<List<String>> {
         if (groups.value.isNullOrEmpty()) {
@@ -32,11 +27,6 @@ class SearchViewModel constructor(
 
     fun setGroupIdIndex(groupIdIndex: Int) {
         previouslySelectedGroupIdIndex = groupIdIndex
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
 }

@@ -1,45 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="pref_timetable_view_type_entries">
-        <item>@string/day_view</item>
-        <item>@string/week_view</item>
-    </string-array>
-
-    <string-array name="pref_timetable_view_type_entry_values">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
-    <string-array name="subjects_times">
-        <item>08.00 – 08.45</item>
-        <item>08.45 – 09.30</item>
-        <item>09.45 – 10.30</item>
-        <item>10.30 – 11.15</item>
-        <item>11.30 – 12.15</item>
-        <item>12.15 – 13.00</item>
-        <item>13.30 – 14.15</item>
-        <item>14.15 – 15.00</item>
-        <item>15.15 – 16.00</item>
-        <item>16.00 – 16.45</item>
-        <item>17.00 – 17.45</item>
-        <item>17.45 – 18.30</item>
-        <item>18.45 – 19.30</item>
-        <item>19.30 – 20.15</item>
-        <item>20.15 – 21.00</item>
-    </string-array>
-
-    <string-array name="weekdays">
-        <item>@string/monday</item>
-        <item>@string/tuesday</item>
-        <item>@string/wednesday</item>
-        <item>@string/thursday</item>
-        <item>@string/friday</item>
-    </string-array>
-
-    <string-array name="week_types">
-        <item>@string/weekA</item>
-        <item>@string/weekB</item>
+    <string-array name="timetable_view_type_entries">
+        <item>@string/day</item>
+        <item>@string/week</item>
+        <item>@string/calendar</item>
     </string-array>
 
 </resources>

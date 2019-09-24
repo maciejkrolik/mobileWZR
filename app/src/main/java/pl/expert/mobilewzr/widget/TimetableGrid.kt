@@ -136,6 +136,8 @@ class TimetableGrid : View {
         for (subject in subjects) {
             val dayOfTheWeek = CalendarUtils.getDayOfWeek(subject.startDate)
 
+            if (dayOfTheWeek >= 5) break
+
             val leftMargin = when (dayOfTheWeek) {
                 0 -> oneSixthWide
                 1 -> oneSixthWide * 2

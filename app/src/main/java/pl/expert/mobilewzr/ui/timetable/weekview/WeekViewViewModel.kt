@@ -1,16 +1,10 @@
 package pl.expert.mobilewzr.ui.timetable.weekview
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.domain.domainmodel.WeekViewDataHolder
 import pl.expert.mobilewzr.data.model.Subject
+import pl.expert.mobilewzr.domain.domainmodel.WeekViewDataHolder
 import pl.expert.mobilewzr.ui.timetable.TimetableViewLocation
 
 class WeekViewViewModel constructor(
@@ -22,9 +16,6 @@ class WeekViewViewModel constructor(
 
     private var idOfAGroupSavedInDb = ""
     var groupId = ""
-
-    private val viewModelJob = Job()
-    private val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     fun checkIfSubjectsLoaded(groupId: String, timetableViewLocation: TimetableViewLocation) {
         if (!::weekViewDataHolder.isInitialized || groupId != this.groupId || timetableViewLocation != this.timetableViewLocation) {
@@ -53,12 +44,6 @@ class WeekViewViewModel constructor(
         loadSubjects(groupId)
     }
 
-    fun getSubjects(): LiveData<List<Subject>> {
-        return Transformations.map(weekViewDataHolder) { weekViewDataHolder ->
-            weekViewDataHolder.allSubjects
-        }
-    }
-
     fun getSpecificWeekSubjects(weekNumber: Int): LiveData<List<Subject>> {
         return Transformations.map(weekViewDataHolder) { weekViewDataHolder ->
             when (weekNumber) {
@@ -81,8 +66,4 @@ class WeekViewViewModel constructor(
         idOfAGroupSavedInDb = groupId
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
 }

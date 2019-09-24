@@ -5,6 +5,8 @@
     <string name="wednesday_short">Śr.</string>
     <string name="thursday_short">Czw.</string>
     <string name="friday_short">Pt.</string>
+    <string name="saturday_short">Sob.</string>
+    <string name="sunday_short">Niedz.</string>
     <string name="retrofit_error">Błąd połączenia!</string>
     <string name="weekA">Tydzień A</string>
     <string name="weekB">Tydzień B</string>
@@ -51,7 +53,11 @@
     <string name="timetable_title_with_week">Grupa %1$s (Tydzień %2$s)</string>
     <string name="timetable_title_week_a">Grupa %1$s (Tydzień A)</string>
     <string name="timetable_title_week_b">Grupa %1$s (Tydzień B)</string>
+    <string name="timetable_title_calendar">Grupa %1$s\n(%2$s, %3$s)</string>
     <string name="no_news_available">Aktualnie brak ogłoszeń</string>
     <string name="from">Od:</string>
     <string name="to">Do:</string>
+    <string name="calendar">Kalendarz</string>
+    <string name="choose_day">Wybierz dzień</string>
+    <string name="choose_view">Zmień widok</string>
 </resources>

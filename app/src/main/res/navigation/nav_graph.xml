@@ -24,7 +24,16 @@
     <fragment
         android:id="@+id/search_timetable_view_fragment"
         android:name="pl.expert.mobilewzr.ui.timetable.TimetableContainerFragment"
-        tools:layout="@layout/fragment_week_view_content" />
+        tools:layout="@layout/fragment_week_view_content">
+        <action
+            android:id="@+id/action_search_timetable_view_fragment_self"
+            app:destination="@id/search_timetable_view_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/my_timetable_view_fragment"
@@ -37,25 +46,25 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_my_timetable_view_fragment_self"
+            app:destination="@id/my_timetable_view_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-
-    <fragment
-        android:id="@+id/settings_view_fragment"
-        android:name="pl.expert.mobilewzr.ui.settings.SettingsFragment" />
 
     <fragment
         android:id="@+id/others_view_fragment"
         android:name="pl.expert.mobilewzr.ui.others.OthersFragment"
-        tools:layout="@layout/fragment_others">
-        <action
-            android:id="@+id/action_others_view_fragment_to_settings_view_fragment"
-            app:destination="@id/settings_view_fragment" />
-    </fragment>
+        tools:layout="@layout/fragment_others" />
 
     <fragment
         android:id="@+id/edit_view_fragment"
         android:name="pl.expert.mobilewzr.ui.timetable.editview.EditViewFragment"
-        tools:layout="@layout/fragment_edit_view" >
+        tools:layout="@layout/fragment_edit_view">
         <argument
             android:name="subjectIndex"
             app:argType="integer" />

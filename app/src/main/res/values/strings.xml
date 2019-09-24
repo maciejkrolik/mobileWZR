@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name" translatable="false">mobileWZR</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="time_string" translatable="false">%1$s.%2$s</string>
     <string name="monday_short">Mon.</string>
     <string name="tuesday_short">Tue.</string>
     <string name="wednesday_short">Wed.</string>
     <string name="thursday_short">Thu.</string>
     <string name="friday_short">Fri.</string>
+    <string name="saturday_short">Sat.</string>
+    <string name="sunday_short">Sun.</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
@@ -52,7 +55,11 @@
     <string name="timetable_title_with_week">Group %1$s (Week %2$s)</string>
     <string name="timetable_title_week_a">Group %1$s (Week A)</string>
     <string name="timetable_title_week_b">Group %1$s (Week B)</string>
+    <string name="timetable_title_calendar">Group %1$s\n(%2$s, %3$s)</string>
     <string name="no_news_available">No news available</string>
     <string name="from">From:</string>
     <string name="to">To:</string>
+    <string name="calendar">Calendar</string>
+    <string name="choose_day">Choose day</string>
+    <string name="choose_view">Choose view</string>
 </resources>

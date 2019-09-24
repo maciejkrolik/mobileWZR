@@ -15,9 +15,12 @@ import pl.expert.mobilewzr.util.NetworkUtils
 
 class NewsFragment : BaseInjectedFragment() {
 
+    private val newsViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
+    }
+
     private lateinit var binding: FragmentNewsBinding
-    private lateinit var newsViewModel: NewsViewModel
-    private lateinit var adapter: NewsAdapter
+    private lateinit var recyclerAdapter: NewsAdapter
 
     private var isNetworkAvailable = false
 
@@ -28,17 +31,8 @@ class NewsFragment : BaseInjectedFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
-
-        toolbar.toolbarTitle.text = getString(R.string.news)
-
-        isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
-
         return binding.root
     }
 
@@ -49,26 +43,13 @@ class NewsFragment : BaseInjectedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = NewsAdapter(news)
+        isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
 
-        newsRecyclerView.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-            adapter = adapter
-        }
-
-        newsButton.setOnClickListener {
-            isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
-            if (isNetworkAvailable) {
-                hideInternetErrorNewsViewItems()
-                showMainNewsViewItems()
-                getViewModel()
-                getNewsAndObserve()
-            }
-        }
+        setTitle()
+        setupRecyclerView()
+        setOnClickListeners()
 
         if (isNetworkAvailable) {
-            getViewModel()
             getNewsAndObserve()
         } else {
             hideMainNewsViewItems()
@@ -76,23 +57,43 @@ class NewsFragment : BaseInjectedFragment() {
         }
     }
 
-    private fun getViewModel() {
-        newsViewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
+    private fun setTitle() {
+        toolbar.toolbarTitle.text = getString(R.string.news)
+    }
+
+    private fun setupRecyclerView() {
+        recyclerAdapter = NewsAdapter(news)
+        newsRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = recyclerAdapter
+        }
+    }
+
+    private fun setOnClickListeners() {
+        newsButton.setOnClickListener {
+            isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+            if (isNetworkAvailable) {
+                hideInternetErrorNewsViewItems()
+                showMainNewsViewItems()
+                getNewsAndObserve()
+            }
+        }
     }
 
     private fun getNewsAndObserve() {
         newsViewModel.getNews().observe(viewLifecycleOwner,
-                Observer<List<News>> { news ->
-                    if (news != null && news.isNotEmpty()) {
-                        this.news.addAll(news)
-                        newsRecyclerView.visibility = View.VISIBLE
-                        adapter.notifyDataSetChanged()
-                    } else {
-                        newsTextView.text = getString(R.string.no_news_available)
-                        newsTextView.visibility = View.VISIBLE
-                    }
-                    newsProgressBar.visibility = View.GONE
-                })
+            Observer<List<News>> { news ->
+                if (news != null && news.isNotEmpty()) {
+                    this.news.addAll(news)
+                    newsRecyclerView.visibility = View.VISIBLE
+                    recyclerAdapter.notifyDataSetChanged()
+                } else {
+                    newsTextView.text = getString(R.string.no_news_available)
+                    newsTextView.visibility = View.VISIBLE
+                }
+                newsProgressBar.visibility = View.GONE
+            })
     }
 
     private fun showMainNewsViewItems() {

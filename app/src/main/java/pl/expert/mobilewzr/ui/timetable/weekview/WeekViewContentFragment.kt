@@ -20,29 +20,32 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
 
     private lateinit var binding: FragmentWeekViewContentBinding
     private lateinit var weekViewViewModel: WeekViewViewModel
-    private var weekNumber: Int? = null
+    private val weekNumber: Int = arguments?.getInt("argWeekNumber")!!
 
     private val subjects: MutableList<Subject> = mutableListOf()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
-
-        weekNumber = arguments?.getInt("argWeekNumber")!!
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
 
-        weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(WeekViewViewModel::class.java)
+        timetableGrid.setListener { subjectIndex ->
+            if (timetableViewLocation == TimetableViewLocation.SEARCH)
+                showSimpleSubjectDetailsDialog(subjects[subjectIndex])
+            else
+                showSubjectDetailsDialog(subjects[subjectIndex])
+        }
+    }
 
-        weekViewViewModel.getSpecificWeekSubjects(weekNumber!!).observe(viewLifecycleOwner,
+    private fun setupViewModel() {
+        weekViewViewModel =
+            ViewModelProviders.of(requireActivity(), viewModelFactory).get(WeekViewViewModel::class.java)
+
+        weekViewViewModel.getSpecificWeekSubjects(weekNumber).observe(viewLifecycleOwner,
             Observer<List<Subject>> { subjects ->
                 if (subjects != null) {
                     this.subjects.clear()
@@ -53,13 +56,6 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                     weekViewGrid.visibility = View.VISIBLE
                 }
             })
-
-        timetableGrid.setListener { subjectIndex ->
-            if (weekViewViewModel.timetableViewLocation == TimetableViewLocation.SEARCH)
-                showSimpleSubjectDetailsDialog(subjects[subjectIndex])
-            else
-                showSubjectDetailsDialog(subjects[subjectIndex])
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -73,8 +69,12 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
             R.id.add_new_subject -> {
                 val args = Bundle()
                 args.putInt("argSubjectIndex", -1)
-                args.putInt("argWeekNumber", weekNumber ?: 0)
+                args.putInt("argWeekNumber", weekNumber)
                 findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
+                return true
+            }
+            R.id.choose_view -> {
+                chooseView(weekViewViewModel.groupId)
                 return true
             }
         }
@@ -98,9 +98,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
                 dialog.cancel()
             }
         }.create()
-        alertDialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
-        alertDialog.window?.attributes?.windowAnimations = R.style.AlertDialogAnimation
-        alertDialog.show()
+        alertDialog.setAndShow()
     }
 
     private fun showSimpleSubjectDetailsDialog(subject: Subject) {
@@ -108,9 +106,13 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
             setTitle(subject.title)
             setMessage("${subject.location}, ${subject.description}")
         }.create()
-        alertDialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
-        alertDialog.window?.attributes?.windowAnimations = R.style.AlertDialogAnimation
-        alertDialog.show()
+        alertDialog.setAndShow()
+    }
+
+    private fun AlertDialog.setAndShow() {
+        this.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
+        this.window?.attributes?.windowAnimations = R.style.AlertDialogAnimation
+        this.show()
     }
 
 }

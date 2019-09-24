@@ -16,9 +16,4 @@
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
 
-    <item
-        android:id="@+id/others_view_fragment"
-        android:icon="@drawable/ic_others"
-        android:title="@string/others" />
-
 </menu>

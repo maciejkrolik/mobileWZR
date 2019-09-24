@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_day_view.view.*
 import pl.expert.mobilewzr.R
-import pl.expert.mobilewzr.domain.domainmodel.DayViewItem
+import pl.expert.mobilewzr.domain.domainmodel.SubjectItem
 
 class DayViewRecyclerAdapter(
-    private val dataSet: List<DayViewItem>,
+    private val dataSet: List<SubjectItem>,
     private val onSubjectListener: OnSubjectListener
 ) : RecyclerView.Adapter<DayViewRecyclerAdapter.SubjectsViewHolder>() {
 

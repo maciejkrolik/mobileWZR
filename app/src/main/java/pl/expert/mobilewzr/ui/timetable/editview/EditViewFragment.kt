@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,13 +34,14 @@ class EditViewFragment : BaseInjectedFragment() {
         ViewModelProviders.of(requireActivity(), viewModelFactory).get(WeekViewViewModel::class.java)
     }
 
+    private val subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
+    private val weekNumber = arguments?.getInt("argWeekNumber") ?: 0
+    private val weekDayNumber = arguments?.getInt("argWeekDayNumber") ?: 0
+
     private lateinit var binding: FragmentEditViewBinding
     private lateinit var firstWeekMondayDate: Date
     private lateinit var timetableViewType: TimetableViewType
     private lateinit var subject: Subject
-    private var subjectIndex: Int? = null
-    private var weekNumber: Int? = null
-    private var weekDayNumber: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,38 +50,11 @@ class EditViewFragment : BaseInjectedFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentEditViewBinding.inflate(inflater, container, false)
-
-        subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
-        weekNumber = arguments?.getInt("argWeekNumber") ?: 0
-        weekDayNumber = arguments?.getInt("argWeekDayNumber") ?: 0
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-        @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-        timetableViewType =
-            TimetableViewType.getByValue(
-                sharedPref.getString(
-                    "prefTimetableViewType",
-                    TimetableViewType.DAY_VIEW.value.toString()
-                )!!.toInt()
-            )
-
-        if (subjectIndex != -1)
-            toolbar.toolbarTitle.text = getString(R.string.edit)
-        else
-            toolbar.toolbarTitle.text = getString(R.string.add)
-
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        getSubjectsAndObserveThem()
-        getStateAndObserveIt()
-        setOnMultipleUpdateSwitchListener()
-        setOnClickListeners()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.edit_view_menu, menu)
         if (subjectIndex == -1) {
             val deleteItem = menu.findItem(R.id.delete)
@@ -87,10 +62,20 @@ class EditViewFragment : BaseInjectedFragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getDataFromSharedPrefs()
+        setTitle()
+        getSubjectsAndObserveThem()
+        getStateAndObserveIt()
+        setOnMultipleUpdateSwitchListener()
+        setOnClickListeners()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.delete -> {
-                editViewViewModel.deleteSubject(subjectIndex!!)
+                editViewViewModel.deleteSubject(subjectIndex)
                 return true
             }
             R.id.save -> {
@@ -110,34 +95,43 @@ class EditViewFragment : BaseInjectedFragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun getDataFromSharedPrefs() {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        timetableViewType =
+            TimetableViewType.getByValue(sharedPref.getInt("prefTimetableViewType", TimetableViewType.DAY_VIEW.value))
+    }
+
+    private fun setTitle() {
+        if (subjectIndex != -1)
+            toolbar.toolbarTitle.text = getString(R.string.edit)
+        else
+            toolbar.toolbarTitle.text = getString(R.string.add)
+    }
+
     private fun setOnClickListeners() {
         editViewStartTime.setOnClickListener {
-            val hour = subject.startTime.substringBefore(".").toInt()
-            val minute = subject.startTime.substringAfter(".").toInt()
-
-            val timePicker = TimePickerDialog(context, R.style.AlertDialogTheme, { _, selectedHour, selectedMinute ->
-
-                editViewStartTime.text =
-                    "${selectedHour.toString().padStart(2, '0')}.${selectedMinute.toString().padStart(2, '0')}"
-
-            }, hour, minute, true)
-
-            timePicker.show()
+            showTimePicker(editViewStartTime)
         }
 
         editViewEndTime.setOnClickListener {
-            val hour = subject.endTime.substringBefore(".").toInt()
-            val minute = subject.endTime.substringAfter(".").toInt()
-
-            val timePicker = TimePickerDialog(context, R.style.AlertDialogTheme, { _, selectedHour, selectedMinute ->
-
-                editViewEndTime.text =
-                    "${selectedHour.toString().padStart(2, '0')}.${selectedMinute.toString().padStart(2, '0')}"
-
-            }, hour, minute, true)
-
-            timePicker.show()
+            showTimePicker(editViewEndTime)
         }
+    }
+
+    private fun showTimePicker(editView: TextView) {
+        val hour = subject.endTime.substringBefore(".").toInt()
+        val minute = subject.endTime.substringAfter(".").toInt()
+
+        val timePicker = TimePickerDialog(context, R.style.AlertDialogTheme, { _, selectedHour, selectedMinute ->
+
+            val hourString = selectedHour.toString().padStart(2, '0')
+            val minuteString = selectedMinute.toString().padStart(2, '0')
+
+            editView.text = requireContext().getString(R.string.time_string, hourString, minuteString)
+
+        }, hour, minute, true)
+
+        timePicker.show()
     }
 
     private fun checkIfFieldsAreBlank(): Boolean {
@@ -153,10 +147,7 @@ class EditViewFragment : BaseInjectedFragment() {
         newSubject.location = locationEditText.text.toString()
         newSubject.startTime = editViewStartTime.text.toString()
         newSubject.endTime = editViewEndTime.text.toString()
-        newSubject.startDate = getStartDate(
-            dayWeekSegmentedGroup.position,
-            weekSegmentedGroup.position
-        )
+        newSubject.startDate = getStartDate(dayWeekSegmentedGroup.position, weekSegmentedGroup.position)
         return newSubject
     }
 
@@ -170,9 +161,9 @@ class EditViewFragment : BaseInjectedFragment() {
 
     private fun updateSubjectsWith(newSubject: Subject) {
         if (updateMultipleSubjectsSwitch.isChecked)
-            editViewViewModel.updateMultipleSubjects(subjectIndex!!, newSubject)
+            editViewViewModel.updateMultipleSubjects(subjectIndex, newSubject)
         else
-            editViewViewModel.updateSubject(subjectIndex!!, newSubject)
+            editViewViewModel.updateSubject(subjectIndex, newSubject)
     }
 
     @SuppressLint("SetTextI18n")
@@ -180,6 +171,7 @@ class EditViewFragment : BaseInjectedFragment() {
         val groupId = when (timetableViewType) {
             TimetableViewType.DAY_VIEW -> dayViewViewModel.groupId
             TimetableViewType.WEEK_VIEW -> weekViewViewModel.groupId
+            TimetableViewType.CALENDAR_VIEW -> ""
         }
         editViewViewModel.getSubjects(groupId).observe(viewLifecycleOwner,
             Observer { subjects ->
@@ -195,8 +187,8 @@ class EditViewFragment : BaseInjectedFragment() {
                 } else {
                     editViewStartTime.text = "08.00"
                     editViewEndTime.text = "09.30"
-                    dayWeekSegmentedGroup.setPosition(weekDayNumber!!, false)
-                    weekSegmentedGroup.setPosition(weekNumber!!, false)
+                    dayWeekSegmentedGroup.setPosition(weekDayNumber, false)
+                    weekSegmentedGroup.setPosition(weekNumber, false)
                 }
                 firstWeekMondayDate = getFirstWeekMondayDate(subjects.first())
             })
@@ -214,10 +206,8 @@ class EditViewFragment : BaseInjectedFragment() {
         editViewViewModel.isUpdatingDb.observe(viewLifecycleOwner,
             Observer { updatingDb ->
                 if (!updatingDb && wasUpdatedBefore) {
-                    when (timetableViewType) {
-                        TimetableViewType.DAY_VIEW -> dayViewViewModel.reloadSubjects()
-                        TimetableViewType.WEEK_VIEW -> weekViewViewModel.reloadSubjects()
-                    }
+                    dayViewViewModel.reloadSubjects()
+                    weekViewViewModel.reloadSubjects()
                     if (copyModeSwitch.isChecked) {
                         Toast.makeText(context, getString(R.string.classes_has_been_copied), Toast.LENGTH_SHORT).show()
                     } else {

@@ -3,9 +3,7 @@ package pl.expert.mobilewzr.ui.timetable.editview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.model.Subject
@@ -22,9 +20,6 @@ class EditViewViewModel constructor(
         get() = _isUpdatingDb
 
     private var subjects = MutableLiveData<List<Subject>>()
-
-    private val viewModelJob = Job()
-    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     fun getSubjects(groupId: String): LiveData<List<Subject>> {
         if (subjects.value.isNullOrEmpty() || groupId != this.groupId) {
@@ -93,8 +88,4 @@ class EditViewViewModel constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
 }

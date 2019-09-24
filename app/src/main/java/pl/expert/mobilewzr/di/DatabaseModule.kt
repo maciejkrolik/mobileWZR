@@ -27,4 +27,5 @@ class DatabaseModule(
             MobileWZRDatabase::class.java, "mobile-wzr-database"
         ).build()
     }
+
 }

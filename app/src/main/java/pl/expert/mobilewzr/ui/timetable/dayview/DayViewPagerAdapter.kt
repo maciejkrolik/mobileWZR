@@ -12,7 +12,7 @@ class DayViewPagerAdapter(
     private val context: Context?,
     private val timetableViewLocation: TimetableViewLocation,
     fragmentManager: FragmentManager
-) : FragmentPagerAdapter(fragmentManager) {
+) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         val args = Bundle()
@@ -59,4 +59,5 @@ class DayViewPagerAdapter(
             else -> null
         }
     }
+
 }

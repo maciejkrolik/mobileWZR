@@ -10,7 +10,7 @@
     <include layout="@layout/toolbar" />
 
     <fragment
-        android:id="@+id/nav_host_fragment"
+        android:id="@+id/navHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,7 +19,7 @@
         app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_view"
+        android:id="@+id/bottomNavMenu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_navigation_height"
         android:background="@android:color/white"

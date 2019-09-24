@@ -20,9 +20,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-    private val navController by lazy {
-        findNavController(R.id.nav_host_fragment)
-    }
+    private val navController by lazy { findNavController(R.id.navHostFragment) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -36,7 +34,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp()
     }
 
@@ -56,8 +53,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        bottom_nav_view.setupWithNavController(navController)
-        bottom_nav_view.setOnNavigationItemReselectedListener { menuItem ->
+        bottomNavMenu.setupWithNavController(navController)
+        bottomNavMenu.setOnNavigationItemReselectedListener { menuItem ->
             if (menuItem.itemId != navController.currentDestination?.id) {
                 while (navController.currentDestination?.id != menuItem.itemId) {
                     navController.popBackStack()

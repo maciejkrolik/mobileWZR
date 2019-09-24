@@ -43,7 +43,7 @@ dependencies {
     def uni_parsers_version = "2.7.6"
     def jsoup_version = "1.11.3"
     def coroutines_version = "1.1.1"
-    def lifecycle_version = '2.1.0-rc01'
+    def lifecycle_version = '2.1.0'
     def room_version = '2.1.0'
 
     // Dagger 2
@@ -82,7 +82,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

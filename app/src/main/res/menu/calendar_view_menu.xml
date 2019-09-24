@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/set_as_my_timetable"
-        android:title="@string/set_as_my_timetable"
-        app:showAsAction="never" />
+        android:id="@+id/chooseDay"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/choose_day"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/choose_view"

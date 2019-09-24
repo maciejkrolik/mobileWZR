@@ -6,6 +6,12 @@
         android:id="@+id/add_new_subject"
         android:icon="@drawable/ic_add"
         android:title="@string/add_new_subject"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/choose_view"
+        android:icon="@drawable/ic_view_carousel"
+        android:title="@string/choose_view"
+        app:showAsAction="never" />
 
 </menu>
