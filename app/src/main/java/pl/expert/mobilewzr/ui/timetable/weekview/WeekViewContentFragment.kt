@@ -20,7 +20,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
 
     private lateinit var binding: FragmentWeekViewContentBinding
     private lateinit var weekViewViewModel: WeekViewViewModel
-    private val weekNumber: Int = arguments?.getInt("argWeekNumber")!!
+    private val weekNumber: Int by lazy { arguments?.getInt("argWeekNumber", 0)!! }
 
     private val subjects: MutableList<Subject> = mutableListOf()
 

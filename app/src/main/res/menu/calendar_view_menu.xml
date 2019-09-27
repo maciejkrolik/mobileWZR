@@ -8,10 +8,4 @@
         android:title="@string/choose_day"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/choose_view"
-        android:icon="@drawable/ic_view_carousel"
-        android:title="@string/choose_view"
-        app:showAsAction="never" />
-
 </menu>

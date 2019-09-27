@@ -21,6 +21,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     private lateinit var idOfAGroupSavedInDb: String
     private lateinit var timetableViewLocation: TimetableViewLocation
     private lateinit var timetableViewType: TimetableViewType
+    private lateinit var timetableType: TimetableType
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,25 +29,29 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        getDataFromSharedPrefs()
         return inflater.inflate(R.layout.fragment_timetable_views_container, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
 
-        if (timetableViewType == TimetableViewType.CALENDAR_VIEW) {
-            inflater.inflate(R.menu.calendar_view_menu, menu)
-        } else
-            when (timetableViewLocation) {
-                TimetableViewLocation.MY_TIMETABLE -> inflater.inflate(R.menu.saved_timetable_menu, menu)
-                TimetableViewLocation.SEARCH -> inflater.inflate(R.menu.downloaded_timetable_menu, menu)
-            }
+        if (groupId.isNotEmpty()) {
+            if (timetableViewType == TimetableViewType.CALENDAR_VIEW) {
+                inflater.inflate(R.menu.calendar_view_menu, menu)
+                if (timetableType == TimetableType.FULL_TIME) {
+                    menu.add(Menu.NONE, R.id.choose_view, Menu.NONE, R.string.choose_view)
+                }
+            } else
+                when (timetableViewLocation) {
+                    TimetableViewLocation.MY_TIMETABLE -> inflater.inflate(R.menu.saved_timetable_menu, menu)
+                    TimetableViewLocation.SEARCH -> inflater.inflate(R.menu.downloaded_timetable_menu, menu)
+                }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        getDataFromSharedPrefs()
 
         if (groupId.isNotEmpty()) {
             setupTimetableView()
@@ -72,6 +77,12 @@ class TimetableContainerFragment : BaseInjectedFragment() {
             TimetableViewLocation.SEARCH
 
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+        if (groupId.startsWith("S")) {
+            timetableType = TimetableType.FULL_TIME
+        } else {
+            timetableType = TimetableType.PART_TIME
+            timetableViewType = TimetableViewType.CALENDAR_VIEW
+        }
     }
 
     private fun setupTimetableView() {
@@ -80,7 +91,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
         args.putString("argGroupId", groupId)
 
         var currentFragment: Fragment? = childFragmentManager.findFragmentByTag("timetable_view")
-        if (currentFragment == null) {
+        if (currentFragment == null && timetableType != TimetableType.PART_TIME) {
             when (timetableViewType) {
                 TimetableViewType.WEEK_VIEW -> {
                     currentFragment = WeekViewContainerFragment()
@@ -92,6 +103,8 @@ class TimetableContainerFragment : BaseInjectedFragment() {
                     currentFragment = CalendarViewContentFragment()
                 }
             }
+        } else if (currentFragment == null) {
+            currentFragment = CalendarViewContentFragment()
         }
 
         currentFragment.arguments = args
