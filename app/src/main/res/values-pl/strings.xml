@@ -43,9 +43,10 @@
     <string name="server_error">Błąd serwera</string>
     <string name="location">Lokalizacja</string>
     <string name="fields_cannot_be_empty">Pola nie mogą być puste</string>
+    <string name="time_is_incorect">Niepoprawny czas rozpoczęcia/zakończenia</string>
     <string name="copy_mode">Tryb kopiowania</string>
     <string name="classes_has_been_copied">Zajęcia zostały skopiowane</string>
-    <string name="edit_all_with_the_same_title">Edytuj wszystkie zajęcia z tym samym tytułem</string>
+    <string name="edit_all_with_the_same_title">Edytuj wszystkie zajęcia o tym samym tytule</string>
     <string name="add">Dodaj</string>
     <string name="edit">Edytuj</string>
     <string name="cancel">Anuluj</string>

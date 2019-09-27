@@ -45,6 +45,7 @@
     <string name="server_error">Server error</string>
     <string name="location">Location</string>
     <string name="fields_cannot_be_empty">Fields cannot be empty</string>
+    <string name="time_is_incorect">Incorrect start/end time</string>
     <string name="copy_mode">Copy mode</string>
     <string name="classes_has_been_copied">Classes has been copied</string>
     <string name="edit_all_with_the_same_title">Edit all classes with the same title</string>

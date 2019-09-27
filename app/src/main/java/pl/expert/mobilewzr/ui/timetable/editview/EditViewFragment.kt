@@ -33,10 +33,9 @@ class EditViewFragment : BaseInjectedFragment() {
     private val weekViewViewModel by lazy {
         ViewModelProviders.of(requireActivity(), viewModelFactory).get(WeekViewViewModel::class.java)
     }
-
-    private val subjectIndex = arguments?.getInt("argSubjectIndex") ?: -1
-    private val weekNumber = arguments?.getInt("argWeekNumber") ?: 0
-    private val weekDayNumber = arguments?.getInt("argWeekDayNumber") ?: 0
+    private val subjectIndex by lazy { arguments?.getInt("argSubjectIndex") ?: -1 }
+    private val weekNumber by lazy { arguments?.getInt("argWeekNumber") ?: 0 }
+    private val weekDayNumber by lazy { arguments?.getInt("argWeekDayNumber") ?: 0 }
 
     private lateinit var binding: FragmentEditViewBinding
     private lateinit var firstWeekMondayDate: Date
@@ -79,15 +78,23 @@ class EditViewFragment : BaseInjectedFragment() {
                 return true
             }
             R.id.save -> {
-                val fieldsAreBlank = checkIfFieldsAreBlank()
-                if (!fieldsAreBlank) {
+                val fieldsAreNotBlank = checkIfFieldsAreNotBlank()
+                val timeIsValid = checkIfTimeIsValid()
+                if (fieldsAreNotBlank && timeIsValid) {
                     val newSubject = prepareSubject()
                     if (subjectIndex != -1 && !copyModeSwitch.isChecked)
                         updateSubjectsWith(newSubject)
                     else
                         editViewViewModel.addSubject(newSubject)
                 } else {
-                    Toast.makeText(context, getString(R.string.fields_cannot_be_empty), Toast.LENGTH_SHORT).show()
+                    if (!fieldsAreNotBlank) {
+                        Toast.makeText(context, getString(R.string.fields_cannot_be_empty), Toast.LENGTH_SHORT).show()
+                        return true
+                    }
+                    if (!timeIsValid) {
+                        Toast.makeText(context, getString(R.string.time_is_incorect), Toast.LENGTH_SHORT).show()
+                        return true
+                    }
                 }
                 return true
             }
@@ -110,17 +117,17 @@ class EditViewFragment : BaseInjectedFragment() {
 
     private fun setOnClickListeners() {
         editViewStartTime.setOnClickListener {
-            showTimePicker(editViewStartTime)
+            showTimePicker(editViewStartTime, editViewStartTime.text.toString())
         }
 
         editViewEndTime.setOnClickListener {
-            showTimePicker(editViewEndTime)
+            showTimePicker(editViewEndTime, editViewEndTime.text.toString())
         }
     }
 
-    private fun showTimePicker(editView: TextView) {
-        val hour = subject.endTime.substringBefore(".").toInt()
-        val minute = subject.endTime.substringAfter(".").toInt()
+    private fun showTimePicker(editView: TextView, subjectTime: String) {
+        val hour = subjectTime.substringBefore(".").toInt()
+        val minute = subjectTime.substringAfter(".").toInt()
 
         val timePicker = TimePickerDialog(context, R.style.AlertDialogTheme, { _, selectedHour, selectedMinute ->
 
@@ -134,10 +141,24 @@ class EditViewFragment : BaseInjectedFragment() {
         timePicker.show()
     }
 
-    private fun checkIfFieldsAreBlank(): Boolean {
-        return (titleEditText.text.isBlank()
-                || descriptionEditText.text.isBlank()
-                || locationEditText.text.isBlank())
+    private fun checkIfFieldsAreNotBlank(): Boolean {
+        return (titleEditText.text.isNotBlank()
+                && descriptionEditText.text.isNotBlank()
+                && locationEditText.text.isNotBlank())
+    }
+
+    private fun checkIfTimeIsValid(): Boolean {
+        val startTimeMinutes = CalendarUtils.getMinutesFromTimeString(editViewStartTime.text.toString())
+        val endTimeMinutes = CalendarUtils.getMinutesFromTimeString(editViewEndTime.text.toString())
+
+        if (startTimeMinutes >= endTimeMinutes)
+            return false
+        if (startTimeMinutes < 480)
+            return false
+        if (endTimeMinutes > 1260)
+            return false
+
+        return true
     }
 
     private fun prepareSubject(): Subject {
