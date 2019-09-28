@@ -16,9 +16,8 @@ import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentEditViewBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
+import pl.expert.mobilewzr.ui.timetable.TimetableViewModel
 import pl.expert.mobilewzr.ui.timetable.TimetableViewType
-import pl.expert.mobilewzr.ui.timetable.dayview.DayViewViewModel
-import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewViewModel
 import pl.expert.mobilewzr.util.CalendarUtils
 import java.util.*
 
@@ -27,11 +26,8 @@ class EditViewFragment : BaseInjectedFragment() {
     private val editViewViewModel by lazy {
         ViewModelProviders.of(requireActivity(), viewModelFactory).get(EditViewViewModel::class.java)
     }
-    private val dayViewViewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(DayViewViewModel::class.java)
-    }
-    private val weekViewViewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(WeekViewViewModel::class.java)
+    private val viewModel by lazy {
+        ViewModelProviders.of(requireActivity(), viewModelFactory).get(TimetableViewModel::class.java)
     }
     private val subjectIndex by lazy { arguments?.getInt("argSubjectIndex") ?: -1 }
     private val weekNumber by lazy { arguments?.getInt("argWeekNumber") ?: 0 }
@@ -189,13 +185,15 @@ class EditViewFragment : BaseInjectedFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun getSubjectsAndObserveThem() {
-        val groupId = when (timetableViewType) {
-            TimetableViewType.DAY_VIEW -> dayViewViewModel.groupId
-            TimetableViewType.WEEK_VIEW -> weekViewViewModel.groupId
-            TimetableViewType.CALENDAR_VIEW -> ""
-        }
+        val groupId =
+            if (timetableViewType == TimetableViewType.DAY_VIEW || timetableViewType == TimetableViewType.WEEK_VIEW) {
+                viewModel.groupId
+            } else {
+                ""
+            }
         editViewViewModel.getSubjects(groupId).observe(viewLifecycleOwner,
-            Observer { subjects ->
+            Observer
+            { subjects ->
                 if (subjects != null && subjectIndex != -1) {
                     subject = subjects.single { subject -> subject.index == subjectIndex }
                     titleEditText.setText(subject.title)
@@ -227,8 +225,7 @@ class EditViewFragment : BaseInjectedFragment() {
         editViewViewModel.isUpdatingDb.observe(viewLifecycleOwner,
             Observer { updatingDb ->
                 if (!updatingDb && wasUpdatedBefore) {
-                    dayViewViewModel.reloadSubjects()
-                    weekViewViewModel.reloadSubjects()
+                    viewModel.reloadSubjects()
                     if (copyModeSwitch.isChecked) {
                         Toast.makeText(context, getString(R.string.classes_has_been_copied), Toast.LENGTH_SHORT).show()
                     } else {

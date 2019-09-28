@@ -13,23 +13,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.toolbar.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentCalendarViewContentBinding
-import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
 import pl.expert.mobilewzr.domain.domainmodel.SubjectItem
+import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
 import pl.expert.mobilewzr.ui.timetable.TimetableContentBaseFragment
+import pl.expert.mobilewzr.ui.timetable.TimetableViewModel
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewRecyclerAdapter
-import pl.expert.mobilewzr.ui.timetable.dayview.DayViewViewModel
 import pl.expert.mobilewzr.util.CalendarUtils
+import pl.expert.mobilewzr.util.ResourceState
 import java.util.*
 
 class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAdapter.OnSubjectListener {
 
     private lateinit var binding: FragmentCalendarViewContentBinding
-    private lateinit var dayViewViewModel: DayViewViewModel
-    private lateinit var dayViewDataHolder: DayViewDataHolder
-    private lateinit var groupId: String
+    private lateinit var viewModel: TimetableViewModel
     private lateinit var recyclerAdapter: DayViewRecyclerAdapter
+    private lateinit var timetableDataHolder: TimetableDataHolder
+    private lateinit var groupId: String
 
-    private val subjects: MutableList<SubjectItem> = mutableListOf()
+    private val subjectItems: MutableList<SubjectItem> = mutableListOf()
 
     private val calendar: Calendar = CalendarUtils.getCalendar()
     private var day: Int = calendar.get(Calendar.DAY_OF_MONTH)
@@ -52,7 +53,7 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
     }
 
     private fun setupRecyclerView() {
-        recyclerAdapter = DayViewRecyclerAdapter(subjects, this)
+        recyclerAdapter = DayViewRecyclerAdapter(subjectItems, this)
         binding.dayViewRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -66,32 +67,16 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
     }
 
     private fun setupViewModel() {
-        dayViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(DayViewViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(TimetableViewModel::class.java)
 
-        dayViewViewModel.daySubjects.observe(viewLifecycleOwner, Observer { subjects ->
-            if (subjects.isNotEmpty()) {
-                this.subjects.clear()
-                this.subjects.addAll(subjects)
-
-                recyclerAdapter.notifyDataSetChanged()
-
-                binding.dayViewProgressBar.visibility = View.GONE
-                binding.dayViewInfoText.visibility = View.GONE
-                binding.dayViewRecyclerView.visibility = View.VISIBLE
-            } else {
-                binding.dayViewProgressBar.visibility = View.GONE
-                binding.dayViewRecyclerView.visibility = View.GONE
-                binding.dayViewInfoText.visibility = View.VISIBLE
+        viewModel.timetableDataHolder.observe(viewLifecycleOwner, Observer { resourceState ->
+            when (resourceState) {
+                is ResourceState.Success -> {
+                    this.timetableDataHolder = resourceState.data!!
+                    refreshSubjectItems()
+                }
             }
         })
-
-        dayViewViewModel.getDayViewDataHolder().observe(viewLifecycleOwner,
-            Observer { dayViewDataHolder ->
-                if (dayViewDataHolder != null) {
-                    this.dayViewDataHolder = dayViewDataHolder
-                    dayViewViewModel.getCalendarDayViewItems(weekNumber, weekDayNumber)
-                }
-            })
     }
 
     override fun onSubjectClick(position: Int) {
@@ -104,7 +89,7 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
                 return true
             }
             R.id.choose_view -> {
-                chooseView(dayViewViewModel.groupId)
+                chooseView(viewModel.groupId)
                 return true
             }
         }
@@ -124,19 +109,42 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
                 this.day = day
                 this.weekDayNumber = CalendarUtils.getDayOfWeek(day, month, year)
 
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.DAY_OF_MONTH, day)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.YEAR, year)
+                val calendar = Calendar.getInstance().apply {
+                    set(Calendar.DAY_OF_MONTH, day)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.YEAR, year)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
                 this.weekNumber = CalendarUtils.getWeekNumber(calendar.time)
 
-                dayViewViewModel.getCalendarDayViewItems(weekNumber, weekDayNumber)
+                refreshSubjectItems(calendar.time)
             },
             year,
             month,
             day
         )
         datePickerDialog.show()
+    }
+
+    private fun refreshSubjectItems(date: Date = Date()) {
+        val dayViewItems = viewModel.getCalendarDayViewItems(weekNumber, weekDayNumber, date)
+        if (dayViewItems.isNotEmpty()) {
+            this.subjectItems.clear()
+            this.subjectItems.addAll(dayViewItems)
+
+            recyclerAdapter.notifyDataSetChanged()
+
+            binding.dayViewProgressBar.visibility = View.GONE
+            binding.dayViewInfoText.visibility = View.GONE
+            binding.dayViewRecyclerView.visibility = View.VISIBLE
+        } else {
+            binding.dayViewProgressBar.visibility = View.GONE
+            binding.dayViewRecyclerView.visibility = View.GONE
+            binding.dayViewInfoText.visibility = View.VISIBLE
+        }
     }
 
     private fun setTitle(day: Int, month: Int, weekDayNumber: Int) {

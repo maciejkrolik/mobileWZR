@@ -1,21 +1,15 @@
 package pl.expert.mobilewzr.data
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import pl.expert.mobilewzr.data.db.SubjectsDao
-import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
-import pl.expert.mobilewzr.domain.domainmodel.WeekViewDataHolder
 import pl.expert.mobilewzr.data.model.Subject
-import pl.expert.mobilewzr.util.DayViewUtils
+import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
 import pl.expert.mobilewzr.util.SubjectsUtils
-import pl.expert.mobilewzr.util.WeekViewUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import pl.expert.mobilewzr.util.TimetableViewUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,70 +46,36 @@ class SubjectsRepository @Inject constructor(
         subjectsDao.addSubjects(subjects)
     }
 
-    suspend fun getDayViewDataFromDb(dayViewDataHolder: MutableLiveData<DayViewDataHolder>): MutableLiveData<DayViewDataHolder> {
+    suspend fun getTimetableDataFromDb(): TimetableDataHolder {
         val subjects = subjectsDao.getSubjects()
+        val timetableData = TimetableViewUtils.getDayViewDataHolderFrom(subjects)
 
-        dayViewDataHolder.postValue(DayViewUtils.getDayViewDataHolderFrom(subjects))
+        Log.i(TAG, "Subjects get from DB")
 
-        return dayViewDataHolder
+        return timetableData
     }
 
-    suspend fun getWeekViewDataFromDb(weekViewDataHolder: MutableLiveData<WeekViewDataHolder>): MutableLiveData<WeekViewDataHolder> {
-        val subjects = subjectsDao.getSubjects()
+    suspend fun getFullTimetableDataFromService(groupId: String): TimetableDataHolder {
+        val rawDownloadedSubjects = wzrService.getSubjects(groupId)
+        val fixedSubjects = SubjectsUtils.fix(rawDownloadedSubjects)
+        val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
+        val timetableData = TimetableViewUtils.getDayViewDataHolderFrom(mergedSubjects)
 
-        weekViewDataHolder.postValue(WeekViewUtils.getWeekViewDataHolder(subjects))
+        Log.i(TAG, "All subjects successfully downloaded")
 
-        return weekViewDataHolder
+        return timetableData
     }
 
-    fun getDayViewDataFromService(groupId: String): MutableLiveData<DayViewDataHolder> {
-        val dayViewDataHolder: MutableLiveData<DayViewDataHolder> = MutableLiveData()
+    suspend fun getFirstTwoWeeksTimetableDataFromService(groupId: String): TimetableDataHolder {
+        val rawDownloadedSubjects = wzrService.getSubjects(groupId)
+        val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(rawDownloadedSubjects)
+        val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
+        val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
+        val timetableData = TimetableViewUtils.getDayViewDataHolderFrom(mergedSubjects)
 
-        wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
-            override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
-                val downloadedSubjects = response.body()!!
-                val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(downloadedSubjects)
-                val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
-                val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
+        Log.i(TAG, "Subjects successfully downloaded")
 
-                dayViewDataHolder.value = DayViewUtils.getDayViewDataHolderFrom(mergedSubjects)
-
-                Log.i(TAG, "Subjects successfully downloaded")
-            }
-
-            override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
-                t.printStackTrace()
-
-                Log.i(TAG, "Error downloading allSubjects")
-            }
-        })
-
-        return dayViewDataHolder
-    }
-
-    fun getWeekViewDataFromService(groupId: String): MutableLiveData<WeekViewDataHolder> {
-        val weekViewDataHolder: MutableLiveData<WeekViewDataHolder> = MutableLiveData()
-
-        wzrService.getSubjects(groupId).enqueue(object : Callback<List<Subject>> {
-            override fun onResponse(call: Call<List<Subject>>, response: Response<List<Subject>>) {
-                val downloadedSubjects = response.body()!!
-                val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(downloadedSubjects)
-                val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
-                val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
-
-                weekViewDataHolder.value = WeekViewUtils.getWeekViewDataHolder(mergedSubjects)
-
-                Log.i(TAG, "Subjects successfully downloaded")
-            }
-
-            override fun onFailure(call: Call<List<Subject>>, t: Throwable) {
-                t.printStackTrace()
-
-                Log.i(TAG, "Error downloading allSubjects")
-            }
-        })
-
-        return weekViewDataHolder
+        return timetableData
     }
 
     suspend fun getGroups(): List<String> {
@@ -133,4 +93,5 @@ class SubjectsRepository @Inject constructor(
         val groups = doc.select("select option:not(:first-child)")
         return groups.eachText()
     }
+
 }

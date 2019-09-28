@@ -2,11 +2,11 @@ package pl.expert.mobilewzr.domain.domainmodel
 
 import pl.expert.mobilewzr.data.model.Subject
 
-data class DayViewDataHolder(
+data class TimetableDataHolder(
 
-    val weekA: DayViewWeekDataHolder,
+    val weekA: WeekDataHolder,
 
-    val weekB: DayViewWeekDataHolder,
+    val weekB: WeekDataHolder,
 
     val allSubjects: List<Subject>
 

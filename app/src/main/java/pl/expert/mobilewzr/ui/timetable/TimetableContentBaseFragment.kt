@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
+import pl.expert.mobilewzr.util.setAttrsAndShow
 
 abstract class TimetableContentBaseFragment : BaseInjectedFragment() {
 
@@ -39,9 +40,7 @@ abstract class TimetableContentBaseFragment : BaseInjectedFragment() {
             }
             builder.create()
         }
-        alertDialog.window?.setBackgroundDrawableResource(R.drawable.background_dialog)
-        alertDialog.window?.attributes?.windowAnimations = R.style.AlertDialogAnimation
-        alertDialog.show()
+        alertDialog.setAttrsAndShow()
     }
 
     protected fun showToast(groupId: String) {

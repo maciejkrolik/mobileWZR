@@ -11,27 +11,25 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentDayViewContentBinding
-import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
 import pl.expert.mobilewzr.domain.domainmodel.SubjectItem
 import pl.expert.mobilewzr.ui.timetable.TimetableContentBaseFragment
 import pl.expert.mobilewzr.ui.timetable.TimetableViewLocation
+import pl.expert.mobilewzr.ui.timetable.TimetableViewModel
+import pl.expert.mobilewzr.util.ResourceState
 
 class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAdapter.OnSubjectListener {
 
     private lateinit var binding: FragmentDayViewContentBinding
-    private lateinit var dayViewViewModel: DayViewViewModel
-    private lateinit var dayViewDataHolder: DayViewDataHolder
-    private var weekNumber: Int? = null
-    private var weekDayNumber: Int? = null
+    private lateinit var viewModel: TimetableViewModel
+    private lateinit var timetableDataHolder: TimetableDataHolder
 
     private val subjectItems: MutableList<SubjectItem> = mutableListOf()
+    private val weekNumber by lazy { arguments?.getInt("argWeekNumber", 0)!! }
+    private val weekDayNumber by lazy { arguments?.getInt("argWeekDayNumber", 0)!! }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDayViewContentBinding.inflate(inflater, container, false)
-
-        weekNumber = arguments?.getInt("argWeekNumber")!!
-        weekDayNumber = arguments?.getInt("argWeekDayNumber")!!
-
         return binding.root
     }
 
@@ -42,28 +40,28 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
     }
 
     private fun setupViewModel() {
-        dayViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(DayViewViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(TimetableViewModel::class.java)
 
-        dayViewViewModel.getDayViewItems(weekNumber as Int, weekDayNumber as Int).observe(viewLifecycleOwner,
-            Observer<List<SubjectItem>> { dayViewItems ->
-                if (dayViewItems != null && dayViewItems.isNotEmpty()) {
-                    this.subjectItems.clear()
-                    this.subjectItems.addAll(dayViewItems)
+        viewModel.timetableDataHolder.observe(viewLifecycleOwner, Observer { resourceState ->
+            when (resourceState) {
+                is ResourceState.Success -> {
+                    this.timetableDataHolder = resourceState.data!!
 
-                    binding.dayViewProgressBar.visibility = View.GONE
-                    binding.dayViewRecyclerView.visibility = View.VISIBLE
-                } else {
-                    binding.dayViewProgressBar.visibility = View.GONE
-                    binding.dayViewInfoText.visibility = View.VISIBLE
+                    val dayViewItems = viewModel.getDayViewItems(weekNumber, weekDayNumber)
+                    if (dayViewItems.isNotEmpty()) {
+                        this.subjectItems.clear()
+                        this.subjectItems.addAll(dayViewItems)
+
+                        binding.dayViewProgressBar.visibility = View.GONE
+                        binding.dayViewRecyclerView.visibility = View.VISIBLE
+                    } else {
+                        binding.dayViewProgressBar.visibility = View.GONE
+                        binding.dayViewInfoText.visibility = View.VISIBLE
+                    }
                 }
-            })
+            }
 
-        dayViewViewModel.getDayViewDataHolder().observe(viewLifecycleOwner,
-            Observer { dayViewDataHolder ->
-                if (dayViewDataHolder != null) {
-                    this.dayViewDataHolder = dayViewDataHolder
-                }
-            })
+        })
     }
 
     private fun setupRecyclerView() {
@@ -85,21 +83,21 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.set_as_my_timetable -> {
-                dayViewViewModel.replaceSubjectsInDb()
-                putIdOfAGroupSavedInDbIntoSharedPref(dayViewViewModel.groupId)
-                showToast(dayViewViewModel.groupId)
+                viewModel.replaceSubjectsInDb()
+                putIdOfAGroupSavedInDbIntoSharedPref(viewModel.groupId)
+                showToast(viewModel.groupId)
                 return true
             }
             R.id.add_new_subject -> {
                 val args = Bundle()
                 args.putInt("argSubjectIndex", -1)
-                args.putInt("argWeekNumber", weekNumber ?: 0)
-                args.putInt("argWeekDayNumber", weekDayNumber ?: 0)
+                args.putInt("argWeekNumber", weekNumber)
+                args.putInt("argWeekDayNumber", weekDayNumber)
                 findNavController().navigate(R.id.action_my_timetable_view_fragment_to_editViewFragment, args)
                 return true
             }
             R.id.choose_view -> {
-                chooseView(dayViewViewModel.groupId)
+                chooseView(viewModel.groupId)
                 return true
             }
         }
@@ -111,21 +109,21 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
         when (weekNumber) {
             0 -> {
                 subjectIndex = when (weekDayNumber) {
-                    0 -> dayViewDataHolder.weekA.mondaySubjects[position].index
-                    1 -> dayViewDataHolder.weekA.tuesdaySubjects[position].index
-                    2 -> dayViewDataHolder.weekA.wednesdaySubjects[position].index
-                    3 -> dayViewDataHolder.weekA.thursdaySubjects[position].index
-                    4 -> dayViewDataHolder.weekA.fridaySubjects[position].index
+                    0 -> timetableDataHolder.weekA.mondaySubjects[position].index
+                    1 -> timetableDataHolder.weekA.tuesdaySubjects[position].index
+                    2 -> timetableDataHolder.weekA.wednesdaySubjects[position].index
+                    3 -> timetableDataHolder.weekA.thursdaySubjects[position].index
+                    4 -> timetableDataHolder.weekA.fridaySubjects[position].index
                     else -> throw java.lang.IllegalArgumentException("Unknown week day number: $weekDayNumber")
                 }
             }
             1 -> {
                 subjectIndex = when (weekDayNumber) {
-                    0 -> dayViewDataHolder.weekB.mondaySubjects[position].index
-                    1 -> dayViewDataHolder.weekB.tuesdaySubjects[position].index
-                    2 -> dayViewDataHolder.weekB.wednesdaySubjects[position].index
-                    3 -> dayViewDataHolder.weekB.thursdaySubjects[position].index
-                    4 -> dayViewDataHolder.weekB.fridaySubjects[position].index
+                    0 -> timetableDataHolder.weekB.mondaySubjects[position].index
+                    1 -> timetableDataHolder.weekB.tuesdaySubjects[position].index
+                    2 -> timetableDataHolder.weekB.wednesdaySubjects[position].index
+                    3 -> timetableDataHolder.weekB.thursdaySubjects[position].index
+                    4 -> timetableDataHolder.weekB.fridaySubjects[position].index
                     else -> throw java.lang.IllegalArgumentException("Unknown week day number: $weekDayNumber")
                 }
             }

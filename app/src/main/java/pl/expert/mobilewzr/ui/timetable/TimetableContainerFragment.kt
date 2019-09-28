@@ -11,9 +11,7 @@ import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.ui.timetable.calendarview.CalendarViewContentFragment
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContainerFragment
-import pl.expert.mobilewzr.ui.timetable.dayview.DayViewViewModel
 import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewContainerFragment
-import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewViewModel
 
 class TimetableContainerFragment : BaseInjectedFragment() {
 
@@ -30,6 +28,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         getDataFromSharedPrefs()
+        setTimetableType()
         return inflater.inflate(R.layout.fragment_timetable_views_container, container, false)
     }
 
@@ -44,8 +43,8 @@ class TimetableContainerFragment : BaseInjectedFragment() {
                 }
             } else
                 when (timetableViewLocation) {
-                    TimetableViewLocation.MY_TIMETABLE -> inflater.inflate(R.menu.saved_timetable_menu, menu)
-                    TimetableViewLocation.SEARCH -> inflater.inflate(R.menu.downloaded_timetable_menu, menu)
+                    TimetableViewLocation.MY_TIMETABLE -> inflater.inflate(R.menu.my_timetable_menu, menu)
+                    TimetableViewLocation.SEARCH -> inflater.inflate(R.menu.search_timetable_menu, menu)
                 }
         }
     }
@@ -77,6 +76,9 @@ class TimetableContainerFragment : BaseInjectedFragment() {
             TimetableViewLocation.SEARCH
 
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+    }
+
+    private fun setTimetableType() {
         if (groupId.startsWith("S")) {
             timetableType = TimetableType.FULL_TIME
         } else {
@@ -115,24 +117,8 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     }
 
     private fun assignViewModel() {
-        assignWeekViewViewModel()
-        assignDayViewViewModel()
-    }
-
-    private fun assignWeekViewViewModel() {
-        val weekViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(WeekViewViewModel::class.java)
-
-        weekViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-        weekViewViewModel.checkIfSubjectsLoaded(groupId, timetableViewLocation)
-    }
-
-    private fun assignDayViewViewModel() {
-        val dayViewViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(DayViewViewModel::class.java)
-
-        dayViewViewModel.setIdOfAGroupSavedInDb(idOfAGroupSavedInDb)
-        dayViewViewModel.checkIfSubjectsLoaded(groupId, timetableViewLocation)
+        val viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(TimetableViewModel::class.java)
+        viewModel.init(groupId, timetableViewLocation)
     }
 
 }

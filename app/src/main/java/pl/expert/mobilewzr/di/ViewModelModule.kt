@@ -18,4 +18,5 @@ class ViewModelModule {
     ): ViewModelProvider.Factory {
         return ViewModelFactory(subjectsRepository, newsRepository)
     }
+
 }

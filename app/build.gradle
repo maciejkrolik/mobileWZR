@@ -39,7 +39,7 @@ android {
 
 dependencies {
     def dagger_version = "2.21"
-    def retrofit_version = "2.5.0"
+    def retrofit_version = "2.6.1"
     def uni_parsers_version = "2.7.6"
     def jsoup_version = "1.11.3"
     def coroutines_version = "1.1.1"

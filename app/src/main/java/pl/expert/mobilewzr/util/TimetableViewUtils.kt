@@ -1,25 +1,25 @@
 package pl.expert.mobilewzr.util
 
-import pl.expert.mobilewzr.domain.domainmodel.DayViewDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
 import pl.expert.mobilewzr.domain.domainmodel.SubjectItem
-import pl.expert.mobilewzr.domain.domainmodel.DayViewWeekDataHolder
+import pl.expert.mobilewzr.domain.domainmodel.WeekDataHolder
 import pl.expert.mobilewzr.data.model.Subject
 
-abstract class DayViewUtils {
+abstract class TimetableViewUtils {
 
     companion object {
 
-        private lateinit var AWeekDataHolder: DayViewWeekDataHolder
-        private lateinit var BWeekDataHolder: DayViewWeekDataHolder
+        private lateinit var AWeekDataHolder: WeekDataHolder
+        private lateinit var BWeekDataHolder: WeekDataHolder
         private lateinit var subjects: List<Subject>
 
-        fun getDayViewDataHolderFrom(subjects: List<Subject>): DayViewDataHolder {
+        fun getDayViewDataHolderFrom(subjects: List<Subject>): TimetableDataHolder {
             this.subjects = subjects
 
             assignSubjects()
             sortSubjectsByStartTime()
 
-            return DayViewDataHolder(
+            return TimetableDataHolder(
                 AWeekDataHolder,
                 BWeekDataHolder,
                 this.subjects
@@ -27,8 +27,8 @@ abstract class DayViewUtils {
         }
 
         private fun assignSubjects() {
-            AWeekDataHolder = DayViewWeekDataHolder()
-            BWeekDataHolder = DayViewWeekDataHolder()
+            AWeekDataHolder = WeekDataHolder()
+            BWeekDataHolder = WeekDataHolder()
 
             for (subject in subjects) {
                 if (CalendarUtils.getWeekNumber(subject.startDate) == 0)

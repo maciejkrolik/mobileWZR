@@ -1,6 +1,6 @@
 package pl.expert.mobilewzr.domain.domainmodel
 
-data class DayViewWeekDataHolder(
+data class WeekDataHolder(
 
     val mondaySubjects: MutableList<SubjectItem> = mutableListOf(),
 
