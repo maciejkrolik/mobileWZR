@@ -41,6 +41,15 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCalendarViewContentBinding.inflate(inflater, container, false)
+
+        if (savedInstanceState != null) {
+            day = savedInstanceState.getInt("day")
+            month = savedInstanceState.getInt("month")
+            year = savedInstanceState.getInt("year")
+            weekNumber = savedInstanceState.getInt("weekNumber")
+            weekDayNumber = savedInstanceState.getInt("weekDayNumber")
+        }
+
         return binding.root
     }
 
@@ -172,6 +181,15 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
 
         requireActivity().toolbarTitle.text =
             requireContext().getString(R.string.timetable_title_calendar, groupId, weekDay, mergedDate)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("day", day)
+        outState.putInt("month", month)
+        outState.putInt("year", year)
+        outState.putInt("weekNumber", weekNumber)
+        outState.putInt("weekDayNumber", weekDayNumber)
+        super.onSaveInstanceState(outState)
     }
 
 }
