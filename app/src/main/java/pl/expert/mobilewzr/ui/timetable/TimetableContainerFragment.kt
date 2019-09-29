@@ -38,6 +38,9 @@ class TimetableContainerFragment : BaseInjectedFragment() {
         if (groupId.isNotEmpty()) {
             if (timetableViewType == TimetableViewType.CALENDAR_VIEW) {
                 inflater.inflate(R.menu.calendar_view_menu, menu)
+                if (timetableViewLocation == TimetableViewLocation.SEARCH) {
+                    menu.add(Menu.NONE, R.id.set_as_my_timetable, Menu.NONE, R.string.set_as_my_timetable)
+                }
                 if (timetableType == TimetableType.FULL_TIME) {
                     menu.add(Menu.NONE, R.id.choose_view, Menu.NONE, R.string.choose_view)
                 }

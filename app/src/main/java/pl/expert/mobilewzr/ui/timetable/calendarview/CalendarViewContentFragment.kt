@@ -92,6 +92,12 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
                 chooseView(viewModel.groupId)
                 return true
             }
+            R.id.set_as_my_timetable -> {
+                viewModel.replaceSubjectsInDb()
+                putIdOfAGroupSavedInDbIntoSharedPref(viewModel.groupId)
+                showToast(viewModel.groupId)
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
