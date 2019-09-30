@@ -37,6 +37,7 @@ class EditViewFragment : BaseInjectedFragment() {
     private lateinit var firstWeekMondayDate: Date
     private lateinit var timetableViewType: TimetableViewType
     private lateinit var subject: Subject
+    private lateinit var newSubject: Subject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,7 @@ class EditViewFragment : BaseInjectedFragment() {
                 val fieldsAreNotBlank = checkIfFieldsAreNotBlank()
                 val timeIsValid = checkIfTimeIsValid()
                 if (fieldsAreNotBlank && timeIsValid) {
-                    val newSubject = prepareSubject()
+                    newSubject = prepareSubject()
                     if (subjectIndex != -1 && !copyModeSwitch.isChecked)
                         updateSubjectsWith(newSubject)
                     else
@@ -194,22 +195,24 @@ class EditViewFragment : BaseInjectedFragment() {
         editViewViewModel.getSubjects(groupId).observe(viewLifecycleOwner,
             Observer
             { subjects ->
-                if (subjects != null && subjectIndex != -1) {
-                    subject = subjects.single { subject -> subject.index == subjectIndex }
-                    titleEditText.setText(subject.title)
-                    descriptionEditText.setText(subject.description)
-                    locationEditText.setText(subject.location)
-                    dayWeekSegmentedGroup.setPosition(CalendarUtils.getDayOfWeek(subject.startDate), false)
-                    weekSegmentedGroup.setPosition(CalendarUtils.getWeekNumber(subject.startDate), false)
-                    editViewStartTime.text = subject.startTime
-                    editViewEndTime.text = subject.endTime
-                } else {
-                    editViewStartTime.text = "08.00"
-                    editViewEndTime.text = "09.30"
-                    dayWeekSegmentedGroup.setPosition(weekDayNumber, false)
-                    weekSegmentedGroup.setPosition(weekNumber, false)
+                if (!::newSubject.isInitialized) {
+                    if (subjects != null && subjectIndex != -1) {
+                        subject = subjects.single { subject -> subject.index == subjectIndex }
+                        titleEditText.setText(subject.title)
+                        descriptionEditText.setText(subject.description)
+                        locationEditText.setText(subject.location)
+                        dayWeekSegmentedGroup.setPosition(CalendarUtils.getDayOfWeek(subject.startDate), false)
+                        weekSegmentedGroup.setPosition(CalendarUtils.getWeekNumber(subject.startDate), false)
+                        editViewStartTime.text = subject.startTime
+                        editViewEndTime.text = subject.endTime
+                    } else {
+                        editViewStartTime.text = "08.00"
+                        editViewEndTime.text = "09.30"
+                        dayWeekSegmentedGroup.setPosition(weekDayNumber, false)
+                        weekSegmentedGroup.setPosition(weekNumber, false)
+                    }
+                    firstWeekMondayDate = getFirstWeekMondayDate(subjects.first())
                 }
-                firstWeekMondayDate = getFirstWeekMondayDate(subjects.first())
             })
     }
 

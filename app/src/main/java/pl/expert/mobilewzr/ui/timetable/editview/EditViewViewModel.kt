@@ -50,7 +50,8 @@ class EditViewViewModel constructor(
         _isUpdatingDb.value = true
         viewModelScope.launch {
             val baseSubject = subjects.value?.single { subject -> subject.index == subjectIndex }
-            val subjectsToUpdate = subjects.value?.filter { subject -> subject.title == baseSubject?.title }
+            val subjectsToUpdate =
+                subjects.value?.filter { subject -> subject.title.trim() == baseSubject?.title?.trim() }
             subjectsToUpdate?.forEach { subject ->
                 subject.title = newSubject.title
                 subject.description = newSubject.description
@@ -71,7 +72,7 @@ class EditViewViewModel constructor(
             subject.description = newSubject.description
             subject.location = newSubject.location
             subject.startTime = newSubject.startTime
-            subject.endTime = CalendarUtils.addMinutesToTimeString(newSubject.startTime, 45)
+            subject.endTime = newSubject.endTime
             subject.startDate = newSubject.startDate
             repository.addSubject(subject)
             subjects.value = repository.getSubjectsFromDb()
