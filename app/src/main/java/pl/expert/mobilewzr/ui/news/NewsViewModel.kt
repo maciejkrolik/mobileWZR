@@ -23,4 +23,10 @@ class NewsViewModel constructor(
         return news
     }
 
+    fun reloadNews() {
+        viewModelScope.launch {
+            news.value = repository.getNews()
+        }
+    }
+
 }

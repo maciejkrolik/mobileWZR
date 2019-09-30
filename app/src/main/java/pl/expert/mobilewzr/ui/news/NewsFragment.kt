@@ -15,7 +15,7 @@ import pl.expert.mobilewzr.util.NetworkUtils
 
 class NewsFragment : BaseInjectedFragment() {
 
-    private val newsViewModel by lazy {
+    private val viewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
     }
 
@@ -68,6 +68,10 @@ class NewsFragment : BaseInjectedFragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = recyclerAdapter
         }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.reloadNews()
+        }
     }
 
     private fun setOnClickListeners() {
@@ -82,12 +86,14 @@ class NewsFragment : BaseInjectedFragment() {
     }
 
     private fun getNewsAndObserve() {
-        newsViewModel.getNews().observe(viewLifecycleOwner,
+        viewModel.getNews().observe(viewLifecycleOwner,
             Observer<List<News>> { news ->
                 if (news != null && news.isNotEmpty()) {
+                    this.news.clear()
                     this.news.addAll(news)
                     newsRecyclerView.visibility = View.VISIBLE
                     recyclerAdapter.notifyDataSetChanged()
+                    swipeRefreshLayout.isRefreshing = false
                 } else {
                     newsTextView.text = getString(R.string.no_news_available)
                     newsTextView.visibility = View.VISIBLE
