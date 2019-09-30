@@ -213,7 +213,7 @@ class TimetableGrid : View {
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> return true
             MotionEvent.ACTION_UP -> {
-                for ((index, rect) in subjectRects.withIndex()) {
+                for ((index, rect) in subjectRects.withIndex().reversed()) {
                     if (rect.contains(event.x, event.y)) {
                         broadcastSubject(index)
                         break
