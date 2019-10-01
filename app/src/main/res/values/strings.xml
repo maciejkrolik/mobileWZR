@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">mobileWZR</string>
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="time_string" translatable="false">%1$s.%2$s</string>
     <string name="monday_short">Mon.</string>
     <string name="tuesday_short">Tue.</string>
@@ -9,12 +8,6 @@
     <string name="friday_short">Fri.</string>
     <string name="saturday_short">Sat.</string>
     <string name="sunday_short">Sun.</string>
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="retrofit_error">Connection error!</string>
     <string name="weekA">Week A</string>
     <string name="weekB">Week B</string>
     <string name="week">Week</string>
@@ -23,26 +16,19 @@
     <string name="news">News</string>
     <string name="group">Group</string>
     <string name="show">Show</string>
-    <string name="choose_a_group">Choose a group</string>
     <string name="no_group_selected">No group selected</string>
     <string name="set_as_my_timetable">Set as my timetable</string>
     <string name="was_saved">was saved</string>
     <string name="internet_connection_error">Check your connection and try again</string>
     <string name="try_again">Try again</string>
     <string name="no_classes">No classes</string>
-    <string name="settings">Settings</string>
-    <string name="week_view">Week view</string>
-    <string name="day_view">Day view</string>
-    <string name="view_mode">View mode</string>
     <string name="others">Others</string>
     <string name="save">Save</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="add_new_subject">Add new subject</string>
     <string name="delete">Delete</string>
-    <string name="time">Time</string>
     <string name="day">Day</string>
-    <string name="server_error">Server error</string>
     <string name="location">Location</string>
     <string name="fields_cannot_be_empty">Fields cannot be empty</string>
     <string name="time_is_incorect">Incorrect start/end time</string>

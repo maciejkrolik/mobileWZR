@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.model.Subject
-import pl.expert.mobilewzr.util.CalendarUtils
 
 class EditViewViewModel constructor(
     private val repository: SubjectsRepository
