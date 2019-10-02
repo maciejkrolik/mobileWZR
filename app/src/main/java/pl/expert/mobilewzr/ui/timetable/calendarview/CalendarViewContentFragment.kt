@@ -114,7 +114,7 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            R.style.AlertDialogTheme,
+            R.style.DatePickerTheme,
             DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 val dayOfWeek = CalendarUtils.getDayOfWeek(day, month, year)
                 setTitle(day, month, dayOfWeek)
