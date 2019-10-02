@@ -197,7 +197,7 @@ class EditViewFragment : BaseInjectedFragment() {
             { subjects ->
                 if (!::newSubject.isInitialized) {
                     if (subjects != null && subjectIndex != -1) {
-                        subject = subjects.single { subject -> subject.index == subjectIndex }
+                        subject = subjects.singleOrNull { subject -> subject.index == subjectIndex } ?: Subject()
                         titleEditText.setText(subject.title)
                         descriptionEditText.setText(subject.description)
                         locationEditText.setText(subject.location)
