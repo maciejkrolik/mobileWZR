@@ -58,8 +58,15 @@ class DayViewContainerFragment : Fragment() {
     }
 
     private fun setDayViewViewPagerCurrentItem() {
-        viewPager.currentItem =
-            if (weekNumber == 0) CalendarUtils.getDayOfWeek() else CalendarUtils.getDayOfWeek() + 5
+        val dayOfWeek = if (weekNumber == 0) CalendarUtils.getDayOfWeek() else CalendarUtils.getDayOfWeek() + 5
+        if (dayOfWeek in listOf(5, 6, 10, 11)) {
+            if (weekNumber == 0)
+                viewPager.currentItem = 4
+            else
+                viewPager.currentItem = 9
+        } else {
+            viewPager.currentItem = dayOfWeek
+        }
     }
 
     private fun assignOnPageChangeListener() {
