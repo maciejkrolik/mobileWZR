@@ -84,6 +84,8 @@ class TimetableGrid : View {
     }
 
     override fun onDraw(canvas: Canvas) {
+        this.subjectRects.clear()
+
         val oneSixthWide = width / 6F
         val oneTwelfthWide = width / 12F
 
