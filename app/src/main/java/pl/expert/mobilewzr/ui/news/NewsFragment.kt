@@ -15,9 +15,7 @@ import pl.expert.mobilewzr.util.NetworkUtils
 
 class NewsFragment : BaseInjectedFragment() {
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
-    }
+    private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java) }
 
     private lateinit var binding: FragmentNewsBinding
     private lateinit var recyclerAdapter: NewsAdapter
@@ -70,7 +68,15 @@ class NewsFragment : BaseInjectedFragment() {
         }
 
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.reloadNews()
+            isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
+            if (isNetworkAvailable) {
+                hideInternetErrorNewsViewItems()
+                viewModel.reloadNews()
+            } else {
+                swipeRefreshLayout.isRefreshing = false
+                hideMainNewsViewItems()
+                showInternetErrorNewsViewItems()
+            }
         }
     }
 
