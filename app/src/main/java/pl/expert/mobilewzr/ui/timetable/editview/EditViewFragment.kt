@@ -150,9 +150,9 @@ class EditViewFragment : BaseInjectedFragment() {
 
         if (startTimeMinutes >= endTimeMinutes)
             return false
-        if (startTimeMinutes < 480)
+        if (startTimeMinutes < CalendarUtils.eightAmInMinutes)
             return false
-        if (endTimeMinutes > 1260)
+        if (endTimeMinutes > CalendarUtils.ninePmInMinutes)
             return false
 
         return true

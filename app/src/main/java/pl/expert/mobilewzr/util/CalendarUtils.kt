@@ -7,6 +7,9 @@ abstract class CalendarUtils {
 
     companion object {
 
+        const val eightAmInMinutes = 480
+        const val ninePmInMinutes = 1260
+
         /**
          * Returns calendar object with date set as today
          */

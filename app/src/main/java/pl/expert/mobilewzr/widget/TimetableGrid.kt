@@ -192,21 +192,23 @@ class TimetableGrid : View {
         }
 
         // Draw current time line
-        val currentTimeYPosition = getYPosition(CalendarUtils.getCurrentTime())
-        canvas.drawLine(
-            oneSixthWide - 5.toPx(),
-            currentTimeYPosition,
-            width.toFloat(),
-            currentTimeYPosition,
-            redPaint
-        )
-        canvas.drawOval(
-            oneSixthWide - 9.toPx(),
-            currentTimeYPosition - 3.toPx(),
-            oneSixthWide - 3.toPx(),
-            currentTimeYPosition + 3.toPx(),
-            redPaint
-        )
+        if (CalendarUtils.getMinutesFromTimeString(CalendarUtils.getCurrentTime()) >= CalendarUtils.eightAmInMinutes) {
+            val currentTimeYPosition = getYPosition(CalendarUtils.getCurrentTime())
+            canvas.drawLine(
+                oneSixthWide - 5.toPx(),
+                currentTimeYPosition,
+                width.toFloat(),
+                currentTimeYPosition,
+                redPaint
+            )
+            canvas.drawOval(
+                oneSixthWide - 9.toPx(),
+                currentTimeYPosition - 3.toPx(),
+                oneSixthWide - 3.toPx(),
+                currentTimeYPosition + 3.toPx(),
+                redPaint
+            )
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
