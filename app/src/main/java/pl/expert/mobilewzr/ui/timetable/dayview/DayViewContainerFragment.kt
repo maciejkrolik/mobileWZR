@@ -18,6 +18,7 @@ import pl.expert.mobilewzr.util.CalendarUtils
 class DayViewContainerFragment : Fragment() {
 
     private val weekNumber = CalendarUtils.getWeekNumber()
+    private val title by lazy { requireActivity().toolbar.toolbarTitle }
 
     private lateinit var timetableViewLocation: TimetableViewLocation
     private lateinit var groupId: String
@@ -29,11 +30,9 @@ class DayViewContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataFromSharedPrefs()
+        title.text = getString(R.string.timetable_title_with_week, groupId, CalendarUtils.getWeekType(weekNumber))
         setupDayViewTabLayout()
         setupDayViewPagerAdapter()
-        requireActivity().toolbar.toolbarTitle.text = getString(
-            R.string.timetable_title_with_week, groupId, CalendarUtils.getWeekType(weekNumber)
-        )
     }
 
     private fun getDataFromSharedPrefs() {
@@ -59,11 +58,14 @@ class DayViewContainerFragment : Fragment() {
 
     private fun setDayViewViewPagerCurrentItem() {
         val dayOfWeek = if (weekNumber == 0) CalendarUtils.getDayOfWeek() else CalendarUtils.getDayOfWeek() + 5
-        if (dayOfWeek in listOf(5, 6, 10, 11)) {
-            if (weekNumber == 0)
-                viewPager.currentItem = 4
-            else
-                viewPager.currentItem = 9
+        if (CalendarUtils.getDayOfWeek() in listOf(5, 6)) {
+            if (weekNumber == 0) {
+                viewPager.currentItem = 5
+                title.text = getString(R.string.timetable_title_with_week, groupId, CalendarUtils.getWeekType(1))
+            } else {
+                viewPager.currentItem = 0
+                title.text = getString(R.string.timetable_title_with_week, groupId, CalendarUtils.getWeekType(0))
+            }
         } else {
             viewPager.currentItem = dayOfWeek
         }
@@ -81,10 +83,8 @@ class DayViewContainerFragment : Fragment() {
 
             override fun onPageSelected(dayNumber: Int) {
                 when (dayNumber) {
-                    0, 1, 2, 3, 4 -> requireActivity().toolbar.toolbarTitle.text =
-                        getString(R.string.timetable_title_week_a, groupId)
-                    5, 6, 7, 8, 9 -> requireActivity().toolbar.toolbarTitle.text =
-                        getString(R.string.timetable_title_week_b, groupId)
+                    0, 1, 2, 3, 4 -> title.text = getString(R.string.timetable_title_week_a, groupId)
+                    5, 6, 7, 8, 9 -> title.text = getString(R.string.timetable_title_week_b, groupId)
                 }
             }
         })
