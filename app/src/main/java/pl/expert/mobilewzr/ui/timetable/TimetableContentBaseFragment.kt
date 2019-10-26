@@ -24,7 +24,7 @@ abstract class TimetableContentBaseFragment : BaseInjectedFragment() {
         timetableViewLocation = TimetableViewLocation.getByValue(arguments?.getInt("argTimetableViewLocation")!!)
     }
 
-    protected fun putIdOfAGroupSavedInDbIntoSharedPref(groupId: String) {
+    protected fun putMyGroupIdIntoSharedPref(groupId: String) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
         sharedPref.edit().putString("prefIdOfAGroupSavedInDb", groupId).apply()
     }

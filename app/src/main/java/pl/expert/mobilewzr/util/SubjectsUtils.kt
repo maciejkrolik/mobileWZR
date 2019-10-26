@@ -37,7 +37,6 @@ abstract class SubjectsUtils {
 
             deleteSubjectsWithoutTitle()
             addAdditionalSubjects()
-            assignIndexesToSubjects()
 
             return this.subjects
         }
@@ -93,10 +92,5 @@ abstract class SubjectsUtils {
             }
         }
 
-        private fun assignIndexesToSubjects() {
-            subjects.forEachIndexed { index, subject ->
-                subject.index = index
-            }
-        }
     }
 }

@@ -40,4 +40,5 @@ class NewsRepository @Inject constructor() {
 
         return listOfNews
     }
+
 }

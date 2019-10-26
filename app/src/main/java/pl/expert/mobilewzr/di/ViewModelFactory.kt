@@ -2,8 +2,10 @@ package pl.expert.mobilewzr.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import pl.expert.mobilewzr.data.GroupsRepository
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
+import pl.expert.mobilewzr.ui.lecturers.LecturersTimetableViewModel
 import pl.expert.mobilewzr.ui.news.NewsViewModel
 import pl.expert.mobilewzr.ui.search.SearchViewModel
 import pl.expert.mobilewzr.ui.timetable.TimetableViewModel
@@ -14,7 +16,8 @@ import javax.inject.Singleton
 @Singleton
 class ViewModelFactory @Inject constructor(
     private val subjectsRepository: SubjectsRepository,
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val groupsRepository: GroupsRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -26,9 +29,11 @@ class ViewModelFactory @Inject constructor(
                 isAssignableFrom(NewsViewModel::class.java) ->
                     NewsViewModel(newsRepository)
                 isAssignableFrom(SearchViewModel::class.java) ->
-                    SearchViewModel(subjectsRepository)
+                    SearchViewModel(groupsRepository)
                 isAssignableFrom(EditViewViewModel::class.java) ->
                     EditViewViewModel(subjectsRepository)
+                isAssignableFrom(LecturersTimetableViewModel::class.java) ->
+                    LecturersTimetableViewModel(subjectsRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

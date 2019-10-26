@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import pl.expert.mobilewzr.data.converter.RoomConverters
 import pl.expert.mobilewzr.data.model.Subject
 
-@Database(entities = [Subject::class], version = 1, exportSchema = true)
+@Database(entities = [Subject::class], version = 2, exportSchema = true)
 @TypeConverters(RoomConverters::class)
 abstract class MobileWZRDatabase : RoomDatabase() {
 

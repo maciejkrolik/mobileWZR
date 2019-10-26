@@ -16,7 +16,7 @@ import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewContainerFragment
 class TimetableContainerFragment : BaseInjectedFragment() {
 
     private lateinit var groupId: String
-    private lateinit var idOfAGroupSavedInDb: String
+    private lateinit var myGroupId: String
     private lateinit var timetableViewLocation: TimetableViewLocation
     private lateinit var timetableViewType: TimetableViewType
     private lateinit var timetableType: TimetableType
@@ -68,7 +68,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     private fun getDataFromSharedPrefs() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
-        idOfAGroupSavedInDb = sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+        myGroupId = sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
 
         timetableViewType =
             TimetableViewType.getByValue(sharedPref.getInt("prefTimetableViewType", TimetableViewType.DAY_VIEW.value))

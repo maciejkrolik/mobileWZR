@@ -69,4 +69,9 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/lecturers_timetable_fragment"
+        android:name="pl.expert.mobilewzr.ui.lecturers.LecturersTimetableFragment"
+        tools:layout="@layout/fragment_lecturers_timetable" />
+
 </navigation>
