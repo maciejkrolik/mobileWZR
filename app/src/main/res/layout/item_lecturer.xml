@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/card_view_start_end_margin"
+    android:layout_marginTop="@dimen/card_view_top_bottom_margin"
+    android:layout_marginEnd="@dimen/card_view_start_end_margin"
+    android:layout_marginBottom="@dimen/card_view_top_bottom_margin"
+    app:cardBackgroundColor="@color/colorAccentGradient"
+    app:cardCornerRadius="@dimen/card_view_radius">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp">
+
+        <TextView
+            android:id="@+id/lecturerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/news_title_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/lecturerEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            tools:text="Jan Kowalski" />
+
+        <TextView
+            android:id="@+id/lecturerEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            android:textColor="@android:color/white"
+            android:textIsSelectable="true"
+            app:layout_constraintBottom_toTopOf="@+id/lecturerPhone"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lecturerName"
+            tools:text="test@wzr.ug.pl" />
+
+        <TextView
+            android:id="@+id/lecturerPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_phone"
+            android:drawablePadding="10dp"
+            android:textColor="@android:color/white"
+            android:textIsSelectable="true"
+            app:layout_constraintBottom_toTopOf="@+id/lecturerRoom"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lecturerEmail"
+            tools:text="123 123 123" />
+
+        <TextView
+            android:id="@+id/lecturerRoom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="10dp"
+            android:drawableTint="@android:color/white"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/lecturerInfo"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lecturerPhone"
+            tools:text="C-0" />
+
+        <TextView
+            android:id="@+id/lecturerInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_news"
+            android:drawablePadding="10dp"
+            android:drawableTint="@android:color/white"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lecturerRoom"
+            tools:text="Czwartek godz. 12.45-13.30- tydzień I\nPiątek godz. 12.00-12.45- tydzień I i II\nŚroda godz. 13.00-13.30- tydzień II" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

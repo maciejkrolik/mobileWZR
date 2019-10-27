@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 R.id.my_timetable_view_fragment,
                 R.id.search_view_fragment,
                 R.id.news_view_fragment,
-                R.id.lecturers_timetable_fragment
+                R.id.lecturers_fragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

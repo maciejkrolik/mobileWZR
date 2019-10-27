@@ -2,6 +2,7 @@ package pl.expert.mobilewzr.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import pl.expert.mobilewzr.ui.lecturers.LecturersFragment
 import pl.expert.mobilewzr.ui.lecturers.LecturersTimetableFragment
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContentFragment
 import pl.expert.mobilewzr.ui.news.NewsFragment
@@ -41,5 +42,8 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeLecturersTimetableFragmentInjector(): LecturersTimetableFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeLecturersFragmentInjector(): LecturersFragment
 
 }

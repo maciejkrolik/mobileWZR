@@ -44,7 +44,7 @@ class LecturersTimetableFragment : BaseInjectedFragment() {
     }
 
     private fun setTitle() {
-        toolbar.toolbarTitle.text = getString(R.string.lecturers_timetable)
+        toolbar.toolbarTitle.text = getString(R.string.lecturers)
     }
 
     private fun getDataFromSharedPrefs() {

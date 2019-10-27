@@ -17,8 +17,8 @@
         android:title="@string/news" />
 
     <item
-        android:id="@+id/lecturers_timetable_fragment"
+        android:id="@+id/lecturers_fragment"
         android:icon="@drawable/ic_people"
-        android:title="@string/lecturers_timetable" />
+        android:title="@string/lecturers" />
 
 </menu>

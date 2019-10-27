@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import pl.expert.mobilewzr.data.GroupsRepository
+import pl.expert.mobilewzr.data.LecturersRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.NewsRepository
 import javax.inject.Singleton
@@ -16,9 +17,10 @@ class ViewModelModule {
     fun provideViewModelFactory(
         subjectsRepository: SubjectsRepository,
         newsRepository: NewsRepository,
-        groupsRepository: GroupsRepository
+        groupsRepository: GroupsRepository,
+        lecturersRepository: LecturersRepository
     ): ViewModelProvider.Factory {
-        return ViewModelFactory(subjectsRepository, newsRepository, groupsRepository)
+        return ViewModelFactory(subjectsRepository, newsRepository, groupsRepository, lecturersRepository)
     }
 
 }

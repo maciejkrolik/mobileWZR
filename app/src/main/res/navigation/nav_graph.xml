@@ -70,6 +70,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/lecturers_fragment"
+        android:name="pl.expert.mobilewzr.ui.lecturers.LecturersFragment"
+        tools:layout="@layout/fragment_lecturers" />
+
+    <fragment
         android:id="@+id/lecturers_timetable_fragment"
         android:name="pl.expert.mobilewzr.ui.lecturers.LecturersTimetableFragment"
         tools:layout="@layout/fragment_lecturers_timetable" />
