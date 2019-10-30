@@ -10,15 +10,16 @@ import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.data.model.Lecturer
 import java.util.*
 
-class LecturersAdapter(
-    private val lecturers: MutableList<Lecturer>
-) : RecyclerView.Adapter<LecturersAdapter.LecturersViewHolder>() {
+class LecturersRecyclerAdapter(
+    private val lecturers: MutableList<Lecturer>,
+    private val onLecturerListener: OnLecturerListener
+) : RecyclerView.Adapter<LecturersRecyclerAdapter.LecturersViewHolder>() {
 
     private val fullList = mutableListOf<Lecturer>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LecturersViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_lecturer, parent, false)
-        return LecturersViewHolder(itemView)
+        return LecturersViewHolder(itemView, onLecturerListener)
     }
 
     override fun onBindViewHolder(holder: LecturersViewHolder, position: Int) {
@@ -50,12 +51,14 @@ class LecturersAdapter(
         notifyDataSetChanged()
     }
 
-    class LecturersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class LecturersViewHolder(itemView: View, onLecturerListener: OnLecturerListener) :
+        RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var lecturerNameTextView: TextView? = null
         var lecturerEmailTextView: TextView? = null
         var lecturerPhoneTextView: TextView? = null
         var lecturerRoomTextView: TextView? = null
         var lecturerInfoTextView: TextView? = null
+        var onLecturerListener: OnLecturerListener? = null
 
         init {
             lecturerNameTextView = itemView.lecturerName
@@ -63,7 +66,18 @@ class LecturersAdapter(
             lecturerPhoneTextView = itemView.lecturerPhone
             lecturerRoomTextView = itemView.lecturerRoom
             lecturerInfoTextView = itemView.lecturerInfo
+
+            this.onLecturerListener = onLecturerListener
+            itemView.setOnClickListener(this)
         }
+
+        override fun onClick(view: View) {
+            onLecturerListener?.onLecturerClick(adapterPosition)
+        }
+    }
+
+    interface OnLecturerListener {
+        fun onLecturerClick(position: Int)
     }
 
 }

@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_lecturers.*
 import kotlinx.android.synthetic.main.toolbar.view.*
@@ -16,14 +17,14 @@ import pl.expert.mobilewzr.databinding.FragmentLecturersBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.util.ResourceState
 
-class LecturersFragment : BaseInjectedFragment() {
+class LecturersFragment : BaseInjectedFragment(), LecturersRecyclerAdapter.OnLecturerListener {
 
     private val viewModel by lazy {
         ViewModelProviders.of(requireActivity(), viewModelFactory).get(LecturersViewModel::class.java)
     }
 
     private lateinit var binding: FragmentLecturersBinding
-    private lateinit var recyclerAdapter: LecturersAdapter
+    private lateinit var recyclerAdapter: LecturersRecyclerAdapter
 
     private val lecturers = mutableListOf<Lecturer>()
 
@@ -47,7 +48,7 @@ class LecturersFragment : BaseInjectedFragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerAdapter = LecturersAdapter(lecturers)
+        recyclerAdapter = LecturersRecyclerAdapter(lecturers, this)
         lecturersRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -56,9 +57,17 @@ class LecturersFragment : BaseInjectedFragment() {
     }
 
     private fun setupSearch() {
-        lecturersEditText.doAfterTextChanged { input ->
-            recyclerAdapter.filterList(input.toString())
-        }
+        lecturersSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                recyclerAdapter.filterList(newText)
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                recyclerAdapter.filterList(query)
+                return true
+            }
+        })
     }
 
     private fun setupViewModel() {
@@ -75,6 +84,15 @@ class LecturersFragment : BaseInjectedFragment() {
                 }
             }
         })
+    }
+
+    override fun onLecturerClick(position: Int) {
+        val lecturerName = lecturers[position].name
+        findNavController().navigate(
+            LecturersFragmentDirections.actionLecturersFragmentToLecturersTimetableFragment(lecturerName)
+        )
+        lecturersSearchView.setQuery("", false)
+        lecturersSearchView.clearFocus()
     }
 
 }

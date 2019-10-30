@@ -6,7 +6,7 @@ import pl.expert.mobilewzr.data.GroupsRepository
 import pl.expert.mobilewzr.data.LecturersRepository
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.ui.lecturers.LecturersTimetableViewModel
+import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableViewModel
 import pl.expert.mobilewzr.ui.lecturers.LecturersViewModel
 import pl.expert.mobilewzr.ui.news.NewsViewModel
 import pl.expert.mobilewzr.ui.search.SearchViewModel

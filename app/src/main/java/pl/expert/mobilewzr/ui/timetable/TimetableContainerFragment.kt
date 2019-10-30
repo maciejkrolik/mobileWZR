@@ -5,7 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
-import kotlinx.android.synthetic.main.fragment_timetable_views_container.*
+import kotlinx.android.synthetic.main.fragment_container_timetable_views.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
@@ -29,7 +29,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         getDataFromSharedPrefs()
         setTimetableType()
-        return inflater.inflate(R.layout.fragment_timetable_views_container, container, false)
+        return inflater.inflate(R.layout.fragment_container_timetable_views, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

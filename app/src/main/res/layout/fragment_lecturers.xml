@@ -14,18 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/lecturersEditText"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/lecturersSearchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_view_start_end_margin"
-            android:layout_marginTop="5dp"
             android:layout_marginEnd="@dimen/card_view_start_end_margin"
-            android:layout_marginBottom="5dp"
             android:hint="@string/search"
             android:importantForAutofill="no"
             android:inputType="text"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:visibility="gone"
+            app:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lecturersEditText"
+            app:layout_constraintTop_toBottomOf="@id/lecturersSearchView"
             app:visibleIfSuccessState="@{viewModel.lecturersState}"
             tools:visibility="visible" />
 

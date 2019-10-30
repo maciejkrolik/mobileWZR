@@ -94,7 +94,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     private fun showSubjectDetailsDialog(subject: Subject) {
         val alertDialog = AlertDialog.Builder(requireContext()).apply {
             setTitle(subject.title)
-            setMessage("${subject.location}, ${subject.description}")
+            setMessage("${subject.startTime}-${subject.endTime}, ${subject.location}, ${subject.description}")
             setPositiveButton(R.string.edit) { _, _ ->
                 navigateToEditFragment(subject.index)
             }
@@ -108,7 +108,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     private fun showSimpleSubjectDetailsDialog(subject: Subject) {
         val alertDialog = AlertDialog.Builder(requireContext()).apply {
             setTitle(subject.title)
-            setMessage("${subject.location}, ${subject.description}")
+            setMessage("${subject.startTime}-${subject.endTime}, ${subject.location}, ${subject.description}")
         }.create()
         alertDialog.setAttrsAndShow()
     }

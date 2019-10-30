@@ -8,6 +8,7 @@
     android:layout_marginTop="@dimen/card_view_top_bottom_margin"
     android:layout_marginEnd="@dimen/card_view_start_end_margin"
     android:layout_marginBottom="@dimen/card_view_top_bottom_margin"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/colorAccentGradient"
     app:cardCornerRadius="@dimen/card_view_radius">
 
@@ -32,7 +33,7 @@
 
         <TextView
             android:id="@+id/lecturerEmail"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:drawableStart="@drawable/ic_email"
@@ -41,13 +42,14 @@
             android:textIsSelectable="true"
             app:layout_constraintBottom_toTopOf="@+id/lecturerPhone"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lecturerName"
             tools:text="test@wzr.ug.pl" />
 
         <TextView
             android:id="@+id/lecturerPhone"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:drawableStart="@drawable/ic_phone"
@@ -56,6 +58,7 @@
             android:textIsSelectable="true"
             app:layout_constraintBottom_toTopOf="@+id/lecturerRoom"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lecturerEmail"
             tools:text="123 123 123" />
