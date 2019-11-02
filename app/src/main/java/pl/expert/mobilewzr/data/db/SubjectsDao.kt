@@ -15,6 +15,9 @@ interface SubjectsDao {
     @Query("SELECT * FROM Subject WHERE description LIKE '%' || :lecturer || '%'")
     suspend fun getSubjectsByLecturer(lecturer: String): List<Subject>
 
+    @Query("SELECT COUNT(*) FROM Subject WHERE isMyGroup = 0")
+    suspend fun getLecturersSubjectsCount(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addSubjects(subjects: List<Subject>)
 

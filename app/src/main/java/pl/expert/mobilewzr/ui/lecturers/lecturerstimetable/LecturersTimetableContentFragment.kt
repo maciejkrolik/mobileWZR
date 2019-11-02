@@ -42,7 +42,7 @@ class LecturersTimetableContentFragment : BaseInjectedFragment() {
         viewModel =
             ViewModelProviders.of(requireActivity(), viewModelFactory).get(LecturersTimetableViewModel::class.java)
 
-        viewModel.subjects.observe(viewLifecycleOwner, Observer { resourceState ->
+        viewModel.subjectsState.observe(viewLifecycleOwner, Observer { resourceState ->
             when (resourceState) {
                 is ResourceState.Success -> {
                     val weekSpecificSubjects = viewModel.getWeekSpecificSubjects(weekNumber)

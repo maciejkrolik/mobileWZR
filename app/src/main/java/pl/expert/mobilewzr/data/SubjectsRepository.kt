@@ -27,6 +27,10 @@ class SubjectsRepository @Inject constructor(
         return subjectsDao.getSubjectsByLecturer(parsedLecturerName)
     }
 
+    suspend fun areLecturersSubjectsDownloaded(): Boolean {
+        return subjectsDao.getLecturersSubjectsCount() != 0
+    }
+
     suspend fun getTimetableDataFromDb(): TimetableDataHolder {
         val subjects = subjectsDao.getMyGroupSubjects()
         val timetableData = TimetableViewUtils.getDayViewDataHolderFrom(subjects)

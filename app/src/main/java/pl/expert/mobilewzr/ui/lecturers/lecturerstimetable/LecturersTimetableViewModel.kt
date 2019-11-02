@@ -13,31 +13,40 @@ class LecturersTimetableViewModel constructor(
     private val repository: SubjectsRepository
 ) : ViewModel() {
 
-    val subjects = MutableLiveData<ResourceState<List<Subject>>>(ResourceState.Loading())
+    val subjectsState = MutableLiveData<ResourceState<List<Subject>>>(ResourceState.Loading())
 
     fun getLecturersSubjectsFromDb(lecturerName: String) {
+        subjectsState.value = ResourceState.Loading()
         viewModelScope.launch {
-            try {
-                val lecturerSubjects = repository.getSubjectsByLecturerFromDb(lecturerName)
-                subjects.postValue(ResourceState.Success(lecturerSubjects))
-            } catch (ex: Exception) {
-                subjects.postValue(ResourceState.Error("Error while getting lecturer subjects from db"))
+            if (areLecturersSubjectsDownloaded()) {
+                try {
+                    val lecturerSubjects = repository.getSubjectsByLecturerFromDb(lecturerName)
+                    subjectsState.postValue(ResourceState.Success(lecturerSubjects))
+                } catch (ex: Exception) {
+                    subjectsState.postValue(ResourceState.Error("Error while getting lecturer subjectsState from db"))
+                }
+            } else {
+                subjectsState.postValue(ResourceState.Error("No lecturers subjects in db"))
             }
         }
     }
 
     fun getWeekSpecificSubjects(weekNumber: Int): List<Subject> {
         return when (weekNumber) {
-            0 -> subjects.value?.data!!.filter { s -> CalendarUtils.getWeekNumber(s.startDate) == 0 }
-            1 -> subjects.value?.data!!.filter { s -> CalendarUtils.getWeekNumber(s.startDate) == 1 }
-            else -> throw Exception("Unknown week number: $weekNumber")
+            0 -> subjectsState.value?.data!!.filter { s -> CalendarUtils.getWeekNumber(s.startDate) == 0 }
+            1 -> subjectsState.value?.data!!.filter { s -> CalendarUtils.getWeekNumber(s.startDate) == 1 }
+            else -> throw IllegalArgumentException("Unknown week number: $weekNumber")
         }
     }
 
-    fun getLecturersSubjects() {
+    fun getLecturersSubjects(lecturerName: String) {
+        subjectsState.value = ResourceState.Loading()
         viewModelScope.launch {
             repository.getAllFirstTwoWeeksSubjectsFromService()
+            getLecturersSubjectsFromDb(lecturerName)
         }
     }
+
+    private suspend fun areLecturersSubjectsDownloaded() = repository.areLecturersSubjectsDownloaded()
 
 }
