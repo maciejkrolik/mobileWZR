@@ -23,7 +23,8 @@ class SubjectsRepository @Inject constructor(
     }
 
     suspend fun getSubjectsByLecturerFromDb(lecturer: String): List<Subject> {
-        return subjectsDao.getSubjectsByLecturer(lecturer)
+        val parsedLecturerName = lecturer.substringBefore(",")
+        return subjectsDao.getSubjectsByLecturer(parsedLecturerName)
     }
 
     suspend fun getTimetableDataFromDb(): TimetableDataHolder {

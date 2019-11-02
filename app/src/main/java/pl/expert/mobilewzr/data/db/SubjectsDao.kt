@@ -12,7 +12,7 @@ interface SubjectsDao {
     @Query("SELECT * FROM Subject WHERE isMyGroup = 1")
     suspend fun getMyGroupSubjects(): List<Subject>
 
-    @Query("SELECT * FROM Subject WHERE description = :lecturer")
+    @Query("SELECT * FROM Subject WHERE description LIKE '%' || :lecturer || '%'")
     suspend fun getSubjectsByLecturer(lecturer: String): List<Subject>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
