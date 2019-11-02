@@ -49,4 +49,12 @@
     <string name="calendar">Calendar</string>
     <string name="choose_day">Choose day</string>
     <string name="choose_view">Choose view</string>
+    <string name="lecturers">Lecturers</string>
+    <string name="refresh">Refresh</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="refresh_lecturers_timetable_confirmation">Do you really want to refresh lecturer\'s timetable? It may take several seconds.</string>
+    <string name="processing_in_progress">Processing in progress…</string>
+    <string name="lecturers_timetable_info">Lecturer\'s timetable requires lots of data to be processed. It may take several seconds.</string>
+    <string name="get_timetable">Get timetable</string>
 </resources>

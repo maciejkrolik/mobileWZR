@@ -37,7 +37,6 @@ abstract class SubjectsUtils {
 
             deleteSubjectsWithoutTitle()
             addAdditionalSubjects()
-            assignIndexesToSubjects()
 
             return this.subjects
         }
@@ -50,7 +49,9 @@ abstract class SubjectsUtils {
             val tempSubjects = mutableListOf<Subject>()
 
             for (i in 0 until subjects.size) {
-                if (subjects[i].title == subjects.getOrNull(i + 1)?.title) {
+                if (subjects[i].title == subjects.getOrNull(i + 1)?.title &&
+                    subjects[i].description == subjects.getOrNull(i + 1)?.description
+                ) {
                     tempSubjects.add(subjects[i])
                 } else {
                     val subject = subjects[i]
@@ -93,10 +94,5 @@ abstract class SubjectsUtils {
             }
         }
 
-        private fun assignIndexesToSubjects() {
-            subjects.forEachIndexed { index, subject ->
-                subject.index = index
-            }
-        }
     }
 }

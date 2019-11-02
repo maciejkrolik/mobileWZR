@@ -2,12 +2,15 @@ package pl.expert.mobilewzr.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContentFragment
+import pl.expert.mobilewzr.ui.lecturers.LecturersFragment
+import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContainerFragment
+import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContentFragment
 import pl.expert.mobilewzr.ui.news.NewsFragment
 import pl.expert.mobilewzr.ui.search.SearchFragment
 import pl.expert.mobilewzr.ui.timetable.TimetableContainerFragment
 import pl.expert.mobilewzr.ui.timetable.calendarview.CalendarViewContentFragment
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContainerFragment
+import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContentFragment
 import pl.expert.mobilewzr.ui.timetable.editview.EditViewFragment
 import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewContentFragment
 
@@ -37,5 +40,14 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeEditViewFragmentInjector(): EditViewFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeLecturersTimetableContainerFragmentInjector(): LecturersTimetableContainerFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeLecturersTimetableContentFragmentInjector(): LecturersTimetableContentFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeLecturersFragmentInjector(): LecturersFragment
 
 }

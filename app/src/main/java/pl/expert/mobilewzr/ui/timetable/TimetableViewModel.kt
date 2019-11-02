@@ -114,7 +114,7 @@ class TimetableViewModel @Inject constructor(
 
     fun replaceSubjectsInDb() {
         viewModelScope.launch {
-            repository.replaceSubjectsInDb(timetableDataHolder.value?.data?.allSubjects!!)
+            repository.replaceMyGroupSubjectsInDbWith(timetableDataHolder.value?.data?.allSubjects!!)
         }
     }
 

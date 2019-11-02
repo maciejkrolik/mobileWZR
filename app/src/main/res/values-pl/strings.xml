@@ -48,4 +48,12 @@
     <string name="calendar">Kalendarz</string>
     <string name="choose_day">Wybierz dzień</string>
     <string name="choose_view">Zmień widok</string>
+    <string name="lecturers">Wykładowcy</string>
+    <string name="refresh">Odśwież</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="refresh_lecturers_timetable_confirmation">Czy na pewno chcesz odświeżyć plan wykładowców? Może to zająć kilkanaście sekund.</string>
+    <string name="processing_in_progress">Przetwarzanie trwa…</string>
+    <string name="lecturers_timetable_info">Plan wykładowców wymaga przetworzenia dużej ilości danych. Może to zająć kilkanaście sekund.</string>
+    <string name="get_timetable">Pobierz plan</string>
 </resources>

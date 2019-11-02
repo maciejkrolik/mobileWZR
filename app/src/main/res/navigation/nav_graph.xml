@@ -69,4 +69,26 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/lecturers_fragment"
+        android:name="pl.expert.mobilewzr.ui.lecturers.LecturersFragment"
+        tools:layout="@layout/fragment_lecturers">
+        <action
+            android:id="@+id/action_lecturers_fragment_to_lecturers_timetable_fragment"
+            app:destination="@id/lecturers_timetable_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/lecturers_timetable_fragment"
+        android:name="pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContainerFragment"
+        tools:layout="@layout/fragment_container_lecturers_timetable" >
+        <argument
+            android:name="lecturerName"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

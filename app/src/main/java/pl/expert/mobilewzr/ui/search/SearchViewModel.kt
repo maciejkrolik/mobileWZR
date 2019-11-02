@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pl.expert.mobilewzr.data.SubjectsRepository
+import pl.expert.mobilewzr.data.GroupsRepository
 
 class SearchViewModel constructor(
-        private val repository: SubjectsRepository
+        private val repository: GroupsRepository
 ) : ViewModel() {
 
     private var groups = MutableLiveData<List<String>>()

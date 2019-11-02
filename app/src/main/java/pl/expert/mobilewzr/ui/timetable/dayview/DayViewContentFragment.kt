@@ -84,7 +84,7 @@ class DayViewContentFragment : TimetableContentBaseFragment(), DayViewRecyclerAd
         when (item.itemId) {
             R.id.set_as_my_timetable -> {
                 viewModel.replaceSubjectsInDb()
-                putIdOfAGroupSavedInDbIntoSharedPref(viewModel.groupId)
+                putMyGroupIdIntoSharedPref(viewModel.groupId)
                 showToast(viewModel.groupId)
                 return true
             }

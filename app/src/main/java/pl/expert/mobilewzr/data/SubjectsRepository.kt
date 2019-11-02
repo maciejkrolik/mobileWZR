@@ -1,10 +1,6 @@
 package pl.expert.mobilewzr.data
 
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import pl.expert.mobilewzr.data.db.SubjectsDao
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
@@ -18,36 +14,25 @@ private const val TAG = "SubjectsRepository"
 @Singleton
 class SubjectsRepository @Inject constructor(
     private val wzrService: WZRService,
-    private val subjectsDao: SubjectsDao
+    private val subjectsDao: SubjectsDao,
+    private val groupsRepository: GroupsRepository
 ) {
 
     suspend fun getSubjectsFromDb(): List<Subject> {
         return subjectsDao.getSubjects()
     }
 
-    suspend fun updateSubject(subject: Subject) {
-        subjectsDao.updateSubjects(subject)
+    suspend fun getSubjectsByLecturerFromDb(lecturer: String): List<Subject> {
+        val parsedLecturerName = lecturer.substringBefore(",")
+        return subjectsDao.getSubjectsByLecturer(parsedLecturerName)
     }
 
-    suspend fun updateSubjects(subjects: List<Subject>) {
-        subjectsDao.updateSubjects(*subjects.toTypedArray())
-    }
-
-    suspend fun addSubject(subject: Subject) {
-        subjectsDao.addSubject(subject)
-    }
-
-    suspend fun deleteSubject(subject: Subject) {
-        subjectsDao.deleteSubjects(subject)
-    }
-
-    suspend fun replaceSubjectsInDb(subjects: List<Subject>) {
-        subjectsDao.deleteSubjects()
-        subjectsDao.addSubjects(subjects)
+    suspend fun areLecturersSubjectsDownloaded(): Boolean {
+        return subjectsDao.getLecturersSubjectsCount() != 0
     }
 
     suspend fun getTimetableDataFromDb(): TimetableDataHolder {
-        val subjects = subjectsDao.getSubjects()
+        val subjects = subjectsDao.getMyGroupSubjects()
         val timetableData = TimetableViewUtils.getDayViewDataHolderFrom(subjects)
 
         Log.i(TAG, "Subjects get from DB")
@@ -78,20 +63,47 @@ class SubjectsRepository @Inject constructor(
         return timetableData
     }
 
-    suspend fun getGroups(): List<String> {
-        var doc = Document("")
-        try {
-            doc = withContext(Dispatchers.IO) {
-                Jsoup.connect(URLs.GROUPS_URL).get()
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
+    suspend fun getAllFirstTwoWeeksSubjectsFromService() {
+        val allSubjects = mutableListOf<Subject>()
+
+        subjectsDao.deleteLecturersSubjects()
+
+        val groups = groupsRepository.getGroups().filter { g -> g.startsWith("S") }
+        for (group in groups) {
+            val rawDownloadedSubjects = wzrService.getSubjects(group)
+            val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(rawDownloadedSubjects)
+            allSubjects.addAll(firstTwoWeeksSubjects)
         }
 
-        Log.i(TAG, "Groups downloaded")
+        val fixedSubjects = SubjectsUtils.fix(allSubjects)
+        val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
 
-        val groups = doc.select("select option:not(:first-child)")
-        return groups.eachText()
+        subjectsDao.addSubjects(mergedSubjects)
+
+        Log.i(TAG, "Subjects successfully downloaded and inserted")
+    }
+
+    suspend fun addSubject(subject: Subject) {
+        subject.isMyGroup = true
+        subjectsDao.addSubject(subject)
+    }
+
+    suspend fun updateSubject(subject: Subject) {
+        subjectsDao.updateSubjects(subject)
+    }
+
+    suspend fun updateSubjects(subjects: List<Subject>) {
+        subjectsDao.updateSubjects(*subjects.toTypedArray())
+    }
+
+    suspend fun deleteSubject(subject: Subject) {
+        subjectsDao.deleteSubjects(subject)
+    }
+
+    suspend fun replaceMyGroupSubjectsInDbWith(subjects: List<Subject>) {
+        subjectsDao.deleteMyGroupSubjects()
+        subjects.map { s -> s.isMyGroup = true }
+        subjectsDao.addSubjects(subjects)
     }
 
 }
