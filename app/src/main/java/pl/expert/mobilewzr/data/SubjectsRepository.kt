@@ -6,6 +6,7 @@ import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
 import pl.expert.mobilewzr.util.SubjectsUtils
 import pl.expert.mobilewzr.util.TimetableViewUtils
+import pl.expert.mobilewzr.util.isFullTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -68,7 +69,7 @@ class SubjectsRepository @Inject constructor(
 
         subjectsDao.deleteLecturersSubjects()
 
-        val groups = groupsRepository.getGroups().filter { g -> g.startsWith("S") }
+        val groups = groupsRepository.getGroups().filter { group -> group.isFullTime() }
         for (group in groups) {
             val rawDownloadedSubjects = wzrService.getSubjects(group)
             val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(rawDownloadedSubjects)

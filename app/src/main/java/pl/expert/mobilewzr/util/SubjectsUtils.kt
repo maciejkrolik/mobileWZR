@@ -15,13 +15,16 @@ abstract class SubjectsUtils {
          */
         fun getOnlyFirstTwoWeeksSubjectsFrom(subjects: List<Subject>): List<Subject> {
             val firstTwoWeeksSubjects: MutableList<Subject> = mutableListOf()
-            val firstWeekNumber = SimpleDateFormat("w", Locale.UK).format(subjects.first().startDate).toInt()
 
-            for (subject in subjects) {
-                if (SimpleDateFormat("w", Locale.UK).format(subject.startDate).toInt() <= firstWeekNumber + 1) {
-                    firstTwoWeeksSubjects.add(subject)
-                } else {
-                    break
+            if (subjects.isNotEmpty()) {
+                val firstWeekNumber = SimpleDateFormat("w", Locale.UK).format(subjects.first().startDate).toInt()
+
+                for (subject in subjects) {
+                    if (SimpleDateFormat("w", Locale.UK).format(subject.startDate).toInt() <= firstWeekNumber + 1) {
+                        firstTwoWeeksSubjects.add(subject)
+                    } else {
+                        break
+                    }
                 }
             }
 

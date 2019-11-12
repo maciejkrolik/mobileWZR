@@ -12,6 +12,7 @@ import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.ui.timetable.calendarview.CalendarViewContentFragment
 import pl.expert.mobilewzr.ui.timetable.dayview.DayViewContainerFragment
 import pl.expert.mobilewzr.ui.timetable.weekview.WeekViewContainerFragment
+import pl.expert.mobilewzr.util.isFullTime
 
 class TimetableContainerFragment : BaseInjectedFragment() {
 
@@ -82,7 +83,7 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     }
 
     private fun setTimetableType() {
-        if (groupId.startsWith("S")) {
+        if (groupId.isFullTime()) {
             timetableType = TimetableType.FULL_TIME
         } else {
             timetableType = TimetableType.PART_TIME

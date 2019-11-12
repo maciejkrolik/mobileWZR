@@ -8,6 +8,7 @@ import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
 import pl.expert.mobilewzr.domain.domainmodel.SubjectItem
 import pl.expert.mobilewzr.util.CalendarUtils
 import pl.expert.mobilewzr.util.ResourceState
+import pl.expert.mobilewzr.util.isFullTime
 import java.util.*
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ class TimetableViewModel @Inject constructor(
         viewModelScope.launch {
             if (!isTimetableSavedInDb(groupId) || timetableViewLocation == TimetableViewLocation.SEARCH) {
                 timetableDataHolder.postValue(
-                    if (groupId.startsWith("S")) {
+                    if (groupId.isFullTime()) {
                         ResourceState.Success(repository.getFirstTwoWeeksTimetableDataFromService(groupId))
                     } else {
                         ResourceState.Success(repository.getFullTimetableDataFromService(groupId))
@@ -65,7 +66,7 @@ class TimetableViewModel @Inject constructor(
     }
 
     fun getCalendarDayViewItems(weekNumber: Int, weekDay: Int, date: Date): List<SubjectItem> {
-        return if (groupId.startsWith("S")) {
+        return if (groupId.isFullTime()) {
             getDaySpecificSubjects(weekNumber, weekDay)
         } else {
             timetableDataHolder.value?.data?.allSubjects!!
