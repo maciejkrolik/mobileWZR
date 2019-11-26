@@ -17,7 +17,7 @@ import pl.expert.mobilewzr.databinding.FragmentLecturersBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.util.ResourceState
 
-class LecturersFragment : BaseInjectedFragment(), LecturersRecyclerAdapter.OnLecturerListener {
+class LecturersFragment : BaseInjectedFragment() {
 
     private val viewModel by lazy {
         ViewModelProviders.of(requireActivity(), viewModelFactory).get(LecturersViewModel::class.java)
@@ -25,8 +25,6 @@ class LecturersFragment : BaseInjectedFragment(), LecturersRecyclerAdapter.OnLec
 
     private lateinit var binding: FragmentLecturersBinding
     private lateinit var recyclerAdapter: LecturersRecyclerAdapter
-
-    private val lecturers = mutableListOf<Lecturer>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLecturersBinding.inflate(inflater, container, false)
@@ -48,7 +46,7 @@ class LecturersFragment : BaseInjectedFragment(), LecturersRecyclerAdapter.OnLec
     }
 
     private fun setupRecyclerView() {
-        recyclerAdapter = LecturersRecyclerAdapter(lecturers, this)
+        recyclerAdapter = LecturersRecyclerAdapter { lecturer -> onLecturerClick(lecturer) }
         lecturersRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -79,17 +77,15 @@ class LecturersFragment : BaseInjectedFragment(), LecturersRecyclerAdapter.OnLec
         viewModel.lecturersState.observe(viewLifecycleOwner, Observer { lecturersState ->
             when (lecturersState) {
                 is ResourceState.Success -> {
-                    recyclerAdapter.setItems(lecturersState.data ?: emptyList())
-                    recyclerAdapter.refreshFullList(lecturersState.data ?: emptyList())
+                    recyclerAdapter.setItems(lecturersState.data)
                 }
             }
         })
     }
 
-    override fun onLecturerClick(position: Int) {
-        val lecturerName = lecturers[position].name
+    private fun onLecturerClick(lecturer: Lecturer) {
         findNavController().navigate(
-            LecturersFragmentDirections.actionLecturersFragmentToLecturersTimetableFragment(lecturerName)
+            LecturersFragmentDirections.actionLecturersFragmentToLecturersTimetableFragment(lecturer.name)
         )
         lecturersSearchView.setQuery("", false)
         lecturersSearchView.clearFocus()
