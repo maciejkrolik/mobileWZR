@@ -34,8 +34,6 @@ class TimetableContainerFragment : BaseInjectedFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-
         if (groupId.isNotEmpty()) {
             if (timetableViewType == TimetableViewType.CALENDAR_VIEW) {
                 inflater.inflate(R.menu.calendar_view_menu, menu)

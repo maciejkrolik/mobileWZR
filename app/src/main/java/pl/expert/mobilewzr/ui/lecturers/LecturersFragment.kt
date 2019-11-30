@@ -1,9 +1,7 @@
 package pl.expert.mobilewzr.ui.lecturers
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,10 +23,21 @@ class LecturersFragment : BaseInjectedFragment() {
 
     private lateinit var binding: FragmentLecturersBinding
     private lateinit var recyclerAdapter: LecturersRecyclerAdapter
+    private var searchView: SearchView? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLecturersBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.lecturers_menu, menu)
+        setupSearchView(menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +45,6 @@ class LecturersFragment : BaseInjectedFragment() {
 
         setTitle()
         setupRecyclerView()
-        setupSearch()
         setupViewModel()
         observeData()
     }
@@ -54,8 +62,14 @@ class LecturersFragment : BaseInjectedFragment() {
         }
     }
 
-    private fun setupSearch() {
-        lecturersSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+    private fun setupViewModel() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+    }
+
+    private fun setupSearchView(menu: Menu) {
+        searchView = menu.findItem(R.id.search).actionView as? SearchView
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 recyclerAdapter.filterList(newText)
                 return true
@@ -66,11 +80,6 @@ class LecturersFragment : BaseInjectedFragment() {
                 return true
             }
         })
-    }
-
-    private fun setupViewModel() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
     }
 
     private fun observeData() {
@@ -87,8 +96,7 @@ class LecturersFragment : BaseInjectedFragment() {
         findNavController().navigate(
             LecturersFragmentDirections.actionLecturersFragmentToLecturersTimetableFragment(lecturer.name)
         )
-        lecturersSearchView.setQuery("", false)
-        lecturersSearchView.clearFocus()
+        toolbar.collapseActionView()
     }
 
 }

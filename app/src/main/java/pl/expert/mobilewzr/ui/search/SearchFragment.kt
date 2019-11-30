@@ -3,11 +3,9 @@ package pl.expert.mobilewzr.ui.search
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentSearchBinding
@@ -24,27 +22,14 @@ class SearchFragment : BaseInjectedFragment() {
 
     private val groups: MutableList<String> = mutableListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).toolbar.toolbarTitle.text = getString(R.string.search)
+        toolbar.toolbarTitle.text = getString(R.string.search)
 
         isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,8 +71,7 @@ class SearchFragment : BaseInjectedFragment() {
     }
 
     private fun getViewModel() {
-        searchViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)
-            .get(SearchViewModel::class.java)
+        searchViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(SearchViewModel::class.java)
     }
 
     private fun getGroupsAndObserveThem() {

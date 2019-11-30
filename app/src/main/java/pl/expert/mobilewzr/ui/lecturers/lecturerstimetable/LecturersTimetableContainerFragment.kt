@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_container_day_view.tabLayout
 import kotlinx.android.synthetic.main.fragment_container_day_view.viewPager
 import kotlinx.android.synthetic.main.fragment_container_lecturers_timetable.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentContainerLecturersTimetableBinding
@@ -83,7 +81,7 @@ class LecturersTimetableContainerFragment : BaseInjectedFragment() {
     }
 
     private fun setTitle() {
-        (activity as AppCompatActivity).toolbar.toolbarTitle.text = lecturerName
+        toolbar.toolbarTitle.text = lecturerName
     }
 
     private fun setupViewModel() {

@@ -7,6 +7,7 @@
     <dimen name="search_title_text_size">20sp</dimen>
     <dimen name="day_view_info_text_size">20sp</dimen>
     <dimen name="day_view_recycler_height">65dp</dimen>
+    <dimen name="recycler_view_padding">5dp</dimen>
     <dimen name="card_view_start_end_margin">10dp</dimen>
     <dimen name="card_view_top_bottom_margin">5dp</dimen>
     <dimen name="card_view_radius">10dp</dimen>

@@ -14,33 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/lecturersSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/card_view_start_end_margin"
-            android:hint="@string/search"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone"
-            app:iconifiedByDefault="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:visibleIfSuccessState="@{viewModel.lecturersState}"
-            tools:visibility="visible" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lecturersRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/recycler_view_padding"
+            android:paddingBottom="@dimen/recycler_view_padding"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lecturersSearchView"
+            app:layout_constraintTop_toTopOf="parent"
             app:visibleIfSuccessState="@{viewModel.lecturersState}"
             tools:visibility="visible" />
 

@@ -6,4 +6,6 @@
     <color name="colorAccent">#0D94E5</color>
     <color name="colorAccentGradient">#1774B8</color>
 
+    <color name="transparent60White">#99FFFFFF</color>
+
 </resources>

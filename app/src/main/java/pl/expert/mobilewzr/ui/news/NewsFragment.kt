@@ -24,18 +24,9 @@ class NewsFragment : BaseInjectedFragment() {
 
     private val news: MutableList<News> = mutableListOf()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
