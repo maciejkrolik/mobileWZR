@@ -16,18 +16,12 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
+            style="@style/TabLayoutTheme"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/week_view_tab_layout_height"
-            android:background="?android:colorBackground"
+            android:layout_height="@dimen/tab_layout_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabIndicator="@drawable/tab_indicator"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="5dp"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="#696969"
             app:visibleIfSuccessState="@{viewModel.subjectsState}" />
 
         <androidx.viewpager.widget.ViewPager

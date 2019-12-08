@@ -76,10 +76,10 @@
         <action
             android:id="@+id/action_lecturers_fragment_to_lecturers_timetable_fragment"
             app:destination="@id/lecturers_timetable_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
 
     <fragment

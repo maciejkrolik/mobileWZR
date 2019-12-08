@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.ui.timetable.TimetableViewLocation
 import pl.expert.mobilewzr.util.CalendarUtils
+import pl.expert.mobilewzr.util.addCurrentDayOrWeekIndicator
 
 class WeekViewContainerFragment : Fragment() {
 
@@ -27,7 +28,7 @@ class WeekViewContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDataFromSharedPrefs()
-        setupDayViewTabLayout()
+        setupWeekViewTabLayout()
         setupWeekViewPagerAdapter()
         requireActivity().toolbar.toolbarTitle.text = getString(R.string.timetable_title_base, groupId)
     }
@@ -44,13 +45,14 @@ class WeekViewContainerFragment : Fragment() {
         groupId = arguments?.getString("argGroupId") ?: sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
     }
 
-    private fun setupDayViewTabLayout() {
+    private fun setupWeekViewTabLayout() {
         tabLayout.setupWithViewPager(viewPager)
     }
 
     private fun setupWeekViewPagerAdapter() {
         viewPager.adapter = WeekViewPagerAdapter(context, timetableViewLocation, childFragmentManager)
         viewPager.currentItem = weekNumber
+        tabLayout.addCurrentDayOrWeekIndicator(requireContext(), weekNumber)
     }
 
 }

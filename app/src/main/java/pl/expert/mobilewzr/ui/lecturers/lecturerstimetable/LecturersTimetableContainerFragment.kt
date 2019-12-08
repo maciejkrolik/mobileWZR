@@ -13,10 +13,7 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentContainerLecturersTimetableBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
-import pl.expert.mobilewzr.util.CalendarUtils
-import pl.expert.mobilewzr.util.NetworkUtils
-import pl.expert.mobilewzr.util.ResourceState
-import pl.expert.mobilewzr.util.setAttrsAndShow
+import pl.expert.mobilewzr.util.*
 
 class LecturersTimetableContainerFragment : BaseInjectedFragment() {
 
@@ -96,6 +93,7 @@ class LecturersTimetableContainerFragment : BaseInjectedFragment() {
     private fun setupPagerAdapter() {
         viewPager.adapter = LecturersTimetablePagerAdapter(context, childFragmentManager)
         viewPager.currentItem = weekNumber
+        tabLayout.addCurrentDayOrWeekIndicator(requireContext(), weekNumber)
     }
 
     private fun setOnClickListeners() {

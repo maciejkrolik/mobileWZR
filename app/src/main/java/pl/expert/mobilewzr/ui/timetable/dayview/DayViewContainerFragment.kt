@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.ui.timetable.TimetableViewLocation
 import pl.expert.mobilewzr.util.CalendarUtils
+import pl.expert.mobilewzr.util.addCurrentDayOrWeekIndicator
 
 class DayViewContainerFragment : Fragment() {
 
@@ -68,6 +69,7 @@ class DayViewContainerFragment : Fragment() {
             }
         } else {
             viewPager.currentItem = dayOfWeek
+            tabLayout.addCurrentDayOrWeekIndicator(requireContext(), dayOfWeek)
         }
     }
 
