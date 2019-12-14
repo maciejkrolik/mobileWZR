@@ -27,7 +27,7 @@
     </style>
 
     <style name="TabLayoutTheme" parent="Widget.MaterialComponents.TabLayout">
-        <item name="android:background">?android:colorBackground</item>
+        <item name="android:background">#FAFAFA</item>
         <item name="android:theme">@style/Theme.MaterialComponents.Light.NoActionBar</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabIndicatorColor">@color/colorPrimary</item>
