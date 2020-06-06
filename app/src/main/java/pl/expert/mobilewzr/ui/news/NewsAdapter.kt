@@ -1,9 +1,11 @@
 package pl.expert.mobilewzr.ui.news
 
+import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_news.view.*
 import pl.expert.mobilewzr.R
@@ -20,7 +22,9 @@ class NewsAdapter(
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.newsTitleTextView?.text = dataSet[position].title
-        holder.newsContentTextView?.text = dataSet[position].content
+        holder.newsContentTextView?.text =
+            HtmlCompat.fromHtml(dataSet[position].content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        Linkify.addLinks(holder.newsContentTextView!!, Linkify.ALL)
     }
 
     override fun getItemCount() = dataSet.size
