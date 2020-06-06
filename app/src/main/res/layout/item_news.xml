@@ -14,7 +14,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -33,6 +35,7 @@
             android:layout_marginBottom="3dp"
             android:justificationMode="inter_word"
             android:textColor="@android:color/white"
+            android:textColorLink="@color/transparent80White"
             tools:targetApi="o"
             tools:text="Example news content" />
 

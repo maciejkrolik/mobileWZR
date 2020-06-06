@@ -35,7 +35,7 @@ class NewsRepository @Inject constructor() {
         val listOfNews: MutableList<News> = mutableListOf()
 
         downloadedNews.forEach { (title, content) ->
-            listOfNews.add(News(title.ownText(), content.text()))
+            listOfNews.add(News(title.ownText(), content.html()))
         }
 
         return listOfNews

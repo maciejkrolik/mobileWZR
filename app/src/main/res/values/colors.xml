@@ -7,5 +7,6 @@
     <color name="colorAccentGradient">#1774B8</color>
 
     <color name="transparent60White">#99FFFFFF</color>
+    <color name="transparent80White">#CCFFFFFF</color>
 
 </resources>
