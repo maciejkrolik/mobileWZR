@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.toolbar.view.*
@@ -29,8 +30,13 @@ class NewsFragment : BaseInjectedFragment() {
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.news_menu, menu)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         isNetworkAvailable = NetworkUtils.isNetworkAvailable(requireContext())
 
@@ -43,6 +49,16 @@ class NewsFragment : BaseInjectedFragment() {
         } else {
             hideMainNewsViewItems()
             showInternetErrorNewsViewItems()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.notifications -> {
+                findNavController().navigate(NewsFragmentDirections.actionNewsViewFragmentToNotificationsFragment())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

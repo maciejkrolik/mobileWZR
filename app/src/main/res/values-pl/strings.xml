@@ -56,4 +56,5 @@
     <string name="processing_in_progress">Przetwarzanie trwa…</string>
     <string name="lecturers_timetable_info">Plan wykładowców wymaga przetworzenia dużej ilości danych. Może to zająć kilkanaście sekund.</string>
     <string name="get_timetable">Pobierz plan</string>
+    <string name="notifications">Powiadomienia</string>
 </resources>

@@ -6,6 +6,7 @@ import pl.expert.mobilewzr.ui.lecturers.LecturersFragment
 import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContainerFragment
 import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContentFragment
 import pl.expert.mobilewzr.ui.news.NewsFragment
+import pl.expert.mobilewzr.ui.news.notifications.NotificationsFragment
 import pl.expert.mobilewzr.ui.search.SearchFragment
 import pl.expert.mobilewzr.ui.timetable.TimetableContainerFragment
 import pl.expert.mobilewzr.ui.timetable.calendarview.CalendarViewContentFragment
@@ -49,5 +50,8 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeLecturersFragmentInjector(): LecturersFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeNotificationsFragmentInjector(): NotificationsFragment
 
 }
