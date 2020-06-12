@@ -58,4 +58,8 @@
     <string name="lecturers_timetable_info">Lecturer\'s timetable requires lots of data to be processed. It may take several seconds.</string>
     <string name="get_timetable">Get timetable</string>
     <string name="notifications">Notifications</string>
+    <string name="login_for_lecturers">Login for lecturers</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
 </resources>

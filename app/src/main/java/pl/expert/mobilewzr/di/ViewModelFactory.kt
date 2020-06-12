@@ -2,12 +2,14 @@ package pl.expert.mobilewzr.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import pl.expert.mobilewzr.data.GroupsRepository
 import pl.expert.mobilewzr.data.LecturersRepository
 import pl.expert.mobilewzr.data.NewsRepository
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableViewModel
 import pl.expert.mobilewzr.ui.lecturers.LecturersViewModel
+import pl.expert.mobilewzr.ui.lecturers.lecturerlogin.LecturersLoginViewModel
 import pl.expert.mobilewzr.ui.news.NewsViewModel
 import pl.expert.mobilewzr.ui.search.SearchViewModel
 import pl.expert.mobilewzr.ui.timetable.TimetableViewModel
@@ -20,7 +22,8 @@ class ViewModelFactory @Inject constructor(
     private val subjectsRepository: SubjectsRepository,
     private val newsRepository: NewsRepository,
     private val groupsRepository: GroupsRepository,
-    private val lecturersRepository: LecturersRepository
+    private val lecturersRepository: LecturersRepository,
+    private val firebaseAuth: FirebaseAuth
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -39,6 +42,8 @@ class ViewModelFactory @Inject constructor(
                     LecturersTimetableViewModel(subjectsRepository)
                 isAssignableFrom(LecturersViewModel::class.java) ->
                     LecturersViewModel(lecturersRepository)
+                isAssignableFrom(LecturersLoginViewModel::class.java) ->
+                    LecturersLoginViewModel(firebaseAuth)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

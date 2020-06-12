@@ -11,4 +11,6 @@ sealed class ResourceState<T>(
 
     class Error<T>(message: String, data: T? = null) : ResourceState<T>(data, message)
 
+    class Idle<T> : ResourceState<T>()
+
 }

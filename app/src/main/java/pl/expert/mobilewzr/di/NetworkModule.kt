@@ -1,5 +1,8 @@
 package pl.expert.mobilewzr.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import pl.expert.mobilewzr.data.URLs
@@ -19,6 +22,12 @@ class NetworkModule {
             .addConverterFactory(CsvConverterFactory())
             .build()
             .create(WZRService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return Firebase.auth
     }
 
 }

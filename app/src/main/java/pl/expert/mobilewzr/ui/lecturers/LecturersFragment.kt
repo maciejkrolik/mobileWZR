@@ -3,6 +3,7 @@ package pl.expert.mobilewzr.ui.lecturers
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -43,14 +44,18 @@ class LecturersFragment : BaseInjectedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle()
+        setToolbar()
         setupRecyclerView()
         setupViewModel()
         observeData()
     }
 
-    private fun setTitle() {
+    private fun setToolbar() {
         toolbar.toolbarTitle.text = getString(R.string.lecturers)
+        toolbar.additionalToolbarBtn.isVisible = true
+        toolbar.additionalToolbarBtn.setOnClickListener {
+            findNavController().navigate(LecturersFragmentDirections.actionLecturersFragmentToLecturersLoginFragment())
+        }
     }
 
     private fun setupRecyclerView() {
