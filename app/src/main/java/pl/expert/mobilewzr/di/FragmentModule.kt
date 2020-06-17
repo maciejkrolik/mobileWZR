@@ -2,8 +2,10 @@ package pl.expert.mobilewzr.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import pl.expert.mobilewzr.ui.common.thread.ThreadFragment
 import pl.expert.mobilewzr.ui.lecturers.LecturersFragment
 import pl.expert.mobilewzr.ui.lecturers.lecturerlogin.LecturersLoginFragment
+import pl.expert.mobilewzr.ui.lecturers.lecturersmessages.LecturersMessagesFragment
 import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContainerFragment
 import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableContentFragment
 import pl.expert.mobilewzr.ui.news.NewsFragment
@@ -57,5 +59,11 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeLecturersLoginFragmentInjector(): LecturersLoginFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeLecturersMessagesFragmentInjector(): LecturersMessagesFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeThreadFragmentInjector(): ThreadFragment
 
 }

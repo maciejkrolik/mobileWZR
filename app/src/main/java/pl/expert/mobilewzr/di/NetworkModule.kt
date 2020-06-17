@@ -2,6 +2,8 @@ package pl.expert.mobilewzr.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -28,6 +30,12 @@ class NetworkModule {
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth {
         return Firebase.auth
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirestore(): FirebaseFirestore {
+        return Firebase.firestore
     }
 
 }

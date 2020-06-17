@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
-import pl.expert.mobilewzr.data.GroupsRepository
-import pl.expert.mobilewzr.data.LecturersRepository
-import pl.expert.mobilewzr.data.SubjectsRepository
-import pl.expert.mobilewzr.data.NewsRepository
+import pl.expert.mobilewzr.data.*
 import javax.inject.Singleton
 
 @Module
@@ -20,9 +17,17 @@ class ViewModelModule {
         newsRepository: NewsRepository,
         groupsRepository: GroupsRepository,
         lecturersRepository: LecturersRepository,
+        messagesRepository: MessagesRepository,
         firebaseAuth: FirebaseAuth
     ): ViewModelProvider.Factory {
-        return ViewModelFactory(subjectsRepository, newsRepository, groupsRepository, lecturersRepository, firebaseAuth)
+        return ViewModelFactory(
+            subjectsRepository,
+            newsRepository,
+            groupsRepository,
+            lecturersRepository,
+            messagesRepository,
+            firebaseAuth
+        )
     }
 
 }

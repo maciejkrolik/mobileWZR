@@ -14,20 +14,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/news_title_text"
+            android:id="@+id/messageDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
+            android:gravity="end"
             android:textColor="@android:color/white"
             android:textSize="@dimen/news_title_text_size"
-            tools:text="Example news title" />
+            tools:text="25.05.20 12:38" />
 
         <TextView
-            android:id="@+id/news_content_text"
+            android:id="@+id/messageContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
@@ -35,7 +39,7 @@
             android:textColor="@android:color/white"
             android:textColorLink="@color/transparent80White"
             tools:targetApi="o"
-            tools:text="Example news content" />
+            tools:text="Example message" />
 
     </LinearLayout>
 

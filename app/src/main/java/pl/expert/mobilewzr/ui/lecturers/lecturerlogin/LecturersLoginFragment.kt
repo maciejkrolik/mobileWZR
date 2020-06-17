@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_lecturers_login.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
 import pl.expert.mobilewzr.databinding.FragmentLecturersLoginBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.util.ResourceState
+import pl.expert.mobilewzr.util.hideKeyboard
 
 class LecturersLoginFragment : BaseInjectedFragment() {
 
@@ -42,6 +44,7 @@ class LecturersLoginFragment : BaseInjectedFragment() {
 
     private fun setOnClickListeners() {
         loginButton.setOnClickListener {
+            activity?.hideKeyboard()
             viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString())
         }
     }
@@ -55,7 +58,7 @@ class LecturersLoginFragment : BaseInjectedFragment() {
         viewModel.loginState.observe(viewLifecycleOwner, Observer { loginState ->
             when (loginState) {
                 is ResourceState.Success -> {
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(LecturersLoginFragmentDirections.actionLecturersLoginFragmentToLecturersMessagesFragment())
                 }
                 is ResourceState.Error -> {
                     Toast.makeText(requireContext(), loginState.message, Toast.LENGTH_LONG).show()

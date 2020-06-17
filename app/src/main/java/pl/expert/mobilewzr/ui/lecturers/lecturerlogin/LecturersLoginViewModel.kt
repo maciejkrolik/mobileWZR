@@ -17,6 +17,7 @@ class LecturersLoginViewModel @Inject constructor(
     val loginState = MutableLiveData<ResourceState<AuthResult>>(ResourceState.Idle())
 
     fun login(email: String, password: String) {
+        loginState.value = ResourceState.Loading()
         viewModelScope.launch {
             try {
                 val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()

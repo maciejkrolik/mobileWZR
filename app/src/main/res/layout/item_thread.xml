@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginStart="@dimen/card_view_start_end_margin"
+    android:layout_marginTop="@dimen/card_view_top_bottom_margin"
+    android:layout_marginEnd="@dimen/card_view_start_end_margin"
+    android:layout_marginBottom="@dimen/card_view_top_bottom_margin"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/colorAccentGradient"
+    app:cardCornerRadius="@dimen/card_view_radius">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:id="@+id/threadGroup"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/background_rounded_square"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="S32-31" />
+
+        <TextView
+            android:id="@+id/threadLastMessageLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/last_message"
+            android:textColor="@color/transparent80White"
+            app:layout_constraintStart_toEndOf="@id/threadGroup"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/threadLastMessageDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textColor="@color/transparent80White"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="14:05\n21/05/20" />
+
+        <TextView
+            android:id="@+id/threadLastMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:justificationMode="inter_word"
+            android:maxLines="3"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/threadLastMessageDate"
+            app:layout_constraintStart_toEndOf="@id/threadGroup"
+            app:layout_constraintTop_toBottomOf="@id/threadLastMessageLabel"
+            app:layout_constraintVertical_bias="0"
+            tools:targetApi="o"
+            tools:text="Example message" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

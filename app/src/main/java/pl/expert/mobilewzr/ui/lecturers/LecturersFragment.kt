@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_lecturers.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
@@ -59,7 +60,13 @@ class LecturersFragment : BaseInjectedFragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerAdapter = LecturersRecyclerAdapter { lecturer -> onLecturerClick(lecturer) }
+        recyclerAdapter = LecturersRecyclerAdapter { lecturer -> onLecturerClick(lecturer) }.apply {
+            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    lecturersRecyclerView.scrollToPosition(0)
+                }
+            })
+        }
         lecturersRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
