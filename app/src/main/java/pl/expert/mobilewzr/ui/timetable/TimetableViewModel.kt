@@ -1,7 +1,10 @@
 package pl.expert.mobilewzr.ui.timetable
 
 import androidx.lifecycle.*
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import pl.expert.mobilewzr.data.SubjectsRepository
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
@@ -116,6 +119,14 @@ class TimetableViewModel @Inject constructor(
     fun replaceSubjectsInDb() {
         viewModelScope.launch {
             repository.replaceMyGroupSubjectsInDbWith(timetableDataHolder.value?.data?.allSubjects!!)
+        }
+    }
+
+    fun subscribeToGroupNotifications(oldGroupId: String) {
+        viewModelScope.launch {
+            val firebaseMessagingInstance = FirebaseMessaging.getInstance()
+            firebaseMessagingInstance.unsubscribeFromTopic(oldGroupId).await()
+            firebaseMessagingInstance.subscribeToTopic(groupId).await()
         }
     }
 

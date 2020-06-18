@@ -102,6 +102,7 @@ class CalendarViewContentFragment : TimetableContentBaseFragment(), DayViewRecyc
                 return true
             }
             R.id.set_as_my_timetable -> {
+                viewModel.subscribeToGroupNotifications(getMyGroupFromSharedPref())
                 viewModel.replaceSubjectsInDb()
                 putMyGroupIdIntoSharedPref(viewModel.groupId)
                 showToast(viewModel.groupId)

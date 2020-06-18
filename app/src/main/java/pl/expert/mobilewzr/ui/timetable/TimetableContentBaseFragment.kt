@@ -29,6 +29,11 @@ abstract class TimetableContentBaseFragment : BaseInjectedFragment() {
         sharedPref.edit().putString("prefIdOfAGroupSavedInDb", groupId).apply()
     }
 
+    protected fun getMyGroupFromSharedPref(): String {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        return sharedPref.getString("prefIdOfAGroupSavedInDb", "")!!
+    }
+
     protected fun chooseView(groupId: String) {
         val alertDialog = requireActivity().let {
             val builder = AlertDialog.Builder(it).apply {

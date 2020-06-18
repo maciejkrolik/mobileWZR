@@ -65,6 +65,7 @@ class WeekViewContentFragment : TimetableContentBaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.set_as_my_timetable -> {
+                viewModel.subscribeToGroupNotifications(getMyGroupFromSharedPref())
                 viewModel.replaceSubjectsInDb()
                 putMyGroupIdIntoSharedPref(viewModel.groupId)
                 showToast(viewModel.groupId)
