@@ -71,4 +71,5 @@
     <string name="error_while_sending_message">Error while sending message</string>
     <string name="last_message">Last message:</string>
     <string name="message_cannot_be_empty">Message cannot be empty</string>
+    <string name="lecturers_timetable_is_currently_not_available">Lecturer\'s timetable is currently not available</string>
 </resources>

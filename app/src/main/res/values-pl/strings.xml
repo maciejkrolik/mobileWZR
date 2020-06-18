@@ -69,4 +69,5 @@
     <string name="error_while_sending_message">Błąd podczas wysyłania wiadomości</string>
     <string name="last_message">Ostatnia wiadomość:</string>
     <string name="message_cannot_be_empty">Wiadomośc nie może być pusta</string>
+    <string name="lecturers_timetable_is_currently_not_available">Plan wykładowców jest obecnie niedostępny</string>
 </resources>
