@@ -70,4 +70,7 @@
     <string name="last_message">Ostatnia wiadomość:</string>
     <string name="message_cannot_be_empty">Wiadomośc nie może być pusta</string>
     <string name="lecturers_timetable_is_currently_not_available">Plan wykładowców jest obecnie niedostępny</string>
+    <string name="register">Zarejestruj</string>
+    <string name="token">Token</string>
+    <string name="register_successfully">Zarejestrowano pomyślnie! Teraz możesz się zalogować.</string>
 </resources>

@@ -72,4 +72,7 @@
     <string name="last_message">Last message:</string>
     <string name="message_cannot_be_empty">Message cannot be empty</string>
     <string name="lecturers_timetable_is_currently_not_available">Lecturer\'s timetable is currently not available</string>
+    <string name="register">Register</string>
+    <string name="token">Token</string>
+    <string name="register_successfully">Registered successfully! Now you can login.</string>
 </resources>

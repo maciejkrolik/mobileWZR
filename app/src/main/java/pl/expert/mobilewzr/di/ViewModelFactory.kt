@@ -8,6 +8,7 @@ import pl.expert.mobilewzr.ui.common.thread.ThreadViewModel
 import pl.expert.mobilewzr.ui.lecturers.lecturerstimetable.LecturersTimetableViewModel
 import pl.expert.mobilewzr.ui.lecturers.LecturersViewModel
 import pl.expert.mobilewzr.ui.lecturers.lecturerlogin.LecturersLoginViewModel
+import pl.expert.mobilewzr.ui.lecturers.lecturerregister.LecturersRegisterViewModel
 import pl.expert.mobilewzr.ui.lecturers.lecturersmessages.LecturersMessagesViewModel
 import pl.expert.mobilewzr.ui.news.NewsViewModel
 import pl.expert.mobilewzr.ui.search.SearchViewModel
@@ -48,6 +49,8 @@ class ViewModelFactory @Inject constructor(
                     LecturersMessagesViewModel(firebaseAuth, groupsRepository, messagesRepository)
                 isAssignableFrom(ThreadViewModel::class.java) ->
                     ThreadViewModel(messagesRepository, firebaseAuth)
+                isAssignableFrom(LecturersRegisterViewModel::class.java) ->
+                    LecturersRegisterViewModel(lecturersRepository)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

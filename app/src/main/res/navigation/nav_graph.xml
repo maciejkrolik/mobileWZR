@@ -132,6 +132,13 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/lecturers_fragment" />
+        <action
+            android:id="@+id/action_lecturersLoginFragment_to_lecturersRegister"
+            app:destination="@id/lecturersRegister"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -157,5 +164,11 @@
             android:name="groupId"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/lecturersRegister"
+        android:name="pl.expert.mobilewzr.ui.lecturers.lecturerregister.LecturersRegisterFragment"
+        android:label="LecturersRegister"
+        tools:layout="@layout/fragment_lecturers_register" />
 
 </navigation>

@@ -1,7 +1,9 @@
 package pl.expert.mobilewzr.data
 
 import android.util.Log
+import com.google.firebase.functions.FirebaseFunctions
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import pl.expert.mobilewzr.data.model.Lecturer
@@ -11,7 +13,9 @@ import javax.inject.Singleton
 private const val TAG = "LecturersRepository"
 
 @Singleton
-class LecturersRepository @Inject constructor() {
+class LecturersRepository @Inject constructor(
+    private val firebaseFunctions: FirebaseFunctions
+) {
 
     suspend fun getLecturers(): List<Lecturer> {
         val doc = withContext(Dispatchers.IO) {
@@ -47,6 +51,27 @@ class LecturersRepository @Inject constructor() {
         }
 
         return lecturers
+    }
+
+    suspend fun registerLecturer(email: String, password: String, token: String) {
+        val data = hashMapOf(
+            "email" to email,
+            "password" to password,
+            "token" to token
+        )
+
+        firebaseFunctions.getHttpsCallable("registerLecturer")
+            .call(data)
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    try {
+                        throw Exception(task.exception?.message ?: "Exception message was null")
+                    } catch (ex: Exception) {
+                        Log.d(TAG, task.exception?.message ?: "Exception message was null")
+                    }
+                }
+            }
+            .await()
     }
 
 }

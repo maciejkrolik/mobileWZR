@@ -1,4 +1,4 @@
-package pl.expert.mobilewzr.ui.lecturers.lecturerlogin
+package pl.expert.mobilewzr.ui.lecturers.lecturerregister
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,24 +8,23 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_lecturers_login.*
+import kotlinx.android.synthetic.main.fragment_lecturers_register.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import pl.expert.mobilewzr.R
-import pl.expert.mobilewzr.databinding.FragmentLecturersLoginBinding
+import pl.expert.mobilewzr.databinding.FragmentLecturersRegisterBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.util.ResourceState
-import pl.expert.mobilewzr.util.hideKeyboard
 
-class LecturersLoginFragment : BaseInjectedFragment() {
+class LecturersRegisterFragment : BaseInjectedFragment() {
 
     private val viewModel by lazy {
-        ViewModelProvider(requireActivity(), viewModelFactory).get(LecturersLoginViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory).get(LecturersRegisterViewModel::class.java)
     }
 
-    private lateinit var binding: FragmentLecturersLoginBinding
+    private lateinit var binding: FragmentLecturersRegisterBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentLecturersLoginBinding.inflate(inflater, container, false)
+        binding = FragmentLecturersRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,17 +38,16 @@ class LecturersLoginFragment : BaseInjectedFragment() {
     }
 
     private fun setTitle() {
-        toolbar.toolbarTitle.text = getString(R.string.login_for_lecturers)
+        toolbar.toolbarTitle.text = getString(R.string.register)
     }
 
     private fun setOnClickListeners() {
-        loginButton.setOnClickListener {
-            activity?.hideKeyboard()
-            viewModel.login(emailEditText.text.toString(), passwordEditText.text.toString())
-        }
-
         registerButton.setOnClickListener {
-            findNavController().navigate(LecturersLoginFragmentDirections.actionLecturersLoginFragmentToLecturersRegister())
+            viewModel.register(
+                emailEditText.text.toString(),
+                passwordEditText.text.toString(),
+                tokenEditText.text.toString()
+            )
         }
     }
 
@@ -59,13 +57,14 @@ class LecturersLoginFragment : BaseInjectedFragment() {
     }
 
     private fun observeData() {
-        viewModel.loginState.observe(viewLifecycleOwner, Observer { loginState ->
-            when (loginState) {
+        viewModel.registerState.observe(viewLifecycleOwner, Observer { registerState ->
+            when (registerState) {
                 is ResourceState.Success -> {
-                    findNavController().navigate(LecturersLoginFragmentDirections.actionLecturersLoginFragmentToLecturersMessagesFragment())
+                    Toast.makeText(requireContext(), R.string.register_successfully, Toast.LENGTH_LONG).show()
+                    findNavController().navigateUp()
                 }
                 is ResourceState.Error -> {
-                    Toast.makeText(requireContext(), loginState.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), registerState.message, Toast.LENGTH_LONG).show()
                 }
             }
         })

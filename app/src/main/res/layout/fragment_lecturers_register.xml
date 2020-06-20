@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="pl.expert.mobilewzr.ui.lecturers.lecturerlogin.LecturersLoginViewModel" />
+            type="pl.expert.mobilewzr.ui.lecturers.lecturerregister.LecturersRegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:autofillHints="@string/email"
+            android:autofillHints="@string/password"
             android:hint="@string/password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,29 +44,30 @@
             app:layout_constraintTop_toBottomOf="@id/emailEditText"
             tools:targetApi="o" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/tokenEditText"
+            style="@style/EditViewEditText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/login"
-            app:goneIfLoadingState="@{viewModel.loginState}"
-            app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+            android:layout_marginTop="16dp"
+            android:hint="@string/token"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordEditText"
+            tools:targetApi="o" />
 
         <Button
             android:id="@+id/registerButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:stateListAnimator="@null"
+            android:layout_marginTop="32dp"
             android:text="@string/register"
-            android:textColor="@color/colorPrimaryDark"
-            app:goneIfLoadingState="@{viewModel.loginState}"
+            app:goneIfLoadingState="@{viewModel.registerState}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginButton" />
+            app:layout_constraintTop_toBottomOf="@id/tokenEditText" />
 
         <ProgressBar
             android:layout_width="@dimen/progress_indicator_size"
@@ -75,8 +76,8 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-            app:visibleIfLoadingState="@{viewModel.loginState}" />
+            app:layout_constraintTop_toBottomOf="@id/tokenEditText"
+            app:visibleIfLoadingState="@{viewModel.registerState}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
