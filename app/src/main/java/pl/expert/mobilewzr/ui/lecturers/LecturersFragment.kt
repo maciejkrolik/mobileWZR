@@ -14,6 +14,7 @@ import pl.expert.mobilewzr.data.model.Lecturer
 import pl.expert.mobilewzr.databinding.FragmentLecturersBinding
 import pl.expert.mobilewzr.ui.BaseInjectedFragment
 import pl.expert.mobilewzr.util.ResourceState
+import pl.expert.mobilewzr.util.addScrollToStartAfterSubmitListener
 
 class LecturersFragment : BaseInjectedFragment() {
 
@@ -55,6 +56,7 @@ class LecturersFragment : BaseInjectedFragment() {
 
     private fun setupRecyclerView() {
         recyclerAdapter = LecturersRecyclerAdapter { lecturer -> onLecturerClick(lecturer) }
+        recyclerAdapter.addScrollToStartAfterSubmitListener(lecturersRecyclerView)
         lecturersRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)

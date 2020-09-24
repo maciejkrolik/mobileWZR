@@ -3,6 +3,7 @@ package pl.expert.mobilewzr.ui.lecturers
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -42,12 +43,18 @@ class LecturersRecyclerAdapter(
 
     class LecturersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(lecturer: Lecturer, onLecturerListener: (Lecturer) -> Unit) {
-            itemView.lecturerName.text = lecturer.name
-            itemView.lecturerEmail.text = lecturer.email
-            itemView.lecturerPhone.text = lecturer.phone
-            itemView.lecturerRoom.text = lecturer.room
-            itemView.lecturerInfo.text = lecturer.info
-            itemView.setOnClickListener { onLecturerListener(lecturer) }
+            itemView.apply {
+                lecturerName.text = lecturer.name
+                lecturerEmail.text = lecturer.email
+                lecturerEmail.isVisible = lecturer.email.isNotBlank()
+                lecturerPhone.text = lecturer.phone
+                lecturerPhone.isVisible = lecturer.phone.isNotBlank()
+                lecturerRoom.text = lecturer.room
+                lecturerRoom.isVisible = lecturer.room.isNotBlank()
+                lecturerInfo.text = lecturer.info
+                lecturerInfo.isVisible = lecturer.info.isNotBlank()
+                setOnClickListener { onLecturerListener(lecturer) }
+            }
         }
     }
 
