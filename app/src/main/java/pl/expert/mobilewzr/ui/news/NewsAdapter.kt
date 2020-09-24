@@ -22,8 +22,10 @@ class NewsAdapter(
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.newsTitleTextView?.text = dataSet[position].title
-        holder.newsContentTextView?.text =
-            HtmlCompat.fromHtml(dataSet[position].content, HtmlCompat.FROM_HTML_MODE_COMPACT)
+        holder.newsContentTextView?.text = HtmlCompat.fromHtml(
+            dataSet[position].content,
+            HtmlCompat.FROM_HTML_MODE_COMPACT
+        ).trim()
         Linkify.addLinks(holder.newsContentTextView!!, Linkify.ALL)
     }
 
