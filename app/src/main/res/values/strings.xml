@@ -57,4 +57,19 @@
     <string name="processing_in_progress">Processing in progress…</string>
     <string name="lecturers_timetable_info">Lecturer\'s timetable requires lots of data to be processed. It may take several seconds.</string>
     <string name="get_timetable">Get timetable</string>
+    <string name="notifications">Notifications</string>
+    <string name="login_for_lecturers">Login for lecturers</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="messages">Messages</string>
+    <string name="choose_group">Choose group</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="cannot_send_a_message_right_now">Cannot send a message right now</string>
+    <string name="message">Message</string>
+    <string name="send">Send</string>
+    <string name="error_while_sending_message">Error while sending message</string>
+    <string name="last_message">Last message:</string>
+    <string name="message_cannot_be_empty">Message cannot be empty</string>
+    <string name="lecturers_timetable_is_currently_not_available">Lecturer\'s timetable is currently not available</string>
 </resources>

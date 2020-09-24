@@ -56,4 +56,18 @@
     <string name="processing_in_progress">Przetwarzanie trwa…</string>
     <string name="lecturers_timetable_info">Plan wykładowców wymaga przetworzenia dużej ilości danych. Może to zająć kilkanaście sekund.</string>
     <string name="get_timetable">Pobierz plan</string>
+    <string name="notifications">Powiadomienia</string>
+    <string name="login_for_lecturers">Logowanie dla wykładowców</string>
+    <string name="email">Email</string>
+    <string name="login">Zaloguj się</string>
+    <string name="password">Hasło</string>
+    <string name="messages">Wiadomości</string>
+    <string name="choose_group">Wybierz grupę</string>
+    <string name="cannot_send_a_message_right_now">Aktualnie nie można wysłać wiadomości</string>
+    <string name="message">Wiadomość</string>
+    <string name="send">Wyślij</string>
+    <string name="error_while_sending_message">Błąd podczas wysyłania wiadomości</string>
+    <string name="last_message">Ostatnia wiadomość:</string>
+    <string name="message_cannot_be_empty">Wiadomośc nie może być pusta</string>
+    <string name="lecturers_timetable_is_currently_not_available">Plan wykładowców jest obecnie niedostępny</string>
 </resources>

@@ -1,6 +1,9 @@
 package pl.expert.mobilewzr.data
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
 import pl.expert.mobilewzr.data.db.SubjectsDao
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.domain.domainmodel.TimetableDataHolder
@@ -42,7 +45,8 @@ class SubjectsRepository @Inject constructor(
     }
 
     suspend fun getFullTimetableDataFromService(groupId: String): TimetableDataHolder {
-        val rawDownloadedSubjects = wzrService.getSubjects(groupId)
+        val param = getTimetableParam(groupId)
+        val rawDownloadedSubjects = wzrService.getSubjects(groupId, param)
         val fixedSubjects = SubjectsUtils.fix(rawDownloadedSubjects)
         val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
         val timetableData = TimetableViewUtils.getDayViewDataHolderFrom(mergedSubjects)
@@ -53,7 +57,8 @@ class SubjectsRepository @Inject constructor(
     }
 
     suspend fun getFirstTwoWeeksTimetableDataFromService(groupId: String): TimetableDataHolder {
-        val rawDownloadedSubjects = wzrService.getSubjects(groupId)
+        val param = getTimetableParam(groupId)
+        val rawDownloadedSubjects = wzrService.getSubjects(groupId, param)
         val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(rawDownloadedSubjects)
         val fixedSubjects = SubjectsUtils.fix(firstTwoWeeksSubjects)
         val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
@@ -64,24 +69,25 @@ class SubjectsRepository @Inject constructor(
         return timetableData
     }
 
+    // Lecturers timetable disabled
     suspend fun getAllFirstTwoWeeksSubjectsFromService() {
-        val allSubjects = mutableListOf<Subject>()
+//        val allSubjects = mutableListOf<Subject>()
+//
+//        subjectsDao.deleteLecturersSubjects()
+//
+//        val groups = groupsRepository.getGroups().filter { group -> group.isFullTime() }
+//        for (group in groups) {
+//            val rawDownloadedSubjects = wzrService.getSubjects(group)
+//            val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(rawDownloadedSubjects)
+//            allSubjects.addAll(firstTwoWeeksSubjects)
+//        }
+//
+//        val fixedSubjects = SubjectsUtils.fix(allSubjects)
+//        val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
+//
+//        subjectsDao.addSubjects(mergedSubjects)
 
-        subjectsDao.deleteLecturersSubjects()
-
-        val groups = groupsRepository.getGroups().filter { group -> group.isFullTime() }
-        for (group in groups) {
-            val rawDownloadedSubjects = wzrService.getSubjects(group)
-            val firstTwoWeeksSubjects = SubjectsUtils.getOnlyFirstTwoWeeksSubjectsFrom(rawDownloadedSubjects)
-            allSubjects.addAll(firstTwoWeeksSubjects)
-        }
-
-        val fixedSubjects = SubjectsUtils.fix(allSubjects)
-        val mergedSubjects = SubjectsUtils.mergeMultipleSubjectsIntoOne(fixedSubjects)
-
-        subjectsDao.addSubjects(mergedSubjects)
-
-        Log.i(TAG, "Subjects successfully downloaded and inserted")
+//        Log.i(TAG, "Subjects successfully downloaded and inserted")
     }
 
     suspend fun addSubject(subject: Subject) {
@@ -105,6 +111,29 @@ class SubjectsRepository @Inject constructor(
         subjectsDao.deleteMyGroupSubjects()
         subjects.map { s -> s.isMyGroup = true }
         subjectsDao.addSubjects(subjects)
+    }
+
+    private suspend fun getTimetableParam(groupId: String): String {
+        @Suppress("UnnecessaryVariable") val groupIdString = groupId // Fixes compiler error in Kotlin 1.3.50
+        var param = ""
+        try {
+            val doc = withContext(Dispatchers.IO) {
+                Jsoup.connect(URLs.GROUPS_URL)
+                    .data("f1", groupIdString, "sort", "4")
+                    .post()
+            }
+            val url = if (groupId.isFullTime()) {
+                doc.select("#strona_right > p:nth-child(11) > a").attr("href")
+            } else {
+                doc.select("#strona_right > p:nth-child(13) > a").attr("href")
+            }
+            param = url.substringAfter("jp=")
+
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+
+        return param
     }
 
 }

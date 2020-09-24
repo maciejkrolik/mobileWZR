@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_container_day_view.tabLayout
 import kotlinx.android.synthetic.main.fragment_container_day_view.viewPager
@@ -18,7 +18,7 @@ import pl.expert.mobilewzr.util.*
 class LecturersTimetableContainerFragment : BaseInjectedFragment() {
 
     private val viewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(LecturersTimetableViewModel::class.java)
+        ViewModelProvider(requireActivity(), viewModelFactory).get(LecturersTimetableViewModel::class.java)
     }
 
     private lateinit var binding: FragmentContainerLecturersTimetableBinding
@@ -53,11 +53,8 @@ class LecturersTimetableContainerFragment : BaseInjectedFragment() {
 
     private fun showConfirmationDialog() {
         val alertDialog = AlertDialog.Builder(requireContext()).apply {
-            setMessage(R.string.refresh_lecturers_timetable_confirmation)
-            setPositiveButton(R.string.yes) { _, _ ->
-                getTimetableData()
-            }
-            setNegativeButton(R.string.no) { dialog, _ ->
+            setMessage(R.string.lecturers_timetable_is_currently_not_available)
+            setPositiveButton(R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }
         }.create()
@@ -98,7 +95,7 @@ class LecturersTimetableContainerFragment : BaseInjectedFragment() {
 
     private fun setOnClickListeners() {
         getDataButton.setOnClickListener {
-            getTimetableData()
+            showConfirmationDialog()
         }
     }
 
