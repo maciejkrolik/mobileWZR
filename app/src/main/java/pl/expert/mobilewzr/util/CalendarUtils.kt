@@ -64,7 +64,9 @@ abstract class CalendarUtils {
          * Week A - 0, Week B - 1
          */
         fun getWeekNumber(date: Date): Int {
-            val calendar: Calendar = Calendar.getInstance(Locale.UK)
+            val calendar: Calendar = Calendar.getInstance(Locale.UK).apply {
+                minimalDaysInFirstWeek = 1
+            }
             calendar.time = date
             return if (calendar.get(Calendar.WEEK_OF_YEAR) % 2 == 0) {
                 0
