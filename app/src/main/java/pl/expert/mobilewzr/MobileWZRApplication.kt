@@ -1,18 +1,16 @@
 package pl.expert.mobilewzr
 
-import android.app.Activity
 import android.app.Application
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import pl.expert.mobilewzr.di.DaggerMobileWZRComponent
 import pl.expert.mobilewzr.di.DatabaseModule
 import javax.inject.Inject
 
-class MobileWZRApplication : Application(), HasActivityInjector {
+class MobileWZRApplication : Application(), HasAndroidInjector {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -23,8 +21,6 @@ class MobileWZRApplication : Application(), HasActivityInjector {
             .inject(this)
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return dispatchingAndroidInjector
-    }
+    override fun androidInjector() = dispatchingAndroidInjector
 
 }

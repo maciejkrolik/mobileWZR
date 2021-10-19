@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_week_view_content.*
 import pl.expert.mobilewzr.data.model.Subject
 import pl.expert.mobilewzr.databinding.FragmentWeekViewContentBinding
@@ -23,7 +23,7 @@ class LecturersTimetableContentFragment : BaseInjectedFragment() {
 
     private val subjects: MutableList<Subject> = mutableListOf()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentWeekViewContentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,10 +39,9 @@ class LecturersTimetableContentFragment : BaseInjectedFragment() {
     }
 
     private fun setupViewModel() {
-        viewModel =
-            ViewModelProviders.of(requireActivity(), viewModelFactory).get(LecturersTimetableViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(LecturersTimetableViewModel::class.java)
 
-        viewModel.subjectsState.observe(viewLifecycleOwner, Observer { resourceState ->
+        viewModel.subjectsState.observe(viewLifecycleOwner, { resourceState ->
             when (resourceState) {
                 is ResourceState.Success -> {
                     val weekSpecificSubjects = viewModel.getWeekSpecificSubjects(weekNumber)

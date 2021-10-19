@@ -3,7 +3,7 @@ package pl.expert.mobilewzr.ui.news
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.toolbar.view.*
@@ -15,7 +15,7 @@ import pl.expert.mobilewzr.util.NetworkUtils
 
 class NewsFragment : BaseInjectedFragment() {
 
-    private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this, viewModelFactory).get(NewsViewModel::class.java) }
 
     private lateinit var binding: FragmentNewsBinding
     private lateinit var recyclerAdapter: NewsAdapter
@@ -24,7 +24,7 @@ class NewsFragment : BaseInjectedFragment() {
 
     private val news: MutableList<News> = mutableListOf()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -83,20 +83,19 @@ class NewsFragment : BaseInjectedFragment() {
     }
 
     private fun getNewsAndObserve() {
-        viewModel.getNews().observe(viewLifecycleOwner,
-            Observer<List<News>> { news ->
-                if (news != null && news.isNotEmpty()) {
-                    this.news.clear()
-                    this.news.addAll(news)
-                    newsRecyclerView.visibility = View.VISIBLE
-                    recyclerAdapter.notifyDataSetChanged()
-                    swipeRefreshLayout.isRefreshing = false
-                } else {
-                    newsTextView.text = getString(R.string.no_news_available)
-                    newsTextView.visibility = View.VISIBLE
-                }
-                newsProgressBar.visibility = View.GONE
-            })
+        viewModel.getNews().observe(viewLifecycleOwner, { news ->
+            if (news != null && news.isNotEmpty()) {
+                this.news.clear()
+                this.news.addAll(news)
+                newsRecyclerView.visibility = View.VISIBLE
+                recyclerAdapter.notifyDataSetChanged()
+                swipeRefreshLayout.isRefreshing = false
+            } else {
+                newsTextView.text = getString(R.string.no_news_available)
+                newsTextView.visibility = View.VISIBLE
+            }
+            newsProgressBar.visibility = View.GONE
+        })
     }
 
     private fun showMainNewsViewItems() {

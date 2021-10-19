@@ -1,7 +1,7 @@
 package pl.expert.mobilewzr.di
 
 import dagger.Component
-import dagger.android.support.AndroidSupportInjectionModule
+import dagger.android.AndroidInjectionModule
 import pl.expert.mobilewzr.MobileWZRApplication
 import javax.inject.Singleton
 
@@ -11,7 +11,7 @@ import javax.inject.Singleton
         NetworkModule::class,
         ViewModelModule::class,
         ActivityModule::class,
-        AndroidSupportInjectionModule::class]
+        AndroidInjectionModule::class]
 )
 interface MobileWZRComponent {
 

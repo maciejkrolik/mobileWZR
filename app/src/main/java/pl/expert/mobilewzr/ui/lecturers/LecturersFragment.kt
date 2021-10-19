@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_lecturers.*
@@ -19,7 +19,7 @@ import pl.expert.mobilewzr.util.addScrollToStartAfterSubmitListener
 class LecturersFragment : BaseInjectedFragment() {
 
     private val viewModel by lazy {
-        ViewModelProviders.of(requireActivity(), viewModelFactory).get(LecturersViewModel::class.java)
+        ViewModelProvider(requireActivity(), viewModelFactory).get(LecturersViewModel::class.java)
     }
 
     private lateinit var binding: FragmentLecturersBinding
@@ -31,7 +31,7 @@ class LecturersFragment : BaseInjectedFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLecturersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -85,7 +85,7 @@ class LecturersFragment : BaseInjectedFragment() {
     }
 
     private fun observeData() {
-        viewModel.lecturersState.observe(viewLifecycleOwner, Observer { lecturersState ->
+        viewModel.lecturersState.observe(viewLifecycleOwner, { lecturersState ->
             when (lecturersState) {
                 is ResourceState.Success -> {
                     recyclerAdapter.setItems(lecturersState.data)
